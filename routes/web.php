@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\BoxletterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,5 @@ Route::get('/', function () {
 Route::get('/cities', [CityController::class, 'index']);
 
 Route::get('/cities/{cityName}', [CityController::class, 'checkOutId']);
+
+Route::get('/boxletter', [BoxletterController::class, 'index']);
