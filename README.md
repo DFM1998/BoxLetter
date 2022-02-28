@@ -19,3 +19,7 @@ To insert data into the tables following commands should be used:
 > insert data of the box letters
 >> php artisan db:seed --class=InsertBoxLetter
 
+The csv files with data can be find inside the folder:
+> database/data/{city.csv/boxLetter.csv}
+ 
+ 
