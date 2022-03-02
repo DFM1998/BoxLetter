@@ -12,8 +12,8 @@ class CityController extends Controller
 {
     public function index(){
 
-        $cities = DB::table('boxLetter')->join('city', 'idCity','=','fkCity')->get();
-        //$cities = City::select('city')->get();
+        //$cities = DB::table('boxLetter')->join('city', 'idCity','=','fkCity')->get();
+        $cities = City::all();
 
         return view('api.city.getCities', [
             'cities' => $cities
