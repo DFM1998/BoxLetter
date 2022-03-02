@@ -13,7 +13,7 @@ class CityController extends Controller
 
         $cities = City::select('city')->get();
 
-        return view('city.getCities', [
+        return view('api.city.getCities', [
             'cities' => $cities
         ]);
     }
@@ -21,7 +21,7 @@ class CityController extends Controller
     public function checkOutId($cityName){
         $cities = City::select('idCity')->where('city', $cityName)->get();
 
-        return view('city.getId', [
+        return view('api.city.getId', [
             'cities' => $cities
         ]);
     }

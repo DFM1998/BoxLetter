@@ -13,7 +13,7 @@ class BoxletterController extends Controller
 
         $boxletters = Boxletter::select('street', 'fkCity')->get();
 
-        return view('boxletter.getBoxLetter', [
+        return view('api.boxletter.getBoxLetter', [
             'boxletters' => $boxletters
         ]);
     }

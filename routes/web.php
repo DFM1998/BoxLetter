@@ -19,9 +19,3 @@ use App\Http\Controllers\BoxletterController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/cities', [CityController::class, 'index']);
-
-Route::get('/cities/{cityName}', [CityController::class, 'checkOutId']);
-
-Route::get('/boxletter', [BoxletterController::class, 'index']);
