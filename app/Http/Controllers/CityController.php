@@ -6,12 +6,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\City;
+use Illuminate\Support\Facades\DB;
 
 class CityController extends Controller
 {
     public function index(){
 
-        $cities = City::select('city')->get();
+        $cities = DB::table('boxLetter')->join('city', 'idCity','=','fkCity')->get();
+        //$cities = City::select('city')->get();
 
         return view('api.city.getCities', [
             'cities' => $cities
