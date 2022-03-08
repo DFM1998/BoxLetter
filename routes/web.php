@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\BoxletterController;
+use App\Http\Controllers\LangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/boxletter', function () {
+    return view('boxletter.boxletter');
+});
+
+Route::get('lang/home', [LangController::class, 'change'])->name('changeLang');

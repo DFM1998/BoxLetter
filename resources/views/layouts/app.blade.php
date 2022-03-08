@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -33,7 +34,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class='nav-link' >
+                            <a class="nav-link" href='/home'>City</a>
+                        </li>
+                        <li class='nav-link' >
+                            <a class="nav-link" href='/boxletter'>BoxLetter</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
