@@ -10,10 +10,9 @@
         <script src="https://apiv3.geoportail.lu/apiv3loader.js"  type="text/javascript"></script>
         <script type="text/javascript" src="map_design.json"></script>
         <script src="https://kit.fontawesome.com/3de7a0b041.js" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="js/script.js"></script>
 
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/css/ui-toggle.css" type="text/css" media="screen" />
+        <!--<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">-->
+        <!--<link rel="stylesheet" href="/css/ui-toggle.css" type="text/css" media="screen" />-->
         <link rel="stylesheet" href="/css/css.css" type="text/css"/>
         <link rel="stylesheet" href="/css/css-mobile.css" type="text/css"/>
 
@@ -57,31 +56,37 @@
                     target: 'map1',
                     bgLayer: 'basemap_2015_global',
                     bgLayerStyle: mydata,
-                    zoom: 12,
+                    zoom: 14,
                     position: [76825, 75133]
                 });
 
-                // get the pins information and display them on the map
-                $.getJSON("http://127.0.0.1:8000/api/boxletter/", function(data){
-                    //console.log(data);
-                    for (let i = 0; i < data.length; i++) {
-                        const element = data[i];
-                        let coordinates = element["coordinates"].split(",");
-                        const pickUpTime = element["pickUpTime"];
-                        const street = element["street"];
-                        const city = element["city"];
+                function displayPins(checkOutTowns){
+                    // get the pins information and display them on the map
+                    $.getJSON("http://127.0.0.1:8000/api/boxletter/"+checkOutTowns, function(data){
+                        //console.log(data);
+                        for (let i = 0; i < data.length; i++) {
+                            const element = data[i];
+                            let coordinates = element["coordinates"].split(",");
+                            const pickUpTime = element["pickUpTime"];
+                            const street = element["street"];
+                            const city = element["city"];
 
-                        var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>'+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
-                        curMap.showMarker(
-                        {
-                            position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
-                            positioning: 'center-center',
-                            iconURL: './images/pin.svg',
-                            click: true,
-                            html: output
-                        });
-                    };
-                });
+                            var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>'+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
+                            curMap.showMarker(
+                            {
+                                position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
+                                positioning: 'center-center',
+                                iconURL: './images/pin.svg',
+                                click: true,
+                                html: output
+                            });
+                        };
+                    });
+                    console.log(curMap);
+                }
+
+                displayPins("Luxembourg");
+
 
                 //var position1 = [75977, 75099];
                 var position2 = [6.11149,49.61062];
@@ -120,264 +125,21 @@
                 <div class="filtersContent">
                     <div class="searchField"><label for="inputFieldSearch"><div class="searchIcon"><i class="fa-solid fa-magnifying-glass fa-sm"></i></div></label><input type="text" id="inputFieldSearch" class="searchInputField" placeholder=" Search"><div class="pinSearchIconBar"><img src="./images/pin.svg" class="pinSearchIcon"></div></div>
                     <hr>
-                    <p style="display: inline; margin: 20px 0 20px 0;color: #474747;">Emptied yet:<input type="checkbox"></p>
+                    <p style="display: inline; margin: 20px 0 20px 0;color: #474747;"><span style="min-width: 24%;display:inline-block">Emptied yet:</span><input type="checkbox"></p>
                     <div style="display: inline-block; float: right;"><button class="resetDefault"><i class="fa-solid fa-arrow-rotate-left"></i></button><button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></div>
-                    <p style="color: #474747;">Time: <span class="smallText">from</span> <select class="selectTime" id="startTime"></select> <span class="smallText">to</span> <select class="selectTime" id="endTime"><option>??:??</option></select></p>
-                    <p style="color: #474747;">Distance:<input type="range" class="sliderDistance" min="1" max="100" value="50"><span id="distanceValueDisplay">50</span>km</p>
+                    <p style="color: #474747;"><span style="min-width: 24%;display:inline-block">Time: </span><span class="smallText">from</span> <select class="selectTime" id="startTime"></select> <span class="smallText">to</span> <select class="selectTime" id="endTime"><option>??:??</option></select></p>
+                    <p style="color: #474747;"><span style="width: 24%;display:inline-block">Distance:</span><input style="width: 50%" type="range" class="sliderDistance" min="1" max="100" value="50"><span style="width: 20%;display: inline-block;"><span id="distanceValueDisplay">50</span>km</span></p>
                 </div>
-                <p style="text-align: center;font-size: 25px;vertical-align: text-top;"><img style="height: 25px;" src="./images/pin.svg" alt=""> <span class="descriptionText"><span id="totalBoxLettersFound">10</span> box letters found</p></span>
+                <p style="text-align: center;font-size: 25px;vertical-align: text-top;"><img style="height: 25px;margin-bottom:-5px;" src="./images/pin.svg" alt=""> <span class="descriptionText"><span id="totalBoxLettersFound">10</span> box letters found</p></span>
                 
                 <span class="filterByTownContent"></span>
-                <span class='list_location_all' id="location_1">
-                    <div class="list_location_close">
-                        <span class="pickupTime">
-                        Pickup Time<br>
-                        <span class="time">18:30</span>
-                        </span>
-                        <span class="pickupAddress">
-                        Address<br>
-                        <span class="address">120, route de Luxembourg <br>L-3514 Dudelange</span>
-                        </span>
-                        <span class="pickupDistance">
-                        Distance<br>
-                        <span class="distance">120 m</span>
-                        </span>
-                    </div>
-                    <div class="list_location_open" hidden>
-                        <table style="width: 100%;border-collapse: collapse;">
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align:center;width: 25%;">
-                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 35px;">18:30</span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>120, route de Luxembourg</p><p>L-3514 Dudelange</p></span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span>120 m</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' style="text-align:center;">
-                                <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                            </td>
-                        </tr>
-                        </table> 
-                    </div>
-                </span>
-
-                <span class='list_location_all' id="location_2">
-                    <div class="list_location_close">
-                        <span class="pickupTime">
-                        Pickup Time<br>
-                        <span class="time">18:30</span>
-                        </span>
-                        <span class="pickupAddress">
-                        Address<br>
-                        <span class="address">120, route de Luxembourg <br>L-3514 Dudelange</span>
-                        </span>
-                        <span class="pickupDistance">
-                        Distance<br>
-                        <span class="distance">120 m</span>
-                        </span>
-                    </div>
-                    <div class="list_location_open" hidden>
-                        <table style="width: 100%;border-collapse: collapse;">
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align:center;width: 25%;">
-                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 35px;">18:30</span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>120, route de Luxembourg</p><p>L-3514 Dudelange</p></span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span>120 m</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' style="text-align:center;">
-                                <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                            </td>
-                        </tr>
-                        </table> 
-                    </div>
-                </span>
-                <span class='list_location_all' id="location_3">
-                    <div class="list_location_close">
-                        <span class="pickupTime">
-                        Pickup Time<br>
-                        <span class="time">18:30</span>
-                        </span>
-                        <span class="pickupAddress">
-                        Address<br>
-                        <span class="address">120, route de Luxembourg <br>L-3514 Dudelange</span>
-                        </span>
-                        <span class="pickupDistance">
-                        Distance<br>
-                        <span class="distance">120 m</span>
-                        </span>
-                    </div>
-                    <div class="list_location_open" hidden>
-                        <table style="width: 100%;border-collapse: collapse;">
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align:center;width: 25%;">
-                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 35px;">18:30</span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>120, route de Luxembourg</p><p>L-3514 Dudelange</p></span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span>120 m</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' style="text-align:center;">
-                                <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                            </td>
-                        </tr>
-                        </table> 
-                    </div>
-                </span>
-                <span class='list_location_all' id="location_4">
-                    <div class="list_location_close">
-                        <span class="pickupTime">
-                        Pickup Time<br>
-                        <span class="time">18:30</span>
-                        </span>
-                        <span class="pickupAddress">
-                        Address<br>
-                        <span class="address">120, route de Luxembourg <br>L-3514 Dudelange</span>
-                        </span>
-                        <span class="pickupDistance">
-                        Distance<br>
-                        <span class="distance">120 m</span>
-                        </span>
-                    </div>
-                    <div class="list_location_open" hidden>
-                        <table style="width: 100%;border-collapse: collapse;">
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align:center;width: 25%;">
-                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 35px;">18:30</span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>120, route de Luxembourg</p><p>L-3514 Dudelange</p></span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span>120 m</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' style="text-align:center;">
-                                <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                            </td>
-                        </tr>
-                        </table> 
-                    </div>
-                </span>
-                <span class='list_location_all' id="location_5">
-                    <div class="list_location_close">
-                        <span class="pickupTime">
-                        Pickup Time<br>
-                        <span class="time">18:30</span>
-                        </span>
-                        <span class="pickupAddress">
-                        Address<br>
-                        <span class="address">120, route de Luxembourg <br>L-3514 Dudelange</span>
-                        </span>
-                        <span class="pickupDistance">
-                        Distance<br>
-                        <span class="distance">120 m</span>
-                        </span>
-                    </div>
-                    <div class="list_location_open" hidden>
-                        <table style="width: 100%;border-collapse: collapse;">
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align:center;width: 25%;">
-                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 35px;">18:30</span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>120, route de Luxembourg</p><p>L-3514 Dudelange</p></span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span>120 m</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' style="text-align:center;">
-                                <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                            </td>
-                        </tr>
-                        </table> 
-                    </div>
+                <span class="list_lo">
                 </span>
             </aside>
         </main>
         <footer>
             <p class="footer_content">@copyright 2022</p>
         </footer>
+        <script type="text/javascript" src="js/script.js"></script>
     </body>
 </html>

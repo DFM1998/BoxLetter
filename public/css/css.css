@@ -118,7 +118,7 @@
     color: #A9A9A9;
     font-size: 11px;
     background: #FDFDFD;
-    height: 120px;
+    min-height: 120px;
     width: 90%;
     border-radius: 13px;
     display: grid;
@@ -176,6 +176,7 @@
 
   .pinSearchIcon{
     height: 20px;
+    margin-bottom: -5px;
   }
 
   .pickupTime, .pickupAddress{
@@ -183,13 +184,13 @@
   }
 
   .pickupTime, .pickupAddress, .pickupDistance{
-    padding-top: 35px;
+    padding-top: 30px;
   }
 
   .pinSearchIconBar{
     display: inline-block;
     text-align: center;
-    width: 9%;
+    width: 10%;
     padding-top: 2px;
   }
   

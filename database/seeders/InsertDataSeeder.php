@@ -19,7 +19,7 @@ class InsertDataSeeder extends Seeder
         
         //InsertData::truncate();
 
-        $csvFile = fopen(base_path("database/data/data.csv"), "r");
+        $csvFile = fopen(base_path("database/data/data2.csv"), "r");
 
 
         while (($line = fgetcsv($csvFile, 2000, "\n")) !== FALSE) {

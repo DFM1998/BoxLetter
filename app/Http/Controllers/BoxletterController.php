@@ -19,4 +19,13 @@ class BoxletterController extends Controller
             'boxletters' => $boxletters
         ]);
     }
+
+    public function checkOutTowns($town){
+        $arrayTowns = explode(',', $town);
+        $boxletters = DB::table('boxLetter')->join('city', 'idCity','=','fkCity')->whereIn('city', $arrayTowns)->get();
+
+        return view('api.boxletter.getBoxLetterTown', [
+            'boxletters' => $boxletters
+        ]);
+    }
 }

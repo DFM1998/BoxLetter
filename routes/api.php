@@ -27,3 +27,5 @@ Route::get('/cities', [CityController::class, 'index']);
 Route::get('/cities/{cityName}', [CityController::class, 'checkOutId']);
 
 Route::get('/boxletter', [BoxletterController::class, 'index']);
+
+Route::get('/boxletter/{town}', [BoxletterController::class, 'checkOutTowns']);
