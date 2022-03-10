@@ -1,0 +1,23 @@
+@media only screen and (max-width: 600px) {
+    main{
+         grid-template-columns: 0% minmax(376px,100%);
+    } 
+    .list_location_close{
+        width: 96%;
+    }
+    .filtersContent{
+        padding: 12px;
+        font-size: 18px;
+        height: 210px;
+        width: 96%;
+    }
+    hr{
+        margin-left: -12px;
+        margin-right: -12px;
+    }
+ 
+    .showMapButton{
+         display: inline-block;
+    }
+ 
+ }
