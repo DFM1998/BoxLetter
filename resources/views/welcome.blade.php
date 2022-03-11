@@ -60,6 +60,19 @@
                     position: [76825, 75133]
                 });
 
+                function displayMyPosition(x,y){
+                    curMap.showMarker(
+                    {
+                        position: [x, y],
+                        positionSrs: 4326,
+                        positioning: 'center-center',
+                        iconURL: './images/myPosition.svg',
+                        click: false
+                    });
+                }
+
+                //displayMyPosition(6.11149,49.61062);
+
                 function displayPins(checkOutTowns){
                     // get the pins information and display them on the map
                     $.getJSON("http://127.0.0.1:8000/api/boxletter/"+checkOutTowns, function(data){
@@ -70,9 +83,10 @@
                             const pickUpTime = element["pickUpTime"];
                             const street = element["street"];
                             const city = element["city"];
+                            const postal = element["postal"];
 
-                            var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>'+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
-                            curMap.showMarker(
+                            var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
+                            const res = curMap.showMarker(
                             {
                                 position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
                                 positioning: 'center-center',
@@ -80,6 +94,11 @@
                                 click: true,
                                 html: output
                             });
+
+
+                            console.log(res)
+
+                            res.unset()
                         };
                     });
                     console.log(curMap);
@@ -123,12 +142,12 @@
             </script>
             <aside>
                 <div class="filtersContent">
-                    <div class="searchField"><label for="inputFieldSearch"><div class="searchIcon"><i class="fa-solid fa-magnifying-glass fa-sm"></i></div></label><input type="text" id="inputFieldSearch" class="searchInputField" placeholder=" Search"><div class="pinSearchIconBar"><img src="./images/pin.svg" class="pinSearchIcon"></div></div>
+                    <div class="searchField"><div class="pinSearchIconBar"><img src="./images/pin.svg" class="pinSearchIcon"></div><input type="text" id="inputFieldSearch" class="searchInputField" placeholder=" Search"><label for="inputFieldSearch"><div class="searchIcon"><i class="fa-solid fa-magnifying-glass fa-sm"></i></div></label></div>
                     <hr>
-                    <p style="display: inline; margin: 20px 0 20px 0;color: #474747;"><span style="min-width: 24%;display:inline-block">Emptied yet:</span><input type="checkbox"></p>
+                    <p style="display: inline; margin: 20px 0 20px 0;color: #474747;"><span style="min-width: 24%;display:inline-block">Emptied yet:</span><input type="checkbox" style="transform: scale(1.5);margin-left: 10px;"></p>
                     <div style="display: inline-block; float: right;"><button class="resetDefault"><i class="fa-solid fa-arrow-rotate-left"></i></button><button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></div>
                     <p style="color: #474747;"><span style="min-width: 24%;display:inline-block">Time: </span><span class="smallText">from</span> <select class="selectTime" id="startTime"></select> <span class="smallText">to</span> <select class="selectTime" id="endTime"><option>??:??</option></select></p>
-                    <p style="color: #474747;"><span style="width: 24%;display:inline-block">Distance:</span><input style="width: 50%" type="range" class="sliderDistance" min="1" max="100" value="50"><span style="width: 20%;display: inline-block;"><span id="distanceValueDisplay">50</span>km</span></p>
+                    <p style="color: #474747;"><span style="width: 24%;display:inline-block">Distance:</span><input style="width: 50%" type="range" class="sliderDistance" min="1" max="100" value="5"><span style="width: 20%;display: inline-block;"><span id="distanceValueDisplay">5</span>km</span></p>
                 </div>
                 <p style="text-align: center;font-size: 25px;vertical-align: text-top;"><img style="height: 25px;margin-bottom:-5px;" src="./images/pin.svg" alt=""> <span class="descriptionText"><span id="totalBoxLettersFound">10</span> box letters found</p></span>
                 

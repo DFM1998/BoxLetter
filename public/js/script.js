@@ -51,10 +51,14 @@ $(document).ready(function(){
             $.getJSON("http://127.0.0.1:8000/api/cities", function(data){
                 //console.log(data);
                 let output = "<div class='filterTownDiv'><table style='width: 100%'>";
-                output += "<tr><td style='width: 25%'></td><td style='width: 50%'>Select all:</td><td style='width: 25%'><input type='checkbox' id='checkBoxSelectAll' checked></td></tr>";
+                output += "<tr><td style='width: 25%'></td><td style='width: 50%'>Select all:</td><td style='width: 25%'><input type='checkbox' id='checkBoxSelectAll'></td></tr>";
                 for (let i = 0; i < data.length; i++) {
                     const element = data[i];
-                    output += "<tr><td></td><td>"+element["city"]+"</td><td><input type='checkbox' class='townCheckBox' id='checkBoxIdCity_"+element["idCity"]+"' value='"+element["city"]+"' checked></td></tr>";
+                    if (element["city"] == "LUXEMBOURG") {
+                        output += "<tr><td></td><td>"+element["city"]+"</td><td><input type='checkbox' class='townCheckBox' id='checkBoxIdCity_"+element["idCity"]+"' value='"+element["city"]+"' checked></td></tr>";
+                    }else{
+                        output += "<tr><td></td><td>"+element["city"]+"</td><td><input type='checkbox' class='townCheckBox' id='checkBoxIdCity_"+element["idCity"]+"' value='"+element["city"]+"'></td></tr>";
+                    }
                 }
                 output += "</table></div>";
                 $(".filterByTownContent").html(output);
@@ -67,7 +71,7 @@ $(document).ready(function(){
                     }
                     let towns = "";
                     $(".townCheckBox:checkbox:checked").each(function(){
-                        console.log(this.value);
+                        //console.log(this.value);
                         towns += this.value + ","; 
                     });
                     if (towns != "") {
@@ -83,7 +87,7 @@ $(document).ready(function(){
                     }
                     let towns = "";
                     $(".townCheckBox:checkbox:checked").each(function(){
-                        console.log(this.value);
+                        //console.log(this.value);
                         towns += this.value + ","; 
                     });
     
@@ -102,74 +106,114 @@ $(document).ready(function(){
         }
     });
 
-    // display 10 location from the database
-    $.getJSON("http://127.0.0.1:8000/api/boxletter", function(data){
-        console.log(data);
-        let output = "";
-        let count = 0;
-        for (let i = 0; i < 11; i++) {
-            count++;
-            const element = data[i];
-            output += `
-                <span class="list_location_all" id="location_`+element["idBoxLetter"]+`">
-                <div class="list_location_close">
-                    <span class="pickupTime">
-                    Pickup Time<br>
-                    <span class="time">`+element["pickUpTime"]+`</span>
-                    </span>
-                    <span class="pickupAddress">
-                    Address<br>
-                    <span class="address">`+element["street"]+` <br>`+element["city"]+`</span>
-                    </span>
-                    <span class="pickupDistance">
-                    Distance<br>
-                    <span class="distance">??? m</span>
-                    </span>
-                </div>
-                <div class="list_location_open" hidden>
-                    <table style="width: 100%;border-collapse: collapse;">
-                    <tr style="border-bottom: 0.2px solid #9B9B9B">
-                        <td style="text-align:center;width: 25%;">
-                            <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                        </td>
-                        <td>
-                            <span style="font-size: 35px;">`+element["pickUpTime"]+`</span>
-                        </td>
-                    </tr>
-                    <tr style="border-bottom: 0.2px solid #9B9B9B">
-                        <td style="text-align: center;">
-                            <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                        </td>
-                        <td>
-                            <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+element["street"]+`</p><p>`+element["city"]+`</p></span>
-                        </td>
-                    </tr>
-                    <tr style="border-bottom: 0.2px solid #9B9B9B">
-                        <td style="text-align: center;">
-                            <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                        </td>
-                        <td>
-                            <span>??? m</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan='2' style="text-align:center;">
-                            <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                        </td>
-                    </tr>
-                    </table></div></span>`;
-        }
-        $(".list_lo").html(output);
-        $("#totalBoxLettersFound").html(count);
-        // when clicking on a location display
-        $(".list_location_all").click(function(){
-            if ($("#"+this.id + " .list_location_close").css('display') != 'none') {
-                $(".list_location_open").hide();
-                $(".list_location_close").show();
-                $("#" + this.id + " .list_location_close").hide("slow");
-                $("#" + this.id + " .list_location_open").show("slow");
-            }
-        });
+    showLocationList("Luxembourg")
 
-     });
+
+    function showLocationList(city) {
+         // display 10 location from the database
+        $.getJSON("http://127.0.0.1:8000/api/boxletter/"+city+"", function(data){
+            //console.log(data);
+            let output = "";
+            let count = 0;
+            for (let i = 0; i < data.length; i++) {
+                count++;
+                const element = data[i];
+                output += `
+                    <span class="list_location_all" id="location_`+element["idBoxLetter"]+`">
+                    <div class="list_location_close">
+                        <span class="pickupTime">
+                        Pickup Time<br>
+                        <span class="time">`+element["pickUpTime"]+`</span>
+                        </span>
+                        <span class="pickupAddress">
+                        Address<br>
+                        <span class="address">`+element["street"]+` <br>L-`+element["postal"]+` `+element["city"]+`</span>
+                        </span>
+                        <span class="pickupDistance">
+                        Distance<br>
+                        <span class="distance">??? m</span>
+                        </span>
+                    </div>
+                    <div class="list_location_open" hidden>
+                        <table style="width: 100%;border-collapse: collapse;">
+                        <tr style="border-bottom: 0.2px solid #9B9B9B">
+                            <td style="text-align:center;width: 25%;">
+                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
+                            </td>
+                            <td>
+                                <span style="font-size: 35px;">`+element["pickUpTime"]+`</span>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 0.2px solid #9B9B9B">
+                            <td style="text-align: center;">
+                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
+                            </td>
+                            <td>
+                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+element["street"]+`</p><p>L-`+element["postal"]+` `+element["city"]+`</p></span>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 0.2px solid #9B9B9B">
+                            <td style="text-align: center;">
+                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
+                            </td>
+                            <td>
+                                <span>??? m</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan='2' style="text-align:center;">
+                                <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
+                            </td>
+                        </tr>
+                        </table></div></span>`;
+            }
+            $(".list_lo").html(output);
+            $("#totalBoxLettersFound").html(count);
+            // when clicking on a location display
+            $(".list_location_all").click(function(){
+                if ($("#"+this.id + " .list_location_close").css('display') != 'none') {
+                    $(".list_location_open").hide();
+                    $(".list_location_close").show();
+                    $("#" + this.id + " .list_location_close").hide("slow");
+                    $("#" + this.id + " .list_location_open").show("slow");
+                }
+            });
+        });   
+    }
+
+
+    
+    function success(position) {
+        displayMyPosition(position.coords.longitude, position.coords.latitude);
+        $.getJSON("https://apiv3.geoportail.lu/geocode/reverse?lon="+position.coords.longitude+"&lat="+position.coords.latitude, function(data){
+            //console.log(data["results"][0]);
+            const arrayAddress = data["results"][0];
+            let output = arrayAddress["number"] + ", " + arrayAddress["street"] + " L-" + arrayAddress["postal_code"] + " " + arrayAddress["locality"];
+            $("#inputFieldSearch").val(output);
+        })
+    }
+
+    $(".pinSearchIconBar").click(function(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success);
+        } else { 
+            alert("Geolocation is not supported by this browser.");
+        }
+    });
+
+
+    $(".searchIcon").click(function() {
+        let inputValue = $("#inputFieldSearch").val();
+        if (inputValue !== "") {
+            $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString="+inputValue, function(data){
+                //console.log(data["results"][0]);
+                const address = data["results"][0]["name"];
+                $("#inputFieldSearch").val(address);
+                const longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
+                const latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
+    
+                displayMyPosition(longitude, latitude);
+            })
+        }
+    });
 });

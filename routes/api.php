@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\BoxletterController;
+use App\Http\Controllers\Cors;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('example', [ExampleController::class, 'dummy'])->middleware('cors');
    
 Route::get('/cities', [CityController::class, 'index']);
 

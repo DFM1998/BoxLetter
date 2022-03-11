@@ -339,3 +339,11 @@
       font-size: 14px;
       color: #A9A9A9;
   }
+
+  .searchIcon:hover{
+    color: #002641;
+  }
+
+  .searchIcon:active{
+    color:#00528d;
+  }
