@@ -71,9 +71,14 @@
                     });
                 }
 
+                function clearMap() {
+                    curMap.getOverlays().clear();
+                }
+
                 //displayMyPosition(6.11149,49.61062);
 
                 function displayPins(checkOutTowns){
+                    clearMap();
                     // get the pins information and display them on the map
                     $.getJSON("http://127.0.0.1:8000/api/boxletter/"+checkOutTowns, function(data){
                         //console.log(data);
@@ -94,11 +99,6 @@
                                 click: true,
                                 html: output
                             });
-
-
-                            console.log(res)
-
-                            res.unset()
                         };
                     });
                     console.log(curMap);

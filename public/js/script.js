@@ -42,6 +42,7 @@ $(document).ready(function(){
 
     // if clicking on a location on the list, open it and display more information
     let checkListLocation = true;
+    let count = 0;
     $(".showListTowns").click(function(){
         if(checkListLocation){
             $(this).css({"background-color": "#002641", "color": "white"});
@@ -76,6 +77,8 @@ $(document).ready(function(){
                     });
                     if (towns != "") {
                         displayPins(towns);
+                    }else{
+                        clearMap();
                     }
                 });
 
@@ -102,7 +105,7 @@ $(document).ready(function(){
             checkListLocation = true;
             $(".list_location_all").show();
             $(".filterByTownContent").html("");
-            $(".descriptionText").html('<span id="totalBoxLettersFound">10</span> box letters found</p>');
+            $(".descriptionText").html('<span id="totalBoxLettersFound">'+count+'</span> box letters found</p>');
         }
     });
 
@@ -110,11 +113,11 @@ $(document).ready(function(){
 
 
     function showLocationList(city) {
-         // display 10 location from the database
+         // display location from the database
         $.getJSON("http://127.0.0.1:8000/api/boxletter/"+city+"", function(data){
             //console.log(data);
             let output = "";
-            let count = 0;
+            count = 0;
             for (let i = 0; i < data.length; i++) {
                 count++;
                 const element = data[i];
@@ -206,12 +209,14 @@ $(document).ready(function(){
         let inputValue = $("#inputFieldSearch").val();
         if (inputValue !== "") {
             $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString="+inputValue, function(data){
-                //console.log(data["results"][0]);
+                console.log(data["results"][0]["AddressDetails"]["locality"]);
                 const address = data["results"][0]["name"];
                 $("#inputFieldSearch").val(address);
                 const longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
                 const latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
-    
+
+                showLocationList(data["results"][0]["AddressDetails"]["locality"])
+                displayPins(data["results"][0]["AddressDetails"]["locality"])
                 displayMyPosition(longitude, latitude);
             })
         }
