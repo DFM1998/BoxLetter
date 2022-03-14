@@ -15,7 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   // display the time in the filter select
-  var horraire = ["7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
+  var horraire = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
   var output = "<option selected disabled>??:??</option>";
   horraire.forEach(function (value) {
     output += "<option>" + value + "</option>";
@@ -33,8 +33,17 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     }
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#endTime").html(output);
+    checkInputSearch(value, "19:00");
+    displayPins("Luxembourg", value, "19:00");
   }); // end of display time in the filter select
-  // if clicking enter in the input field search field, to trigger the button to-do the research
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#endTime").change(function () {
+    //console.log(this.value);
+    var valueSelect1 = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#startTime").val();
+    var value = this.value;
+    checkInputSearch(valueSelect1, value);
+    displayPins("Luxembourg", valueSelect1, value);
+  }); // if clicking enter in the input field search field, to trigger the button to-do the research
 
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputFieldSearch').keyup(function (e) {
     if (e.keyCode == 13) {
@@ -150,7 +159,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   });
   showLocationList("Luxembourg");
 
-  function showLocationList(city) {
+  function showLocationList(city, startTime, endTime) {
     // display location from the database
     jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON("http://127.0.0.1:8000/api/boxletter/" + city + "", function (data) {
       //console.log(data);
@@ -158,9 +167,30 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
       count = 0;
 
       for (var i = 0; i < data.length; i++) {
-        count++;
-        var element = data[i];
-        output += "\n                    <span class=\"list_location_all\" id=\"location_" + element["idBoxLetter"] + "\">\n                    <div class=\"list_location_close\">\n                        <span class=\"pickupTime\">\n                        Pickup Time<br>\n                        <span class=\"time\">" + element["pickUpTime"] + "</span>\n                        </span>\n                        <span class=\"pickupAddress\">\n                        Address<br>\n                        <span class=\"address\">" + element["street"] + " <br>L-" + element["postal"] + " " + element["city"] + "</span>\n                        </span>\n                        <span class=\"pickupDistance\">\n                        Distance<br>\n                        <span class=\"distance\">??? m</span>\n                        </span>\n                    </div>\n                    <div class=\"list_location_open\" hidden>\n                        <table style=\"width: 100%;border-collapse: collapse;\">\n                        <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                            <td style=\"text-align:center;width: 25%;\">\n                                <i class=\"fa-regular fa-clock\" style=\"font-size: 30px\"></i>\n                            </td>\n                            <td>\n                                <span style=\"font-size: 35px;\">" + element["pickUpTime"] + "</span>\n                            </td>\n                        </tr>\n                        <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                            <td style=\"text-align: center;\">\n                                <i class=\"fa-solid fa-map-location-dot\" style=\"font-size: 30px\"></i>\n                            </td>\n                            <td>\n                                <span style=\"font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;\"><p>" + element["street"] + "</p><p>L-" + element["postal"] + " " + element["city"] + "</p></span>\n                            </td>\n                        </tr>\n                        <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                            <td style=\"text-align: center;\">\n                                <i class=\"fa-solid fa-location-arrow\" style=\"font-size: 30px\"></i>\n                            </td>\n                            <td>\n                                <span>??? m</span>\n                            </td>\n                        </tr>\n                        <tr>\n                            <td colspan='2' style=\"text-align:center;\">\n                                <button class=\"directionButton\" style=\"width: 60%; font-size: 20px;margin-top:5px;\" >Direction</button>\n                            </td>\n                        </tr>\n                        </table></div></span>";
+        if (startTime !== undefined) {
+          console.log(horraire.indexOf(startTime));
+          var indexStartTime = horraire.indexOf(startTime);
+          var indexEndTime = horraire.length;
+
+          if (endTime !== undefined) {
+            indexEndTime = horraire.indexOf(endTime) + 1;
+          }
+
+          var element = data[i];
+
+          for (var _i = indexStartTime; _i < indexEndTime; _i++) {
+            console.log(horraire[_i]);
+
+            if (element["pickUpTime"] == horraire[_i]) {
+              count++;
+              output += "\n                        <span class=\"list_location_all\" id=\"location_" + element["idBoxLetter"] + "\">\n                        <div class=\"list_location_close\">\n                            <span class=\"pickupTime\">\n                            Pickup Time<br>\n                            <span class=\"time\">" + element["pickUpTime"] + "</span>\n                            </span>\n                            <span class=\"pickupAddress\">\n                            Address<br>\n                            <span class=\"address\">" + element["street"] + " <br>L-" + element["postal"] + " " + element["city"] + "</span>\n                            </span>\n                            <span class=\"pickupDistance\">\n                            Distance<br>\n                            <span class=\"distance\">??? m</span>\n                            </span>\n                        </div>\n                        <div class=\"list_location_open\" hidden>\n                            <table style=\"width: 100%;border-collapse: collapse;\">\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align:center;width: 25%;\">\n                                    <i class=\"fa-regular fa-clock\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 35px;\">" + element["pickUpTime"] + "</span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-map-location-dot\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;\"><p>" + element["street"] + "</p><p>L-" + element["postal"] + " " + element["city"] + "</p></span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-location-arrow\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span>??? m</span>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td colspan='2' style=\"text-align:center;\">\n                                    <button class=\"directionButton\" style=\"width: 60%; font-size: 20px;margin-top:5px;\" >Direction</button>\n                                </td>\n                            </tr>\n                            </table></div></span>";
+            }
+          }
+        } else {
+          count++;
+          var _element = data[i];
+          output += "\n                        <span class=\"list_location_all\" id=\"location_" + _element["idBoxLetter"] + "\">\n                        <div class=\"list_location_close\">\n                            <span class=\"pickupTime\">\n                            Pickup Time<br>\n                            <span class=\"time\">" + _element["pickUpTime"] + "</span>\n                            </span>\n                            <span class=\"pickupAddress\">\n                            Address<br>\n                            <span class=\"address\">" + _element["street"] + " <br>L-" + _element["postal"] + " " + _element["city"] + "</span>\n                            </span>\n                            <span class=\"pickupDistance\">\n                            Distance<br>\n                            <span class=\"distance\">??? m</span>\n                            </span>\n                        </div>\n                        <div class=\"list_location_open\" hidden>\n                            <table style=\"width: 100%;border-collapse: collapse;\">\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align:center;width: 25%;\">\n                                    <i class=\"fa-regular fa-clock\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 35px;\">" + _element["pickUpTime"] + "</span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-map-location-dot\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;\"><p>" + _element["street"] + "</p><p>L-" + _element["postal"] + " " + _element["city"] + "</p></span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-location-arrow\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span>??? m</span>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td colspan='2' style=\"text-align:center;\">\n                                    <button class=\"directionButton\" style=\"width: 60%; font-size: 20px;margin-top:5px;\" >Direction</button>\n                                </td>\n                            </tr>\n                            </table></div></span>";
+        }
       }
 
       jquery__WEBPACK_IMPORTED_MODULE_0___default()(".list_lo").html(output);
@@ -197,21 +227,28 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     }
   });
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(".searchIcon").click(function () {
+    checkInputSearch();
+  });
+
+  function checkInputSearch(startTime, endTime) {
     var inputValue = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#inputFieldSearch").val();
 
     if (inputValue !== "") {
       jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON("https://apiv3.geoportail.lu/geocode/search?queryString=" + inputValue, function (data) {
-        console.log(data["results"][0]["AddressDetails"]["locality"]);
+        //console.log(data["results"][0]["AddressDetails"]["locality"]);
         var address = data["results"][0]["name"];
         jquery__WEBPACK_IMPORTED_MODULE_0___default()("#inputFieldSearch").val(address);
         var longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
         var latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
-        showLocationList(data["results"][0]["AddressDetails"]["locality"]);
+        showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime);
         displayPins(data["results"][0]["AddressDetails"]["locality"]);
         displayMyPosition(longitude, latitude);
       });
+    } else {
+      showLocationList("Luxembourg", startTime, endTime);
+      displayPins("Luxembourg", startTime, endTime);
     }
-  });
+  }
 });
 
 /***/ }),

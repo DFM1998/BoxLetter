@@ -3,7 +3,7 @@ window.$ = window.jQuery = $;
 
 $(document).ready(function(){
     // display the time in the filter select
-    const horraire = ["7:30", "8:00","8:30","9:00","9:30","10:00","10:30","11:00","11:30", "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", "18:30","19:00"];
+    const horraire = ["07:30", "08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", "18:30","19:00"];
     
     let output = "<option selected disabled>??:??</option>";
     horraire.forEach(value => {
@@ -22,8 +22,18 @@ $(document).ready(function(){
             //console.log(element);
         }
         $("#endTime").html(output);
+        checkInputSearch(value, "19:00");
+        displayPins("Luxembourg", value, "19:00");
     });
     // end of display time in the filter select
+
+    $("#endTime").change(function(){
+        //console.log(this.value);
+        let valueSelect1 = $("#startTime").val();
+        let value = this.value;
+        checkInputSearch(valueSelect1, value);
+        displayPins("Luxembourg", valueSelect1, value);
+    });
 
     // if clicking enter in the input field search field, to trigger the button to-do the research
     $('#inputFieldSearch').keyup(function(e){
@@ -134,63 +144,128 @@ $(document).ready(function(){
     showLocationList("Luxembourg")
 
 
-    function showLocationList(city) {
+    function showLocationList(city, startTime, endTime) {
          // display location from the database
         $.getJSON("http://127.0.0.1:8000/api/boxletter/"+city+"", function(data){
             //console.log(data);
             let output = "";
             count = 0;
             for (let i = 0; i < data.length; i++) {
-                count++;
-                const element = data[i];
-                output += `
-                    <span class="list_location_all" id="location_`+element["idBoxLetter"]+`">
-                    <div class="list_location_close">
-                        <span class="pickupTime">
-                        Pickup Time<br>
-                        <span class="time">`+element["pickUpTime"]+`</span>
-                        </span>
-                        <span class="pickupAddress">
-                        Address<br>
-                        <span class="address">`+element["street"]+` <br>L-`+element["postal"]+` `+element["city"]+`</span>
-                        </span>
-                        <span class="pickupDistance">
-                        Distance<br>
-                        <span class="distance">??? m</span>
-                        </span>
-                    </div>
-                    <div class="list_location_open" hidden>
-                        <table style="width: 100%;border-collapse: collapse;">
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align:center;width: 25%;">
-                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 35px;">`+element["pickUpTime"]+`</span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+element["street"]+`</p><p>L-`+element["postal"]+` `+element["city"]+`</p></span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span>??? m</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' style="text-align:center;">
-                                <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                            </td>
-                        </tr>
-                        </table></div></span>`;
+                if (startTime !== undefined) {
+                    console.log(horraire.indexOf(startTime));
+                    let indexStartTime = horraire.indexOf(startTime);
+                    let indexEndTime = horraire.length;
+                    if (endTime !== undefined) {
+                        indexEndTime = horraire.indexOf(endTime)+1;
+                    }
+                    const element = data[i];
+                    for (let i = indexStartTime; i < indexEndTime; i++) {
+                        console.log(horraire[i]);
+                        if (element["pickUpTime"] == horraire[i]) {
+                            count++;
+                            output += `
+                        <span class="list_location_all" id="location_`+element["idBoxLetter"]+`">
+                        <div class="list_location_close">
+                            <span class="pickupTime">
+                            Pickup Time<br>
+                            <span class="time">`+element["pickUpTime"]+`</span>
+                            </span>
+                            <span class="pickupAddress">
+                            Address<br>
+                            <span class="address">`+element["street"]+` <br>L-`+element["postal"]+` `+element["city"]+`</span>
+                            </span>
+                            <span class="pickupDistance">
+                            Distance<br>
+                            <span class="distance">??? m</span>
+                            </span>
+                        </div>
+                        <div class="list_location_open" hidden>
+                            <table style="width: 100%;border-collapse: collapse;">
+                            <tr style="border-bottom: 0.2px solid #9B9B9B">
+                                <td style="text-align:center;width: 25%;">
+                                    <i class="fa-regular fa-clock" style="font-size: 30px"></i>
+                                </td>
+                                <td>
+                                    <span style="font-size: 35px;">`+element["pickUpTime"]+`</span>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 0.2px solid #9B9B9B">
+                                <td style="text-align: center;">
+                                    <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+element["street"]+`</p><p>L-`+element["postal"]+` `+element["city"]+`</p></span>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 0.2px solid #9B9B9B">
+                                <td style="text-align: center;">
+                                    <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
+                                </td>
+                                <td>
+                                    <span>??? m</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan='2' style="text-align:center;">
+                                    <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
+                                </td>
+                            </tr>
+                            </table></div></span>`;
+                        }
+                    }
+
+                }else{
+                    count++;
+                    const element = data[i];
+                    output += `
+                        <span class="list_location_all" id="location_`+element["idBoxLetter"]+`">
+                        <div class="list_location_close">
+                            <span class="pickupTime">
+                            Pickup Time<br>
+                            <span class="time">`+element["pickUpTime"]+`</span>
+                            </span>
+                            <span class="pickupAddress">
+                            Address<br>
+                            <span class="address">`+element["street"]+` <br>L-`+element["postal"]+` `+element["city"]+`</span>
+                            </span>
+                            <span class="pickupDistance">
+                            Distance<br>
+                            <span class="distance">??? m</span>
+                            </span>
+                        </div>
+                        <div class="list_location_open" hidden>
+                            <table style="width: 100%;border-collapse: collapse;">
+                            <tr style="border-bottom: 0.2px solid #9B9B9B">
+                                <td style="text-align:center;width: 25%;">
+                                    <i class="fa-regular fa-clock" style="font-size: 30px"></i>
+                                </td>
+                                <td>
+                                    <span style="font-size: 35px;">`+element["pickUpTime"]+`</span>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 0.2px solid #9B9B9B">
+                                <td style="text-align: center;">
+                                    <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+element["street"]+`</p><p>L-`+element["postal"]+` `+element["city"]+`</p></span>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 0.2px solid #9B9B9B">
+                                <td style="text-align: center;">
+                                    <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
+                                </td>
+                                <td>
+                                    <span>??? m</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan='2' style="text-align:center;">
+                                    <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
+                                </td>
+                            </tr>
+                            </table></div></span>`;
+                }
             }
             $(".list_lo").html(output);
             $("#totalBoxLettersFound").html(count);
@@ -230,19 +305,27 @@ $(document).ready(function(){
 
 
     $(".searchIcon").click(function() {
+        checkInputSearch();
+    });
+
+    function checkInputSearch(startTime, endTime) {
         let inputValue = $("#inputFieldSearch").val();
         if (inputValue !== "") {
             $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString="+inputValue, function(data){
-                console.log(data["results"][0]["AddressDetails"]["locality"]);
+                //console.log(data["results"][0]["AddressDetails"]["locality"]);
                 const address = data["results"][0]["name"];
                 $("#inputFieldSearch").val(address);
                 const longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
                 const latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
 
-                showLocationList(data["results"][0]["AddressDetails"]["locality"])
+                showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime)
                 displayPins(data["results"][0]["AddressDetails"]["locality"])
                 displayMyPosition(longitude, latitude);
             })
+        }else{
+            showLocationList("Luxembourg", startTime, endTime)
+            displayPins("Luxembourg", startTime, endTime);
         }
-    });
+    }
+
 });

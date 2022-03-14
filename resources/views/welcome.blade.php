@@ -48,6 +48,8 @@
         <main>
             <div id="map1"></div>
             <script>
+                const horraire = ["07:30", "08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", "18:30","19:00"];
+
                 // display the map
                 // the design of the map which can be find in the public/map_design.json
                 var mydata = JSON.parse(data);
@@ -77,7 +79,7 @@
 
                 //displayMyPosition(6.11149,49.61062);
 
-                function displayPins(checkOutTowns){
+                function displayPins(checkOutTowns, startTime, endTime){
                     clearMap();
                     // get the pins information and display them on the map
                     $.getJSON("http://127.0.0.1:8000/api/boxletter/"+checkOutTowns, function(data){
@@ -89,19 +91,42 @@
                             const street = element["street"];
                             const city = element["city"];
                             const postal = element["postal"];
-
-                            var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
-                            const res = curMap.showMarker(
-                            {
-                                position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
-                                positioning: 'center-center',
-                                iconURL: './images/pin.svg',
-                                click: true,
-                                html: output
-                            });
+                            if (startTime !== undefined) {
+                                console.log(horraire.indexOf(startTime));
+                                let indexStartTime = horraire.indexOf(startTime);
+                                let indexEndTime = horraire.length;
+                                if (endTime !== undefined) {
+                                    indexEndTime = horraire.indexOf(endTime)+1;
+                                }
+                                const element = data[i];
+                                for (let i = indexStartTime; i < indexEndTime; i++) {
+                                    console.log(horraire[i]);
+                                    if (element["pickUpTime"] == horraire[i]) {
+                                        var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
+                                        const res = curMap.showMarker(
+                                        {
+                                            position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
+                                            positioning: 'center-center',
+                                            iconURL: './images/pin.svg',
+                                            click: true,
+                                            html: output
+                                        });  
+                                    }
+                                }
+                            }else{
+                                var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
+                                const res = curMap.showMarker(
+                                {
+                                    position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
+                                    positioning: 'center-center',
+                                    iconURL: './images/pin.svg',
+                                    click: true,
+                                    html: output
+                                });   
+                            }
                         };
                     });
-                    console.log(curMap);
+                    //console.log(curMap);
                 }
 
                 displayPins("Luxembourg");
