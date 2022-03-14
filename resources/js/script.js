@@ -1,8 +1,6 @@
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-import 'jquery-ui/ui/widgets/datepicker.js';
-
 $(document).ready(function(){
     // display the time in the filter select
     const horraire = ["7:30", "8:00","8:30","9:00","9:30","10:00","10:30","11:00","11:30", "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", "18:30","19:00"];
@@ -27,6 +25,13 @@ $(document).ready(function(){
     });
     // end of display time in the filter select
 
+    // if clicking enter in the input field search field, to trigger the button to-do the research
+    $('#inputFieldSearch').keyup(function(e){
+        if(e.keyCode == 13){
+            $( ".searchIcon" ).click();
+        }
+    });
+
     // slider that should display the distance 
     $(".sliderDistance").on("change mousemove",function(){
         $("#distanceValueDisplay").html(this.value)
@@ -47,11 +52,13 @@ $(document).ready(function(){
 
     // if clicking on a location on the list, open it and display more information
     let checkListLocation = true;
+    let firstRun = true;
     let count = 0;
     $(".showListTowns").click(function(){
-        if(checkListLocation){
+        if(checkListLocation && firstRun){
             $(this).css({"background-color": "#002641", "color": "white"});
             checkListLocation = false;
+            firstRun = false;
             $(".list_location_all").hide();
             $(".descriptionText").html(" Filter by Town");
             $.getJSON("http://127.0.0.1:8000/api/cities", function(data){
@@ -82,6 +89,7 @@ $(document).ready(function(){
                     });
                     if (towns != "") {
                         displayPins(towns);
+                        showLocationList(towns);
                     }else{
                         clearMap();
                     }
@@ -101,15 +109,24 @@ $(document).ready(function(){
     
                     if (towns != "") {
                         displayPins(towns);
+                        showLocationList(towns);
+                    }else{
+                        clearMap();
                     }
                 });
 
             })
+        }else if(checkListLocation){
+            $(this).css({"background-color": "#002641", "color": "white"});
+            checkListLocation = false;
+            $(".list_location_all").hide();
+            $(".filterByTownContent").show();
+            $(".descriptionText").html(" Filter by Town");
         }else{
             $(this).css({"background-color": "", "color": "#002641"});
             checkListLocation = true;
             $(".list_location_all").show();
-            $(".filterByTownContent").html("");
+            $(".filterByTownContent").hide();
             $(".descriptionText").html('<span id="totalBoxLettersFound">'+count+'</span> box letters found</p>');
         }
     });
@@ -192,12 +209,14 @@ $(document).ready(function(){
 
     
     function success(position) {
-        displayMyPosition(position.coords.longitude, position.coords.latitude);
         $.getJSON("https://apiv3.geoportail.lu/geocode/reverse?lon="+position.coords.longitude+"&lat="+position.coords.latitude, function(data){
             //console.log(data["results"][0]);
             const arrayAddress = data["results"][0];
             let output = arrayAddress["number"] + ", " + arrayAddress["street"] + " L-" + arrayAddress["postal_code"] + " " + arrayAddress["locality"];
             $("#inputFieldSearch").val(output);
+            displayPins(arrayAddress["locality"]);
+            showLocationList(arrayAddress["locality"]);
+            displayMyPosition(position.coords.longitude, position.coords.latitude);
         })
     }
 
