@@ -1,7 +1,37 @@
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
+
 $(document).ready(function(){
+
+    let longitude = 6.130578;
+    let latitude = 49.611205;
+    //alert(calcCrow(84111.640667647,64794.4209348357, 90638.9285714286,68853.2193158696).toFixed(1));
+
+    //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+    function calcCrow(lat1, lon1, lat2, lon2) 
+    {
+      var R = 6371; // km
+      var dLat = toRad(lat2-lat1);
+      var dLon = toRad(lon2-lon1);
+      var lat1 = toRad(lat1);
+      var lat2 = toRad(lat2);
+
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c;
+      return d;
+    }
+
+    // Converts numeric degrees to radians
+    function toRad(Value) 
+    {
+        return Value * Math.PI / 180;
+    }
+
+
+
     // display the time in the filter select
     const horraire = ["07:30", "08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", "18:30","19:00"];
     
@@ -23,7 +53,6 @@ $(document).ready(function(){
         }
         $("#endTime").html(output);
         checkInputSearch(value, "19:00");
-        displayPins("Luxembourg", value, "19:00");
     });
     // end of display time in the filter select
 
@@ -32,7 +61,6 @@ $(document).ready(function(){
         let valueSelect1 = $("#startTime").val();
         let value = this.value;
         checkInputSearch(valueSelect1, value);
-        displayPins("Luxembourg", valueSelect1, value);
     });
 
     // if clicking enter in the input field search field, to trigger the button to-do the research
@@ -152,7 +180,7 @@ $(document).ready(function(){
             count = 0;
             for (let i = 0; i < data.length; i++) {
                 if (startTime !== undefined) {
-                    console.log(horraire.indexOf(startTime));
+                    //console.log(horraire.indexOf(startTime));
                     let indexStartTime = horraire.indexOf(startTime);
                     let indexEndTime = horraire.length;
                     if (endTime !== undefined) {
@@ -160,7 +188,7 @@ $(document).ready(function(){
                     }
                     const element = data[i];
                     for (let i = indexStartTime; i < indexEndTime; i++) {
-                        console.log(horraire[i]);
+                        //console.log(horraire[i]);
                         if (element["pickUpTime"] == horraire[i]) {
                             count++;
                             output += `
@@ -176,7 +204,7 @@ $(document).ready(function(){
                             </span>
                             <span class="pickupDistance">
                             Distance<br>
-                            <span class="distance">??? m</span>
+                            <span class="distance">`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0],  latitude,longitude).toFixed(2) +` km</span>
                             </span>
                         </div>
                         <div class="list_location_open" hidden>
@@ -202,7 +230,7 @@ $(document).ready(function(){
                                     <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
                                 </td>
                                 <td>
-                                    <span>??? m</span>
+                                    <span>`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0],  latitude,longitude).toFixed(2) +` km</span>
                                 </td>
                             </tr>
                             <tr>
@@ -230,7 +258,7 @@ $(document).ready(function(){
                             </span>
                             <span class="pickupDistance">
                             Distance<br>
-                            <span class="distance">??? m</span>
+                            <span class="distance">`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0],  latitude,longitude).toFixed(2) +` km</span>
                             </span>
                         </div>
                         <div class="list_location_open" hidden>
@@ -256,7 +284,7 @@ $(document).ready(function(){
                                     <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
                                 </td>
                                 <td>
-                                    <span>??? m</span>
+                                    <span>`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0],  latitude,longitude).toFixed(2) +` km</span>
                                 </td>
                             </tr>
                             <tr>
@@ -291,6 +319,8 @@ $(document).ready(function(){
             $("#inputFieldSearch").val(output);
             displayPins(arrayAddress["locality"]);
             showLocationList(arrayAddress["locality"]);
+            longitude = position.coords.longitude;
+            latitude = position.coords.latitude;
             displayMyPosition(position.coords.longitude, position.coords.latitude);
         })
     }
@@ -315,11 +345,13 @@ $(document).ready(function(){
                 //console.log(data["results"][0]["AddressDetails"]["locality"]);
                 const address = data["results"][0]["name"];
                 $("#inputFieldSearch").val(address);
-                const longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
-                const latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
+                longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
+                latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
+
+                console.log(latitude);
 
                 showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime)
-                displayPins(data["results"][0]["AddressDetails"]["locality"])
+                displayPins(data["results"][0]["AddressDetails"]["locality"], startTime, endTime)
                 displayMyPosition(longitude, latitude);
             })
         }else{

@@ -75,6 +75,7 @@
 
                 function clearMap() {
                     curMap.getOverlays().clear();
+                    console.log(curMap);
                 }
 
                 //displayMyPosition(6.11149,49.61062);
@@ -92,7 +93,8 @@
                             const city = element["city"];
                             const postal = element["postal"];
                             if (startTime !== undefined) {
-                                console.log(horraire.indexOf(startTime));
+                                console.log("TEST");
+                                //console.log(horraire.indexOf(startTime));
                                 let indexStartTime = horraire.indexOf(startTime);
                                 let indexEndTime = horraire.length;
                                 if (endTime !== undefined) {
@@ -100,8 +102,9 @@
                                 }
                                 const element = data[i];
                                 for (let i = indexStartTime; i < indexEndTime; i++) {
-                                    console.log(horraire[i]);
+                                    //console.log(horraire[i]);
                                     if (element["pickUpTime"] == horraire[i]) {
+                                        console.log("ADD");
                                         var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
                                         const res = curMap.showMarker(
                                         {
@@ -114,6 +117,7 @@
                                     }
                                 }
                             }else{
+                                console.log("HEYYYY");
                                 var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
                                 const res = curMap.showMarker(
                                 {

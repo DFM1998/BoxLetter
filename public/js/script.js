@@ -14,7 +14,29 @@ __webpack_require__.r(__webpack_exports__);
 
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-  // display the time in the filter select
+  var longitude = 6.130578;
+  var latitude = 49.611205; //alert(calcCrow(84111.640667647,64794.4209348357, 90638.9285714286,68853.2193158696).toFixed(1));
+  //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+
+  function calcCrow(lat1, lon1, lat2, lon2) {
+    var R = 6371; // km
+
+    var dLat = toRad(lat2 - lat1);
+    var dLon = toRad(lon2 - lon1);
+    var lat1 = toRad(lat1);
+    var lat2 = toRad(lat2);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d;
+  } // Converts numeric degrees to radians
+
+
+  function toRad(Value) {
+    return Value * Math.PI / 180;
+  } // display the time in the filter select
+
+
   var horraire = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
   var output = "<option selected disabled>??:??</option>";
   horraire.forEach(function (value) {
@@ -34,7 +56,6 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#endTime").html(output);
     checkInputSearch(value, "19:00");
-    displayPins("Luxembourg", value, "19:00");
   }); // end of display time in the filter select
 
   jquery__WEBPACK_IMPORTED_MODULE_0___default()("#endTime").change(function () {
@@ -42,7 +63,6 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     var valueSelect1 = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#startTime").val();
     var value = this.value;
     checkInputSearch(valueSelect1, value);
-    displayPins("Luxembourg", valueSelect1, value);
   }); // if clicking enter in the input field search field, to trigger the button to-do the research
 
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputFieldSearch').keyup(function (e) {
@@ -168,7 +188,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
 
       for (var i = 0; i < data.length; i++) {
         if (startTime !== undefined) {
-          console.log(horraire.indexOf(startTime));
+          //console.log(horraire.indexOf(startTime));
           var indexStartTime = horraire.indexOf(startTime);
           var indexEndTime = horraire.length;
 
@@ -179,17 +199,16 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
           var element = data[i];
 
           for (var _i = indexStartTime; _i < indexEndTime; _i++) {
-            console.log(horraire[_i]);
-
+            //console.log(horraire[i]);
             if (element["pickUpTime"] == horraire[_i]) {
               count++;
-              output += "\n                        <span class=\"list_location_all\" id=\"location_" + element["idBoxLetter"] + "\">\n                        <div class=\"list_location_close\">\n                            <span class=\"pickupTime\">\n                            Pickup Time<br>\n                            <span class=\"time\">" + element["pickUpTime"] + "</span>\n                            </span>\n                            <span class=\"pickupAddress\">\n                            Address<br>\n                            <span class=\"address\">" + element["street"] + " <br>L-" + element["postal"] + " " + element["city"] + "</span>\n                            </span>\n                            <span class=\"pickupDistance\">\n                            Distance<br>\n                            <span class=\"distance\">??? m</span>\n                            </span>\n                        </div>\n                        <div class=\"list_location_open\" hidden>\n                            <table style=\"width: 100%;border-collapse: collapse;\">\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align:center;width: 25%;\">\n                                    <i class=\"fa-regular fa-clock\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 35px;\">" + element["pickUpTime"] + "</span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-map-location-dot\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;\"><p>" + element["street"] + "</p><p>L-" + element["postal"] + " " + element["city"] + "</p></span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-location-arrow\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span>??? m</span>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td colspan='2' style=\"text-align:center;\">\n                                    <button class=\"directionButton\" style=\"width: 60%; font-size: 20px;margin-top:5px;\" >Direction</button>\n                                </td>\n                            </tr>\n                            </table></div></span>";
+              output += "\n                        <span class=\"list_location_all\" id=\"location_" + element["idBoxLetter"] + "\">\n                        <div class=\"list_location_close\">\n                            <span class=\"pickupTime\">\n                            Pickup Time<br>\n                            <span class=\"time\">" + element["pickUpTime"] + "</span>\n                            </span>\n                            <span class=\"pickupAddress\">\n                            Address<br>\n                            <span class=\"address\">" + element["street"] + " <br>L-" + element["postal"] + " " + element["city"] + "</span>\n                            </span>\n                            <span class=\"pickupDistance\">\n                            Distance<br>\n                            <span class=\"distance\">" + calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + " km</span>\n                            </span>\n                        </div>\n                        <div class=\"list_location_open\" hidden>\n                            <table style=\"width: 100%;border-collapse: collapse;\">\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align:center;width: 25%;\">\n                                    <i class=\"fa-regular fa-clock\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 35px;\">" + element["pickUpTime"] + "</span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-map-location-dot\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;\"><p>" + element["street"] + "</p><p>L-" + element["postal"] + " " + element["city"] + "</p></span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-location-arrow\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span>" + calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + " km</span>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td colspan='2' style=\"text-align:center;\">\n                                    <button class=\"directionButton\" style=\"width: 60%; font-size: 20px;margin-top:5px;\" >Direction</button>\n                                </td>\n                            </tr>\n                            </table></div></span>";
             }
           }
         } else {
           count++;
           var _element = data[i];
-          output += "\n                        <span class=\"list_location_all\" id=\"location_" + _element["idBoxLetter"] + "\">\n                        <div class=\"list_location_close\">\n                            <span class=\"pickupTime\">\n                            Pickup Time<br>\n                            <span class=\"time\">" + _element["pickUpTime"] + "</span>\n                            </span>\n                            <span class=\"pickupAddress\">\n                            Address<br>\n                            <span class=\"address\">" + _element["street"] + " <br>L-" + _element["postal"] + " " + _element["city"] + "</span>\n                            </span>\n                            <span class=\"pickupDistance\">\n                            Distance<br>\n                            <span class=\"distance\">??? m</span>\n                            </span>\n                        </div>\n                        <div class=\"list_location_open\" hidden>\n                            <table style=\"width: 100%;border-collapse: collapse;\">\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align:center;width: 25%;\">\n                                    <i class=\"fa-regular fa-clock\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 35px;\">" + _element["pickUpTime"] + "</span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-map-location-dot\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;\"><p>" + _element["street"] + "</p><p>L-" + _element["postal"] + " " + _element["city"] + "</p></span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-location-arrow\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span>??? m</span>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td colspan='2' style=\"text-align:center;\">\n                                    <button class=\"directionButton\" style=\"width: 60%; font-size: 20px;margin-top:5px;\" >Direction</button>\n                                </td>\n                            </tr>\n                            </table></div></span>";
+          output += "\n                        <span class=\"list_location_all\" id=\"location_" + _element["idBoxLetter"] + "\">\n                        <div class=\"list_location_close\">\n                            <span class=\"pickupTime\">\n                            Pickup Time<br>\n                            <span class=\"time\">" + _element["pickUpTime"] + "</span>\n                            </span>\n                            <span class=\"pickupAddress\">\n                            Address<br>\n                            <span class=\"address\">" + _element["street"] + " <br>L-" + _element["postal"] + " " + _element["city"] + "</span>\n                            </span>\n                            <span class=\"pickupDistance\">\n                            Distance<br>\n                            <span class=\"distance\">" + calcCrow(_element["normalCoordinates"].split(",")[1], _element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + " km</span>\n                            </span>\n                        </div>\n                        <div class=\"list_location_open\" hidden>\n                            <table style=\"width: 100%;border-collapse: collapse;\">\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align:center;width: 25%;\">\n                                    <i class=\"fa-regular fa-clock\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 35px;\">" + _element["pickUpTime"] + "</span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-map-location-dot\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span style=\"font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;\"><p>" + _element["street"] + "</p><p>L-" + _element["postal"] + " " + _element["city"] + "</p></span>\n                                </td>\n                            </tr>\n                            <tr style=\"border-bottom: 0.2px solid #9B9B9B\">\n                                <td style=\"text-align: center;\">\n                                    <i class=\"fa-solid fa-location-arrow\" style=\"font-size: 30px\"></i>\n                                </td>\n                                <td>\n                                    <span>" + calcCrow(_element["normalCoordinates"].split(",")[1], _element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + " km</span>\n                                </td>\n                            </tr>\n                            <tr>\n                                <td colspan='2' style=\"text-align:center;\">\n                                    <button class=\"directionButton\" style=\"width: 60%; font-size: 20px;margin-top:5px;\" >Direction</button>\n                                </td>\n                            </tr>\n                            </table></div></span>";
         }
       }
 
@@ -215,6 +234,8 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()("#inputFieldSearch").val(output);
       displayPins(arrayAddress["locality"]);
       showLocationList(arrayAddress["locality"]);
+      longitude = position.coords.longitude;
+      latitude = position.coords.latitude;
       displayMyPosition(position.coords.longitude, position.coords.latitude);
     });
   }
@@ -238,10 +259,11 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
         //console.log(data["results"][0]["AddressDetails"]["locality"]);
         var address = data["results"][0]["name"];
         jquery__WEBPACK_IMPORTED_MODULE_0___default()("#inputFieldSearch").val(address);
-        var longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
-        var latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
+        longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
+        latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
+        console.log(latitude);
         showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime);
-        displayPins(data["results"][0]["AddressDetails"]["locality"]);
+        displayPins(data["results"][0]["AddressDetails"]["locality"], startTime, endTime);
         displayMyPosition(longitude, latitude);
       });
     } else {
