@@ -1,4 +1,7 @@
+console.log("HEY");
 
+
+console.log("GAZGZ");
 function buttonDirectionClicked(id) {
 
     $(".list_location_open").hide();
@@ -13,15 +16,16 @@ const horraire = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
 
 // display the map
 // the design of the map which can be find in the public/map_design.json
-var mydata = JSON.parse(data);
+let mydata = JSON.parse(data);
 
-var curMap = new lux.Map({
+let curMap = new lux.Map({
     target: 'map1',
     bgLayer: 'basemap_2015_global',
     bgLayerStyle: mydata,
     zoom: 14,
     position: [76825, 75133],
 });
+
 function displayMyPosition(x, y) {
     curMap.showMarker(
         {

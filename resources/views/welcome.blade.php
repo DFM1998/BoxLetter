@@ -66,7 +66,6 @@
         <footer>
             <p class="footer_content">@copyright 2022</p>
         </footer>
-        <script src="js/map.js"></script>
         <script src="js/script.js"></script>
     </body>
 </html>
