@@ -1,14 +1,17 @@
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-
 $(document).ready(function(){
 
     let longitude = 6.130578;
     let latitude = 49.611205;
-    //alert(calcCrow(84111.640667647,64794.4209348357, 90638.9285714286,68853.2193158696).toFixed(1));
+
+    displayPins("Luxembourg");
+    showLocationList("Luxembourg")
+    checkInputSearch();
 
     //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+    //this function has been taken from the https://www.codegrepper.com/code-examples/javascript/haversine+formula+javascript
     function calcCrow(lat1, lon1, lat2, lon2) 
     {
       var R = 6371; // km
@@ -29,8 +32,6 @@ $(document).ready(function(){
     {
         return Value * Math.PI / 180;
     }
-
-
 
     // display the time in the filter select
     const horraire = ["07:30", "08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", "18:30","19:00"];
@@ -169,9 +170,6 @@ $(document).ready(function(){
         }
     });
 
-    showLocationList("Luxembourg")
-
-
     function showLocationList(city, startTime, endTime) {
          // display location from the database
         $.getJSON("http://127.0.0.1:8000/api/boxletter/"+city+"", function(data){
@@ -302,7 +300,7 @@ $(document).ready(function(){
                 if ($("#"+this.id + " .list_location_close").css('display') != 'none') {
                     $(".list_location_open").hide();
                     $(".list_location_close").show();
-                    $("#" + this.id + " .list_location_close").hide("slow");
+                    $("#" + this.id + " .list_location_close").hide();
                     $("#" + this.id + " .list_location_open").show("slow");
                 }
             });
@@ -357,6 +355,7 @@ $(document).ready(function(){
         }else{
             showLocationList("Luxembourg", startTime, endTime)
             displayPins("Luxembourg", startTime, endTime);
+            displayMyPosition(longitude, latitude);
         }
     }
 

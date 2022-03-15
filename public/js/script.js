@@ -15,8 +15,11 @@ __webpack_require__.r(__webpack_exports__);
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   var longitude = 6.130578;
-  var latitude = 49.611205; //alert(calcCrow(84111.640667647,64794.4209348357, 90638.9285714286,68853.2193158696).toFixed(1));
-  //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+  var latitude = 49.611205;
+  displayPins("Luxembourg");
+  showLocationList("Luxembourg");
+  checkInputSearch(); //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+  //this function has been taken from the https://www.codegrepper.com/code-examples/javascript/haversine+formula+javascript
 
   function calcCrow(lat1, lon1, lat2, lon2) {
     var R = 6371; // km
@@ -177,7 +180,6 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()(".descriptionText").html('<span id="totalBoxLettersFound">' + count + '</span> box letters found</p>');
     }
   });
-  showLocationList("Luxembourg");
 
   function showLocationList(city, startTime, endTime) {
     // display location from the database
@@ -219,7 +221,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
         if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + this.id + " .list_location_close").css('display') != 'none') {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(".list_location_open").hide();
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(".list_location_close").show();
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + this.id + " .list_location_close").hide("slow");
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + this.id + " .list_location_close").hide();
           jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + this.id + " .list_location_open").show("slow");
         }
       });
@@ -269,6 +271,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     } else {
       showLocationList("Luxembourg", startTime, endTime);
       displayPins("Luxembourg", startTime, endTime);
+      displayMyPosition(longitude, latitude);
     }
   }
 });

@@ -48,20 +48,31 @@
         <main>
             <div id="map1"></div>
             <script>
+                function buttonDirectionClicked(id){
+
+                        $(".list_location_open").hide();
+                        $(".list_location_close").show();
+                        $("#location_" + id + " .list_location_close").hide();
+                        $("#location_" + id + " .list_location_open").show();
+
+                        document.getElementById("location_"+id).scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                }   
+
                 const horraire = ["07:30", "08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", "18:30","19:00"];
 
                 // display the map
                 // the design of the map which can be find in the public/map_design.json
                 var mydata = JSON.parse(data);
 
+            
+
                 var curMap = new lux.Map({
                     target: 'map1',
                     bgLayer: 'basemap_2015_global',
                     bgLayerStyle: mydata,
                     zoom: 14,
-                    position: [76825, 75133]
-                });
-
+                    position: [76825, 75133],
+                });    
                 function displayMyPosition(x,y){
                     curMap.showMarker(
                     {
@@ -87,13 +98,14 @@
                         //console.log(data);
                         for (let i = 0; i < data.length; i++) {
                             const element = data[i];
+                            console.log(element);
                             let coordinates = element["coordinates"].split(",");
+                            const boxLetterId = element["idBoxLetter"];
                             const pickUpTime = element["pickUpTime"];
                             const street = element["street"];
                             const city = element["city"];
                             const postal = element["postal"];
                             if (startTime !== undefined) {
-                                console.log("TEST");
                                 //console.log(horraire.indexOf(startTime));
                                 let indexStartTime = horraire.indexOf(startTime);
                                 let indexEndTime = horraire.length;
@@ -104,8 +116,7 @@
                                 for (let i = indexStartTime; i < indexEndTime; i++) {
                                     //console.log(horraire[i]);
                                     if (element["pickUpTime"] == horraire[i]) {
-                                        console.log("ADD");
-                                        var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
+                                        var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_'+boxLetterId+'">Direction</button></div>'
                                         const res = curMap.showMarker(
                                         {
                                             position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
@@ -117,8 +128,7 @@
                                     }
                                 }
                             }else{
-                                console.log("HEYYYY");
-                                var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton">Direction</button></div>'
+                                var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">'+pickUpTime+'</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">'+street+'<br>L-'+postal+' '+city+'</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_'+boxLetterId+'" onclick="buttonDirectionClicked('+boxLetterId+')">Direction</button></div>'
                                 const res = curMap.showMarker(
                                 {
                                     position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
@@ -126,14 +136,15 @@
                                     iconURL: './images/pin.svg',
                                     click: true,
                                     html: output
+                                });
+                                $(".directionButton").click(function() {
+                                    console.log("TETASGAZGD");
                                 });   
                             }
                         };
                     });
                     //console.log(curMap);
                 }
-
-                displayPins("Luxembourg");
 
 
                 //var position1 = [75977, 75099];
@@ -176,7 +187,7 @@
                     <p style="display: inline; margin: 20px 0 20px 0;color: #474747;"><span style="min-width: 24%;display:inline-block">Emptied yet:</span><input type="checkbox" style="transform: scale(1.5);margin-left: 10px;"></p>
                     <div style="display: inline-block; float: right;"><button class="resetDefault"><i class="fa-solid fa-arrow-rotate-left"></i></button><button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></div>
                     <p style="color: #474747;"><span style="min-width: 24%;display:inline-block">Time: </span><span class="smallText">from</span> <select class="selectTime" id="startTime"></select> <span class="smallText">to</span> <select class="selectTime" id="endTime"><option>??:??</option></select></p>
-                    <p style="color: #474747;"><span style="width: 24%;display:inline-block">Distance:</span><input style="width: 50%" type="range" class="sliderDistance" min="1" max="100" value="5"><span style="width: 20%;display: inline-block;"><span id="distanceValueDisplay">5</span>km</span></p>
+                    <p style="color: #474747;"><span style="width: 24%;display:inline-block">Distance:</span><input style="width: 50%" type="range" class="sliderDistance" min="1" max="25" value="5"><span style="width: 20%;display: inline-block;"><span id="distanceValueDisplay">5</span>km</span></p>
                 </div>
                 <p style="text-align: center;font-size: 25px;vertical-align: text-top;"><img style="height: 25px;margin-bottom:-5px;" src="./images/pin.svg" alt=""> <span class="descriptionText"><span id="totalBoxLettersFound">10</span> box letters found</p></span>
                 
