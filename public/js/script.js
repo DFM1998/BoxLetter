@@ -1,7 +1,4 @@
-console.log("HEY");
 
-
-console.log("GAZGZ");
 function buttonDirectionClicked(id) {
 
     $(".list_location_open").hide();
@@ -39,19 +36,18 @@ function displayMyPosition(x, y) {
 
 function clearMap() {
     curMap.getOverlays().clear();
-    console.log(curMap);
+    //console.log(curMap);
 }
 
 //displayMyPosition(6.11149,49.61062);
-
-function displayPins(checkOutTowns, startTime, endTime) {
+function displayPins(checkOutTowns, startTime, endTime, distance) {
     clearMap();
     // get the pins information and display them on the map
     $.getJSON("http://127.0.0.1:8000/api/boxletter/" + checkOutTowns, function (data) {
         //console.log(data);
         for (let i = 0; i < data.length; i++) {
             const element = data[i];
-            console.log(element);
+            //console.log(element);
             let coordinates = element["coordinates"].split(",");
             const boxLetterId = element["idBoxLetter"];
             const pickUpTime = element["pickUpTime"];
@@ -68,33 +64,51 @@ function displayPins(checkOutTowns, startTime, endTime) {
                 const element = data[i];
                 for (let i = indexStartTime; i < indexEndTime; i++) {
                     //console.log(horraire[i]);
-                    if (element["pickUpTime"] == horraire[i]) {
-                        var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' + pickUpTime + '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' + street + '<br>L-' + postal + ' ' + city + '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' + boxLetterId + '">Direction</button></div>'
-                        const res = curMap.showMarker(
-                            {
-                                position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
-                                positioning: 'center-center',
-                                iconURL: './images/pin.svg',
-                                click: true,
-                                html: output
-                            });
+                    if (distance == undefined) {
+                        if (element["pickUpTime"] == horraire[i]) {
+                            var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' + pickUpTime + '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' + street + '<br>L-' + postal + ' ' + city + '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' + boxLetterId + '" onclick="buttonDirectionClicked(' + boxLetterId + ')">Direction</button></div>'
+                            const res = curMap.showMarker(
+                                {
+                                    position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
+                                    positioning: 'center-center',
+                                    iconURL: './images/pin.svg',
+                                    click: true,
+                                    html: output
+                                });
+                        }
+                    }else{
+                        if (element["pickUpTime"] == horraire[i]) {
+                            if (element["pickUpTime"] == horraire[i]) {
+                                if (parseFloat(calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2))<=parseInt(distance)) {
+                                    var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' + pickUpTime + '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' + street + '<br>L-' + postal + ' ' + city + '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' + boxLetterId + '" onclick="buttonDirectionClicked(' + boxLetterId + ')">Direction</button></div>'
+                                    const res = curMap.showMarker(
+                                        {
+                                            position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
+                                            positioning: 'center-center',
+                                            iconURL: './images/pin.svg',
+                                            click: true,
+                                            html: output
+                                        });
+                                }
+                            }
+                        }
                     }
+        
                 }
             } else {
                 var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' + pickUpTime + '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' + street + '<br>L-' + postal + ' ' + city + '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' + boxLetterId + '" onclick="buttonDirectionClicked(' + boxLetterId + ')">Direction</button></div>'
-                const res = curMap.showMarker(
-                    {
+                const res = curMap.showMarker({
                         position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
                         positioning: 'center-center',
                         iconURL: './images/pin.svg',
                         click: true,
                         html: output
                     });
-                $(".directionButton").click(function () {
-                    console.log("TETASGAZGD");
-                });
             }
         };
+        $(".ol-overlay-container").click(function(){
+            console.log(this);
+        })
     });
     //console.log(curMap);
 }
@@ -133,8 +147,6 @@ console.log (position);
 let longitude = 6.130578;
 let latitude = 49.611205;
 
-displayPins("Luxembourg");
-showLocationList("Luxembourg")
 checkInputSearch();
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
 //this function has been taken from the https://www.codegrepper.com/code-examples/javascript/haversine+formula+javascript
@@ -158,7 +170,7 @@ function toRad(Value) {
 }
 
 // display the time in the filter select
-$(Document).ready(function(){
+$(document).ready(function(){
     let output = "<option selected disabled>??:??</option>";
     horraire.forEach(value => {
         output += "<option>" + value + "</option>";
@@ -197,7 +209,71 @@ $('#inputFieldSearch').keyup(function (e) {
 
 // slider that should display the distance 
 $(".sliderDistance").on("change mousemove", function () {
-    $("#distanceValueDisplay").html(this.value)
+    $("#distanceValueDisplay").html(this.value);
+});
+
+//reset button
+$(".resetDefault").click(function(){
+    $("#inputFieldSearch").val('');
+    $("#checkBoxEmptied").prop( "checked", false );
+    $(".sliderDistance").val("5");
+    $("#distanceValueDisplay").html("5");
+    $("#startTime").val("??:??").change();
+    $("#endTime").val("??:??").change();
+});
+
+// check box for emptied yet
+$("#checkBoxEmptied").click(function(){
+    let isChecked = $(this)[0].checked;
+    if (isChecked) {
+        let currentTime = new Date();
+        let hour = currentTime.getHours();
+        let minute = currentTime.getMinutes();
+        if (minute < 30) {
+            minute = 30;
+        }
+        if (minute > 30) {
+            minute = "00";
+        }
+
+        if (hour > 19 || hour < 7) {
+            hour = 7;
+            minute = 0;
+        }
+
+        let endTime = "";
+        if (hour < 10) {
+            endTime = "0" + hour;
+        }else{
+            endTime += hour;
+        }
+
+        endTime += ":" + minute;
+        checkInputSearch(endTime, "19:00");
+        $("#startTime").val(endTime).change();
+    }else{
+        checkInputSearch("07:30", "19:00");
+        $("#startTime").val("??:??").change();
+    }
+});
+
+// distance slider
+let kmDistance = "5";
+$(".sliderDistance").on("change", function () {
+    if(kmDistance != this.value) {
+        let startingTime = "07:30";
+        let endingTime = "19:00";
+        let valueSelect1 = $("#startTime").val();
+        if (valueSelect1 !== null) {
+            startingTime = valueSelect1;
+            let valueSelect2 = $("#endTime").val();
+            if (valueSelect2 !== null) {
+                endingTime = valueSelect2;
+            }
+        }
+        checkInputSearch(startingTime, endingTime, this.value);
+        kmDistance = this.value;
+    }
 });
 
 // for the mobile version, map only or list only view
@@ -210,7 +286,6 @@ $(".showMapButton").click(function () {
         $("main").css("grid-template-columns", "0% minmax(376px,100%)");
         check = true;
     }
-
 });
 
 // if clicking on a location on the list, open it and display more information
@@ -294,14 +369,14 @@ $(".showListTowns").click(function () {
     }
 });
 
-function showLocationList(city, startTime, endTime) {
+function showLocationList(city, startTime, endTime, distance) {
     // display location from the database
     $.getJSON("http://127.0.0.1:8000/api/boxletter/" + city + "", function (data) {
         //console.log(data);
         let output = "";
         count = 0;
         for (let i = 0; i < data.length; i++) {
-            if (startTime !== undefined) {
+            if (startTime !== undefined && startTime !== null) {
                 //console.log(horraire.indexOf(startTime));
                 let indexStartTime = horraire.indexOf(startTime);
                 let indexEndTime = horraire.length;
@@ -310,57 +385,67 @@ function showLocationList(city, startTime, endTime) {
                 }
                 const element = data[i];
                 for (let i = indexStartTime; i < indexEndTime; i++) {
+                    let html = `
+                    <span class="list_location_all" id="location_`+ element["idBoxLetter"] + `">
+                    <div class="list_location_close">
+                        <span class="pickupTime">
+                        Pickup Time<br>
+                        <span class="time">`+ element["pickUpTime"] + `</span>
+                        </span>
+                        <span class="pickupAddress">
+                        Address<br>
+                        <span class="address">`+ element["street"] + ` <br>L-` + element["postal"] + ` ` + element["city"] + `</span>
+                        </span>
+                        <span class="pickupDistance">
+                        Distance<br>
+                        <span class="distance">`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + ` km</span>
+                        </span>
+                    </div>
+                    <div class="list_location_open" hidden>
+                        <table style="width: 100%;border-collapse: collapse;">
+                        <tr style="border-bottom: 0.2px solid #9B9B9B">
+                            <td style="text-align:center;width: 25%;">
+                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
+                            </td>
+                            <td>
+                                <span style="font-size: 35px;">`+ element["pickUpTime"] + `</span>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 0.2px solid #9B9B9B">
+                            <td style="text-align: center;">
+                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
+                            </td>
+                            <td>
+                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+ element["street"] + `</p><p>L-` + element["postal"] + ` ` + element["city"] + `</p></span>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 0.2px solid #9B9B9B">
+                            <td style="text-align: center;">
+                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
+                            </td>
+                            <td>
+                                <span>`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + ` km</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan='2' style="text-align:center;">
+                                <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
+                            </td>
+                        </tr>
+                        </table></div></span>`;
                     //console.log(horraire[i]);
-                    if (element["pickUpTime"] == horraire[i]) {
-                        count++;
-                        output += `
-                        <span class="list_location_all" id="location_`+ element["idBoxLetter"] + `">
-                        <div class="list_location_close">
-                            <span class="pickupTime">
-                            Pickup Time<br>
-                            <span class="time">`+ element["pickUpTime"] + `</span>
-                            </span>
-                            <span class="pickupAddress">
-                            Address<br>
-                            <span class="address">`+ element["street"] + ` <br>L-` + element["postal"] + ` ` + element["city"] + `</span>
-                            </span>
-                            <span class="pickupDistance">
-                            Distance<br>
-                            <span class="distance">`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + ` km</span>
-                            </span>
-                        </div>
-                        <div class="list_location_open" hidden>
-                            <table style="width: 100%;border-collapse: collapse;">
-                            <tr style="border-bottom: 0.2px solid #9B9B9B">
-                                <td style="text-align:center;width: 25%;">
-                                    <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                                </td>
-                                <td>
-                                    <span style="font-size: 35px;">`+ element["pickUpTime"] + `</span>
-                                </td>
-                            </tr>
-                            <tr style="border-bottom: 0.2px solid #9B9B9B">
-                                <td style="text-align: center;">
-                                    <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                                </td>
-                                <td>
-                                    <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+ element["street"] + `</p><p>L-` + element["postal"] + ` ` + element["city"] + `</p></span>
-                                </td>
-                            </tr>
-                            <tr style="border-bottom: 0.2px solid #9B9B9B">
-                                <td style="text-align: center;">
-                                    <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                                </td>
-                                <td>
-                                    <span>`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + ` km</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan='2' style="text-align:center;">
-                                    <button class="directionButton" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                                </td>
-                            </tr>
-                            </table></div></span>`;
+                    if (distance == undefined){
+                        if (element["pickUpTime"] == horraire[i]) {
+                            count++;
+                            output += html;
+                        }
+                    }else{
+                        if (element["pickUpTime"] == horraire[i]) {
+                            if (parseFloat(calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2))<=parseInt(distance)) {
+                                count++;
+                                output += html;
+                            }
+                        }
                     }
                 }
 
@@ -460,9 +545,29 @@ $(".searchIcon").click(function () {
     checkInputSearch();
 });
 
-function checkInputSearch(startTime, endTime) {
+function checkInputSearch(startTime, endTime, distance) {
     let inputValue = $("#inputFieldSearch").val();
-    if (inputValue !== "") {
+    if (distance !== "") {
+        if (inputValue !== "") {
+            $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString=" + inputValue, function (data) {
+                //console.log(data["results"][0]["AddressDetails"]["locality"]);
+                const address = data["results"][0]["name"];
+                $("#inputFieldSearch").val(address);
+                longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
+                latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
+    
+                //console.log(latitude);
+    
+                showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime, distance)
+                displayPins(data["results"][0]["AddressDetails"]["locality"], startTime, endTime, distance)
+                displayMyPosition(longitude, latitude);
+            })
+        }else{
+            showLocationList("Luxembourg", startTime, endTime, distance)
+            displayPins("Luxembourg", startTime, endTime, distance);
+            displayMyPosition(longitude, latitude);
+        }
+    }else if (inputValue !== "") {
         $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString=" + inputValue, function (data) {
             //console.log(data["results"][0]["AddressDetails"]["locality"]);
             const address = data["results"][0]["name"];
@@ -470,7 +575,7 @@ function checkInputSearch(startTime, endTime) {
             longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
             latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
 
-            console.log(latitude);
+            //console.log(latitude);
 
             showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime)
             displayPins(data["results"][0]["AddressDetails"]["locality"], startTime, endTime)

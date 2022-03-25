@@ -51,7 +51,7 @@
                 <div class="filtersContent">
                     <div class="searchField"><div class="pinSearchIconBar"><img src="./images/pin.svg" class="pinSearchIcon"></div><input type="text" id="inputFieldSearch" class="searchInputField" placeholder=" Search"><label for="inputFieldSearch"><div class="searchIcon"><i class="fa-solid fa-magnifying-glass fa-sm"></i></div></label></div>
                     <hr>
-                    <p style="display: inline; margin: 20px 0 20px 0;color: #474747;"><span style="min-width: 24%;display:inline-block">Emptied yet:</span><input type="checkbox" style="transform: scale(1.5);margin-left: 10px;"></p>
+                    <p style="display: inline; margin: 20px 0 20px 0;color: #474747;"><span style="min-width: 24%;display:inline-block">Emptied yet:</span><input type="checkbox" id="checkBoxEmptied" style="transform: scale(1.5);margin-left: 10px;"></p>
                     <div style="display: inline-block; float: right;"><button class="resetDefault"><i class="fa-solid fa-arrow-rotate-left"></i></button><button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></div>
                     <p style="color: #474747;"><span style="min-width: 24%;display:inline-block">Time: </span><span class="smallText">from</span> <select class="selectTime" id="startTime"></select> <span class="smallText">to</span> <select class="selectTime" id="endTime"><option>??:??</option></select></p>
                     <p style="color: #474747;"><span style="width: 24%;display:inline-block">Distance:</span><input style="width: 50%" type="range" class="sliderDistance" min="1" max="25" value="5"><span style="width: 20%;display: inline-block;"><span id="distanceValueDisplay">5</span>km</span></p>

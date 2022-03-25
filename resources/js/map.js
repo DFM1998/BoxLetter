@@ -1,7 +1,4 @@
-console.log("HEY");
 
-
-console.log("GAZGZ");
 function buttonDirectionClicked(id) {
 
     $(".list_location_open").hide();
@@ -39,19 +36,18 @@ function displayMyPosition(x, y) {
 
 function clearMap() {
     curMap.getOverlays().clear();
-    console.log(curMap);
+    //console.log(curMap);
 }
 
 //displayMyPosition(6.11149,49.61062);
-
-function displayPins(checkOutTowns, startTime, endTime) {
+function displayPins(checkOutTowns, startTime, endTime, distance) {
     clearMap();
     // get the pins information and display them on the map
     $.getJSON("http://127.0.0.1:8000/api/boxletter/" + checkOutTowns, function (data) {
         //console.log(data);
         for (let i = 0; i < data.length; i++) {
             const element = data[i];
-            console.log(element);
+            //console.log(element);
             let coordinates = element["coordinates"].split(",");
             const boxLetterId = element["idBoxLetter"];
             const pickUpTime = element["pickUpTime"];
@@ -68,33 +64,51 @@ function displayPins(checkOutTowns, startTime, endTime) {
                 const element = data[i];
                 for (let i = indexStartTime; i < indexEndTime; i++) {
                     //console.log(horraire[i]);
-                    if (element["pickUpTime"] == horraire[i]) {
-                        var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' + pickUpTime + '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' + street + '<br>L-' + postal + ' ' + city + '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' + boxLetterId + '">Direction</button></div>'
-                        const res = curMap.showMarker(
-                            {
-                                position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
-                                positioning: 'center-center',
-                                iconURL: './images/pin.svg',
-                                click: true,
-                                html: output
-                            });
+                    if (distance == undefined) {
+                        if (element["pickUpTime"] == horraire[i]) {
+                            var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' + pickUpTime + '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' + street + '<br>L-' + postal + ' ' + city + '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' + boxLetterId + '" onclick="buttonDirectionClicked(' + boxLetterId + ')">Direction</button></div>'
+                            const res = curMap.showMarker(
+                                {
+                                    position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
+                                    positioning: 'center-center',
+                                    iconURL: './images/pin.svg',
+                                    click: true,
+                                    html: output
+                                });
+                        }
+                    }else{
+                        if (element["pickUpTime"] == horraire[i]) {
+                            if (element["pickUpTime"] == horraire[i]) {
+                                if (parseFloat(calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2))<=parseInt(distance)) {
+                                    var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' + pickUpTime + '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' + street + '<br>L-' + postal + ' ' + city + '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' + boxLetterId + '" onclick="buttonDirectionClicked(' + boxLetterId + ')">Direction</button></div>'
+                                    const res = curMap.showMarker(
+                                        {
+                                            position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
+                                            positioning: 'center-center',
+                                            iconURL: './images/pin.svg',
+                                            click: true,
+                                            html: output
+                                        });
+                                }
+                            }
+                        }
                     }
+        
                 }
             } else {
                 var output = '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' + pickUpTime + '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' + street + '<br>L-' + postal + ' ' + city + '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' + boxLetterId + '" onclick="buttonDirectionClicked(' + boxLetterId + ')">Direction</button></div>'
-                const res = curMap.showMarker(
-                    {
+                const res = curMap.showMarker({
                         position: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
                         positioning: 'center-center',
                         iconURL: './images/pin.svg',
                         click: true,
                         html: output
                     });
-                $(".directionButton").click(function () {
-                    console.log("TETASGAZGD");
-                });
             }
         };
+        $(".ol-overlay-container").click(function(){
+            console.log(this);
+        })
     });
     //console.log(curMap);
 }
