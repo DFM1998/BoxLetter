@@ -21,10 +21,20 @@ class CityController extends Controller
     }
 
     public function checkOutId($cityName){
-        $cities = City::select('idCity')->where('city', $cityName)->get();
+        $cities = City::select("*")->where('idCity', $cityName)->get();
 
         return view('api.city.getId', [
             'cities' => $cities
+        ]);
+    }
+
+    public function updateCity($data){
+        $arrayData = explode(',', $data);
+        City::where('idCity', $arrayData[0])
+        ->update(['city' => $arrayData[1], 'population' => $arrayData[2]]);
+        
+        return view('api.city.updateCity.getUpdateCity', [
+            'status' => true
         ]);
     }
 }

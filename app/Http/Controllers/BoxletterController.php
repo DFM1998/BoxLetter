@@ -28,4 +28,23 @@ class BoxletterController extends Controller
             'boxletters' => $boxletters
         ]);
     }
+
+    public function checkOutId($id){
+        $arrayid = explode(',', $id);
+        $boxletters = DB::table('boxLetter')->join('city', 'idCity','=','fkCity')->whereIn('idBoxLetter', $arrayid)->get();
+
+        return view('api.boxletter.getById.getById', [
+            'boxletters' => $boxletters
+        ]);
+    }
+
+    public function updateBoxLetter($data){
+        $arrayData = explode(';', $data);
+        BoxLetter::where('idBoxLetter', $arrayData[0])
+        ->update(['typeOfBoxLetter' => $arrayData[1], 'street' => $arrayData[2], 'pickUpTime' => $arrayData[3], 'coordinates' => $arrayData[4], 'normalCoordinates' => $arrayData[5], 'fkCity' => $arrayData[6]]);
+        
+        return view('api.city.updateCity.getUpdateCity', [
+            'status' => true
+        ]);
+    }
 }

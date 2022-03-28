@@ -31,3 +31,9 @@ Route::get('/cities/{cityName}', [CityController::class, 'checkOutId']);
 Route::get('/boxletter', [BoxletterController::class, 'index']);
 
 Route::get('/boxletter/{town}', [BoxletterController::class, 'checkOutTowns']);
+
+Route::get('/boxletter/getById/{id}', [BoxletterController::class, 'checkOutID']);
+
+Route::get('/cities/updateCity/{data}', [CityController::class, 'updateCity']);
+
+Route::get('/boxletter/updateBoxLetter/{data}', [BoxletterController::class, 'updateBoxLetter']);
