@@ -70,11 +70,13 @@
                     @endif
                     <div class="popup">
                         Edit the BoxLetter ID:
+                        <div id='alertWarning' class="alert alert-danger" style='display: none; padding: 0; margin-left: 15px;margin-right: 15px;'>All input field needs to be filled out</div>
                         <hr>
                         <table class="table">
                             <tr><td>ID BoxLetter</td><td><input type="text" id="idInput" disabled></td></tr>
                             <tr><td>Type</td><td><input type="text" id="typeInput"></td></tr>
                             <tr><td>Street</td><td><input type="text" id="streetInput"></td></tr>
+                            <tr><td>Postal</td><td><input type="text" id="postalInput"></td></tr>
                             <tr><td>Pickup time</td><td><div id="pickUpTimeOutput"></div></td></tr>
                             <tr><td>Coordinates (EPSG:2169)</td><td><input type="text" id="coordinatesInput"></td></tr>
                             <tr><td>Coordinates</td><td><input type="text" id="normalCoordinatesInput"> <span id='linkCoordinates'></span></td></tr>
@@ -94,10 +96,10 @@
                         const xmlhttp = new XMLHttpRequest();
                         xmlhttp.onload = function() {
                             myObj = JSON.parse(this.responseText);
-                            let text = "<thead><tr><th>ID Boxletter</th><th>Type</th><th>Street</th><th>Pickup time</th><th>Coordinates</th><th>idcity->City</th><th>Edit/Delete</th></tr></thead><tbody>";
+                            let text = "<thead><tr><th>ID Boxletter</th><th>Type</th><th>Street</th><th>Postal</th><th>Pickup time</th><th>Coordinates</th><th>idcity->City</th><th>Edit/Delete</th></tr></thead><tbody>";
                             //console.log(myObj);
                             for (let x in myObj) {
-                                text += "<tr><td>"+myObj[x].idBoxLetter +"</td><td>"+ myObj[x].typeOfBoxLetter + "</td><td>"+myObj[x].street+"</td><td>"+myObj[x].pickUpTime+"</td><td>"+myObj[x].coordinates+"</td><td>"+myObj[x].fkCity+"->"+myObj[x].city+"</td><td><button class='editButton' id='"+myObj[x].idBoxLetter+"' style='width: 50%;'>Edit</button><button  class='deleteButton' id='"+myObj[x].idBoxLetter+"' style='width: 50%;'>Delete</button></td></tr>";
+                                text += "<tr><td>"+myObj[x].idBoxLetter +"</td><td>"+ myObj[x].typeOfBoxLetter + "</td><td>"+myObj[x].street+"</td><td>"+myObj[x].postal+"</td><td>"+myObj[x].pickUpTime+"</td><td>"+myObj[x].coordinates+"</td><td>"+myObj[x].fkCity+"->"+myObj[x].city+"</td><td><button class='editButton' id='"+myObj[x].idBoxLetter+"' style='width: 50%;'>Edit</button><button  class='deleteButton' id='"+myObj[x].idBoxLetter+"' style='width: 50%;'>Delete</button></td></tr>";
                             }
                             text += "</tbody>";
                             document.getElementById("dtBasicExample").innerHTML = text;
@@ -109,10 +111,12 @@
                             })
 
                             $(".editButton").click(function(){
+                                $("#alertWarning").hide();
                                 $.getJSON("api/boxletter/getById/"+this.id, function(data){
                                     if (data) {
                                         $("#typeInput").val(data[0]["typeOfBoxLetter"]);
                                         $("#streetInput").val(data[0]["street"]);
+                                        $("#postalInput").val(data[0]["postal"]);
                                         $("#pickUpTimeInput").val(data[0]["pickUpTime"]);
                                         $("#coordinatesInput").val(data[0]["coordinates"]);
                                         $("#normalCoordinatesInput").val(data[0]["normalCoordinates"]);
@@ -125,19 +129,24 @@
                                             const boxLetterId = $("#idInput").val();
                                             const typeOfBoxLetter = $("#typeInput").val();
                                             const street = $("#streetInput").val();
+                                            const postal = $("#postalInput").val();
                                             const pickUpTime = $("#pickUpTimeInput").val();
                                             const coordinates = $("#coordinatesInput").val();
                                             const normalCoordinates = $("#normalCoordinatesInput").val();
                                             const city = $("#cityInput").children(":selected").attr("id");
-                                            
-                                            const stringToSend = boxLetterId + ";" + typeOfBoxLetter + ";" + street + ";" + pickUpTime + ";" + coordinates + ";" + normalCoordinates + ";" +  city;
-                                            $.getJSON("api/boxletter/updateBoxLetter/"+stringToSend, function(data){
-                                                if (data) {
-                                                    $(".popup").hide();
-                                                    $("#cover").hide();
-                                                    $("#alertSuccess").show().delay(5000).fadeOut();
-                                                }
-                                            });
+
+                                            if (typeOfBoxLetter != "" && street != "" && postal != "" && pickUpTime != "" && coordinates != "" && normalCoordinates !=  "" && city != "") {
+                                                const stringToSend = boxLetterId + ";" + typeOfBoxLetter + ";" + street + ";" + pickUpTime + ";" + coordinates + ";" + normalCoordinates + ";" +  city + ";" +postal;
+                                                $.getJSON("api/boxletter/updateBoxLetter/"+stringToSend, function(data){
+                                                    if (data) {
+                                                        $(".popup").hide();
+                                                        $("#cover").hide();
+                                                        $("#alertSuccess").show().delay(5000).hide('slow');
+                                                    }
+                                                });   
+                                            }else{
+                                                $("#alertWarning").show();
+                                            }
                                         })
                                     }
                                 })

@@ -42,6 +42,8 @@
                     @endif
                     <div class="popup">
                         Edit the BoxLetter ID:
+                        <div id='alertWarning' class="alert alert-danger" style='display: none; padding: 0; margin-left: 15px;margin-right: 15px;'>All input field needs to be filled out</div>
+
                         <hr>
                         <table class="table">
                             <tr><td>ID City</td><td><input type="text" id="idInput" disabled></td></tr>
@@ -51,7 +53,7 @@
                         </table>
                     </div>
                     <div id="cover"></div>
-                    <div id='alertSuccess' class="alert alert-success" style='display: none'>Update has been done</div>
+                    <div id='alertSuccess' class="alert alert-success" style='display: none'>Update has been done successfully</div>
                     <table id="dtBasicExample" class="table table-striped table-bordered table-sm"></table>
 
                     <script>
@@ -88,6 +90,7 @@
                             });
 
                             $("#submitButton").click(function(){
+                                $("#alertWarning").hide();
                                 let idCity = $("#idInput").val();
                                 let cityInput = $("#cityInput").val();
                                 let populationInput = $("#populationInput").val();
@@ -101,6 +104,8 @@
                                             $("#alertSuccess").show().delay(5000).fadeOut();
                                         }
                                     })
+                                }else{
+                                    $("#alertWarning").show();
                                 }
                             });
 

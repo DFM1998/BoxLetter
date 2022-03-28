@@ -41,7 +41,7 @@ class BoxletterController extends Controller
     public function updateBoxLetter($data){
         $arrayData = explode(';', $data);
         BoxLetter::where('idBoxLetter', $arrayData[0])
-        ->update(['typeOfBoxLetter' => $arrayData[1], 'street' => $arrayData[2], 'pickUpTime' => $arrayData[3], 'coordinates' => $arrayData[4], 'normalCoordinates' => $arrayData[5], 'fkCity' => $arrayData[6]]);
+        ->update(['typeOfBoxLetter' => $arrayData[1], 'street' => $arrayData[2], 'pickUpTime' => $arrayData[3], 'coordinates' => $arrayData[4], 'normalCoordinates' => $arrayData[5], 'fkCity' => $arrayData[6], 'postal' => $arrayData[7]]);
         
         return view('api.city.updateCity.getUpdateCity', [
             'status' => true

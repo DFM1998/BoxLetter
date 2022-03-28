@@ -347,3 +347,7 @@
   .searchIcon:active{
     color:#00528d;
   }
+
+  button, select, input[type='checkbox'],input[type='range'], option, .searchIcon, .pinSearchIconBar{
+    cursor: pointer;
+  }
