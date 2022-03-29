@@ -37,3 +37,5 @@ Route::get('/boxletter/getById/{id}', [BoxletterController::class, 'checkOutID']
 Route::get('/cities/updateCity/{data}', [CityController::class, 'updateCity']);
 
 Route::get('/boxletter/updateBoxLetter/{data}', [BoxletterController::class, 'updateBoxLetter']);
+
+Route::get('/boxletter/insertBoxLetter/{data}', [BoxletterController::class, 'insertBoxLetter']);

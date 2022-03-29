@@ -10,5 +10,5 @@ class Boxletter extends Model
     //use HasFactory;
 
     protected $table = 'boxLetter';
-
+    protected $fillable = ['typeOfBoxLetter', 'street', 'pickUpTime', 'coordinates', 'normalCoordinates', 'fkCity', 'postal'];
 }

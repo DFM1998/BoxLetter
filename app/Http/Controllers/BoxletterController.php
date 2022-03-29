@@ -47,4 +47,13 @@ class BoxletterController extends Controller
             'status' => true
         ]);
     }
+
+    public function insertBoxLetter($data){
+        $arrayData = explode(';', $data);
+        BoxLetter::create(['typeOfBoxLetter' => $arrayData[0], 'street' => $arrayData[1], 'pickUpTime' => $arrayData[2], 'coordinates' => $arrayData[3], 'normalCoordinates' => $arrayData[4], 'fkCity' => $arrayData[5], 'postal' => $arrayData[6]]);
+        
+        return view('api.boxletter.insertBoxLetter.insertBoxLetter', [
+            'status' => true
+        ]);
+    }
 }

@@ -20,7 +20,7 @@
         });
     }
 
-    function pickUpTimeSelect(time){
+    function pickUpTimeSelect(){
         const horraire = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
         
         let output = "<select id='pickUpTimeInput'>"
@@ -68,6 +68,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <button id="buttonInsert">Insert data</button>
+                    <br><br>
                     <div class="popup">
                         Edit the BoxLetter ID:
                         <div id='alertWarning' class="alert alert-danger" style='display: none; padding: 0; margin-left: 15px;margin-right: 15px;'>All input field needs to be filled out</div>
@@ -85,10 +87,48 @@
                         </table>
                     </div>
                     <div id="cover"></div>
+                    <div id='alertSuccessInsert' class="alert alert-success" style='display: none'>Insert has been done successfully</div>
                     <div id='alertSuccess' class="alert alert-success" style='display: none'>Update has been done successfully</div>
                     <table id="dtBasicExample" class="table table-striped table-bordered table-sm"></table>
 
                     <script>
+                        $("#buttonInsert").click(function(){
+                            $(".popup").show();
+                            $("#cover").show();
+                            getCities();
+                            pickUpTimeSelect();
+
+                            $("#idInput").val("");
+                            $("#typeInput").val("");
+                            $("#streetInput").val("");
+                            $("#postalInput").val("");
+                            $("#coordinatesInput").val("");
+                            $("#normalCoordinatesInput").val("");
+                            $("#linkCoordinates").html("");
+                            $("#submitButton").click(function(){
+                                const typeOfBoxLetter = $("#typeInput").val();
+                                const street = $("#streetInput").val();
+                                const postal = $("#postalInput").val();
+                                const pickUpTime = $("#pickUpTimeInput").val();                                    
+                                const coordinates = $("#coordinatesInput").val();
+                                const normalCoordinates = $("#normalCoordinatesInput").val();
+                                const city = $("#cityInput").children(":selected").attr("id");
+
+                                if (typeOfBoxLetter != "" && street != "" && postal != "" && pickUpTime != "" && coordinates != "" && normalCoordinates !=  "" && city != "") {
+                                    console.log("insert");
+                                    const dataInsert = typeOfBoxLetter + ";" + street + ";" + pickUpTime + ";" + coordinates + ";" + normalCoordinates + ";" + city + ";" + postal;
+                                    $.getJSON("api/boxletter/insertBoxLetter/"+dataInsert, function(data){
+                                        if (data) {
+                                            $(".popup").hide();
+                                            $("#cover").hide();
+                                            $("#alertSuccessInsert").show().delay(5000).hide('slow');
+                                        }
+                                    });
+                                }else{
+                                    $("#alertWarning").show();
+                                }
+                            })
+                        })
 
 
                         const obj = { "limit":10 };
@@ -99,7 +139,7 @@
                             let text = "<thead><tr><th>ID Boxletter</th><th>Type</th><th>Street</th><th>Postal</th><th>Pickup time</th><th>Coordinates</th><th>idcity->City</th><th>Edit/Delete</th></tr></thead><tbody>";
                             //console.log(myObj);
                             for (let x in myObj) {
-                                text += "<tr><td>"+myObj[x].idBoxLetter +"</td><td>"+ myObj[x].typeOfBoxLetter + "</td><td>"+myObj[x].street+"</td><td>"+myObj[x].postal+"</td><td>"+myObj[x].pickUpTime+"</td><td>"+myObj[x].coordinates+"</td><td>"+myObj[x].fkCity+"->"+myObj[x].city+"</td><td><button class='editButton' id='"+myObj[x].idBoxLetter+"' style='width: 50%;'>Edit</button><button  class='deleteButton' id='"+myObj[x].idBoxLetter+"' style='width: 50%;'>Delete</button></td></tr>";
+                                text += "<tr><td>"+myObj[x].idBoxLetter +"</td><td>"+ myObj[x].typeOfBoxLetter + "</td><td>"+myObj[x].street+"</td><td>"+myObj[x].postal+"</td><td>"+myObj[x].pickUpTime+"</td><td>"+myObj[x].coordinates+"</td><td>"+myObj[x].fkCity+"-> "+myObj[x].city+"</td><td><button class='editButton' id='"+myObj[x].idBoxLetter+"' style='width: 50%;'>Edit</button><button  class='deleteButton' id='"+myObj[x].idBoxLetter+"' style='width: 50%;'>Delete</button></td></tr>";
                             }
                             text += "</tbody>";
                             document.getElementById("dtBasicExample").innerHTML = text;
@@ -123,7 +163,7 @@
                                         var coordinates = data[0]["normalCoordinates"].split(",");
                                         $("#linkCoordinates").html("<a target='_blank' href='http://www.google.com/maps/place/"+coordinates[1]+","+coordinates[0]+"'>Link</a>");
                                         getCities(data[0]["city"]);
-                                        pickUpTimeSelect(data[0]["pickUpTime"]);
+                                        pickUpTimeSelect();
                                         $("#pickUpTimeInput").val(data[0]["pickUpTime"]).change();
                                         $("#submitButton").click(function(){
                                             const boxLetterId = $("#idInput").val();
