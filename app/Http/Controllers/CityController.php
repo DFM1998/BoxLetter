@@ -37,4 +37,13 @@ class CityController extends Controller
             'status' => true
         ]);
     }
+
+    public function insertCity($data){
+        $arrayData = explode(';', $data);
+        City::create(['city' => $arrayData[0], 'population' => $arrayData[1]]);
+        
+        return view('api.city.updateCity.getUpdateCity', [
+            'status' => true
+        ]);
+    }
 }

@@ -40,6 +40,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <button id="buttonInsert">Insert data</button>
+                    <br>
+                    <br>
                     <div class="popup">
                         Edit the BoxLetter ID:
                         <div id='alertWarning' class="alert alert-danger" style='display: none; padding: 0; margin-left: 15px;margin-right: 15px;'>All input field needs to be filled out</div>
@@ -53,10 +56,37 @@
                         </table>
                     </div>
                     <div id="cover"></div>
+                    <div id='alertSuccessInsert' class="alert alert-success" style='display: none'>Insert has been done successfully</div>
                     <div id='alertSuccess' class="alert alert-success" style='display: none'>Update has been done successfully</div>
                     <table id="dtBasicExample" class="table table-striped table-bordered table-sm"></table>
 
                     <script>
+                        $("#buttonInsert").click(function(){
+                            $(".popup").show();
+                            $("#cover").show();
+
+                            $("#cityInput").val("");
+                            $("#populationInput").val("");
+                            $("#submitButton").click(function(){
+                                const city = $("#cityInput").val();
+                                const population = $("#populationInput").val();
+
+                                if (city != "" && population != "") {
+                                    const dataInsert = city + ";" + population ;
+                                    $.getJSON("api/cities/insertCity/"+dataInsert, function(data){
+                                        if (data) {
+                                            $(".popup").hide();
+                                            $("#cover").hide();
+                                            sessionStorage.setItem("alertWarning", "insert");
+                                            location.reload(); 
+                                        }
+                                    });
+                                }else{
+                                    $("#alertWarning").show();
+                                }
+                            })
+                        })
+
                         const obj = { "limit":10 };
                         const dbParam = JSON.stringify(obj);
                         const xmlhttp = new XMLHttpRequest();
@@ -95,13 +125,14 @@
                                 let cityInput = $("#cityInput").val();
                                 let populationInput = $("#populationInput").val();
                                 
-                                if (cityInput != "" && populationInput!= "") {
+                                if (idCity != "" && cityInput != "" && populationInput!= "") {
                                     let stringToSend = idCity + "," + cityInput + "," + populationInput;
                                     $.getJSON('api/cities/updateCity/'+stringToSend, function(data){
                                         if (data) {
                                             $(".popup").hide();
                                             $("#cover").hide();
-                                            $("#alertSuccess").show().delay(5000).fadeOut();
+                                            sessionStorage.setItem("alertWarning", "update");
+                                            location.reload(); 
                                         }
                                     })
                                 }else{
@@ -116,6 +147,16 @@
                         };
                         xmlhttp.open("GET", "api/cities/");
                         xmlhttp.send();
+
+                        if (sessionStorage.getItem("alertWarning")) {
+                            if(sessionStorage.getItem("alertWarning") == "insert") {
+                                $("#alertSuccessInsert").show().delay(5000).fadeOut();
+                            }else{
+                                $("#alertSuccess").show().delay(5000).fadeOut();
+                            }
+
+                            sessionStorage.clear();
+                        }
                     </script>
                 </div>
             </div>

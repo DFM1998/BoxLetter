@@ -121,7 +121,8 @@
                                         if (data) {
                                             $(".popup").hide();
                                             $("#cover").hide();
-                                            $("#alertSuccessInsert").show().delay(5000).hide('slow');
+                                            sessionStorage.setItem("alertWarning", "insert");
+                                            location.reload(); 
                                         }
                                     });
                                 }else{
@@ -181,7 +182,8 @@
                                                     if (data) {
                                                         $(".popup").hide();
                                                         $("#cover").hide();
-                                                        $("#alertSuccess").show().delay(5000).hide('slow');
+                                                        sessionStorage.setItem("alertWarning", "update");
+                                                        location.reload(); 
                                                     }
                                                 });   
                                             }else{
@@ -203,6 +205,16 @@
                         };
                         xmlhttp.open("GET", "api/boxletter/");
                         xmlhttp.send();
+
+                        if (sessionStorage.getItem("alertWarning")) {
+                            if(sessionStorage.getItem("alertWarning") == "insert") {
+                                $("#alertSuccessInsert").show().delay(5000).fadeOut();
+                            }else{
+                                $("#alertSuccess").show().delay(5000).fadeOut();
+                            }
+
+                            sessionStorage.clear();
+                        }
                     </script>
                 </div>
             </div>
