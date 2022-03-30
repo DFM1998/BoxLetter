@@ -42,8 +42,16 @@ class CityController extends Controller
         $arrayData = explode(';', $data);
         City::create(['city' => $arrayData[0], 'population' => $arrayData[1]]);
         
-        return view('api.city.updateCity.getUpdateCity', [
+        return view('api.city.insertCity.insertCity', [
             'status' => true
+        ]);
+    }
+
+    public function deleteCity($data){
+        $test = City::where('idCity', $data)->delete();
+        
+        return view('api.city.deleteCity.deleteCity', [
+            'status' => $test
         ]);
     }
 }

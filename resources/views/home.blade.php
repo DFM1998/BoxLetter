@@ -56,6 +56,7 @@
                         </table>
                     </div>
                     <div id="cover"></div>
+                    <div id='alertSuccessDelete' class="alert alert-success" style='display: none'>Delete has been done successfully</div>
                     <div id='alertSuccessInsert' class="alert alert-success" style='display: none'>Insert has been done successfully</div>
                     <div id='alertSuccess' class="alert alert-success" style='display: none'>Update has been done successfully</div>
                     <table id="dtBasicExample" class="table table-striped table-bordered table-sm"></table>
@@ -65,6 +66,7 @@
                             $(".popup").show();
                             $("#cover").show();
 
+                            $("#idInput").val("");
                             $("#cityInput").val("");
                             $("#populationInput").val("");
                             $("#submitButton").click(function(){
@@ -102,8 +104,11 @@
 
                             $(".deleteButton").click(function(){
                                 console.log(this.id);
-                                if (confirm("Are you sure that you want to delete the city with the ID " +this.id+" ?") == true) {
-                                    console.log("DELETE");
+                                if (confirm("Are you sure that you want to delete the city with the ID " +this.id+" ? (This row could affect other data, all the data in a relation is going to be deleted too)") == true) {
+                                    $.getJSON('api/cities/deleteCity/'+this.id, function(){
+                                        sessionStorage.setItem("alertWarning", "delete");
+                                        location.reload();
+                                    })
                                 }
                             })
 
@@ -151,6 +156,8 @@
                         if (sessionStorage.getItem("alertWarning")) {
                             if(sessionStorage.getItem("alertWarning") == "insert") {
                                 $("#alertSuccessInsert").show().delay(5000).fadeOut();
+                            }else if(sessionStorage.getItem("alertWarning") == "delete"){
+                                $("#alertSuccessDelete").show().delay(5000).fadeOut();
                             }else{
                                 $("#alertSuccess").show().delay(5000).fadeOut();
                             }

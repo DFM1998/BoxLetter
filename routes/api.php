@@ -41,3 +41,7 @@ Route::get('/boxletter/updateBoxLetter/{data}', [BoxletterController::class, 'up
 Route::get('/boxletter/insertBoxLetter/{data}', [BoxletterController::class, 'insertBoxLetter']);
 
 Route::get('/cities/insertCity/{data}', [CityController::class, 'insertCity']);
+
+Route::get('/cities/deleteCity/{data}', [CityController::class, 'deleteCity']);
+
+Route::get('/boxletter/deleteBoxLetter/{data}', [BoxletterController::class, 'deleteBoxLetter']);

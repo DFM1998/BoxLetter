@@ -87,6 +87,7 @@
                         </table>
                     </div>
                     <div id="cover"></div>
+                    <div id='alertSuccessDelete' class="alert alert-success" style='display: none'>Delete has been done successfully</div>
                     <div id='alertSuccessInsert' class="alert alert-success" style='display: none'>Insert has been done successfully</div>
                     <div id='alertSuccess' class="alert alert-success" style='display: none'>Update has been done successfully</div>
                     <table id="dtBasicExample" class="table table-striped table-bordered table-sm"></table>
@@ -147,7 +148,10 @@
                             $(".deleteButton").click(function(){
                                 //console.log(this.id);
                                 if (confirm("Are you sure that you want to delete the letter box with the ID " +this.id+" ?") == true) {
-                                    console.log("DELETE");
+                                    $.getJSON('api/boxletter/deleteBoxLetter/'+this.id, function(){
+                                        sessionStorage.setItem("alertWarning", "delete");
+                                        location.reload();
+                                    })
                                 }
                             })
 
@@ -209,6 +213,8 @@
                         if (sessionStorage.getItem("alertWarning")) {
                             if(sessionStorage.getItem("alertWarning") == "insert") {
                                 $("#alertSuccessInsert").show().delay(5000).fadeOut();
+                            }else if(sessionStorage.getItem("alertWarning") == "delete"){
+                                $("#alertSuccessDelete").show().delay(5000).fadeOut();
                             }else{
                                 $("#alertSuccess").show().delay(5000).fadeOut();
                             }

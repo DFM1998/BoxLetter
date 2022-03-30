@@ -56,4 +56,12 @@ class BoxletterController extends Controller
             'status' => true
         ]);
     }
+
+    public function deleteBoxLetter($data){
+        $test = BoxLetter::where('idBoxLetter', $data)->delete();
+        
+        return view('api.boxletter.deleteBoxLetter.deleteBoxLetter', [
+            'status' => $test
+        ]);
+    }
 }
