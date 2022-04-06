@@ -20,6 +20,13 @@ use App\Http\Controllers\LangController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+/*Route::group(['prefix' => '{locale}'], function(){
+    Route::get('/', function () {
+        return view('welcome');
+    })->middleware('languageManager');
+});*/
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

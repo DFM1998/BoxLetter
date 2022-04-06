@@ -164,7 +164,7 @@
     color: #002641;
     font-size: 20px;
     background: #FDFDFD;
-    height: 230px;
+    min-height: 230px;
     width: 90%;
     border-radius: 13px;
     box-shadow: 0px 4px 10px 0px #C0C0C040;

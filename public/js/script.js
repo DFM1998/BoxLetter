@@ -416,7 +416,7 @@ function showLocationList(city, startTime, endTime, distance) {
                                 <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
                             </td>
                             <td>
-                                <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+ element["street"] + `</p><p>L-` + element["postal"] + ` ` + element["city"] + `</p></span>
+                                <span style="font-size: 18px;line-height: 18px;font-family: RajdhaniRegular;"><p>`+ element["street"] + `</p><p>L-` + element["postal"] + ` ` + element["city"] + `</p></span>
                             </td>
                         </tr>
                         <tr style="border-bottom: 0.2px solid #9B9B9B">
@@ -483,7 +483,7 @@ function showLocationList(city, startTime, endTime, distance) {
                                     <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
                                 </td>
                                 <td>
-                                    <span style="font-size: 18px;line-height: 0px;font-family: RajdhaniRegular;"><p>`+ element["street"] + `</p><p>L-` + element["postal"] + ` ` + element["city"] + `</p></span>
+                                    <span style="font-size: 18px;line-height: 18px;font-family: RajdhaniRegular;"><p>`+ element["street"] + `</p><p>L-` + element["postal"] + ` ` + element["city"] + `</p></span>
                                 </td>
                             </tr>
                             <tr style="border-bottom: 0.2px solid #9B9B9B">
