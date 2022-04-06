@@ -1,6 +1,24 @@
 let longitude = 6.130578;
 let latitude = 49.611205;
 
+//different language support
+$(document).ready(function(){
+    $(".languageButton").click(function(){
+        switchLanguage(this.id);
+    });
+});
+
+function switchLanguage(language) {
+    $.ajax({
+        url: 'js/json/' + language + '.json',
+        dataType: 'json', async: false
+    }).done(function (lang) {
+        
+        console.log(lang);
+    })
+}
+
+
 checkInputSearch();
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
 //this function has been taken from the https://www.codegrepper.com/code-examples/javascript/haversine+formula+javascript

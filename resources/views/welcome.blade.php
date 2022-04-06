@@ -10,6 +10,7 @@
         <script src="https://apiv3.geoportail.lu/apiv3loader.js"  type="text/javascript"></script>
         <script type="text/javascript" src="map_design.json"></script>
         <script src="https://kit.fontawesome.com/3de7a0b041.js" crossorigin="anonymous"></script>
+        <script src="https://openlayers.org/en/v3.20.1/build/ol.js"></script>
 
         <!--<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">-->
         <!--<link rel="stylesheet" href="/css/ui-toggle.css" type="text/css" media="screen" />-->
@@ -37,11 +38,11 @@
         <header>
             <button class="showMapButton" hidden>map</button>
             <div class="dropdown">
-                <a class="dropbtn">EN</a>
+                <a class="dropbtn selectedLanguage" id='en'>EN</a>
                 <div class="dropdown-content" style="left:0;">
-                    <a>LU</a>
-                    <a>DE</a>
-                    <a>FR</a>
+                    <a class="languageButton" id='lu'>LU</a>
+                    <a class="languageButton" id='de'>DE</a>
+                    <a class="languageButton" id='fr'>FR</a>
                 </div>
             </div>
         </header>

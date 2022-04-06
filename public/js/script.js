@@ -23,6 +23,10 @@ let curMap = new lux.Map({
     position: [76825, 75133],
 });
 
+
+
+
+console.log(curMap);
 function displayMyPosition(x, y) {
     curMap.showMarker(
         {
@@ -31,6 +35,13 @@ function displayMyPosition(x, y) {
             positioning: 'center-center',
             iconURL: './images/myPosition.svg',
             click: false
+        });
+
+        var pin = ol.proj.fromLonLat([x, y]);
+        curMap.getView().animate({
+            center: pin,
+            duration: 1000,
+            zoom: 15
         });
 }
 
@@ -146,6 +157,24 @@ console.log (position);
 
 let longitude = 6.130578;
 let latitude = 49.611205;
+
+//different language support
+$(document).ready(function(){
+    $(".languageButton").click(function(){
+        switchLanguage(this.id);
+    });
+});
+
+function switchLanguage(language) {
+    $.ajax({
+        url: 'js/json/' + language + '.json',
+        dataType: 'json', async: false
+    }).done(function (lang) {
+        
+        console.log(lang);
+    })
+}
+
 
 checkInputSearch();
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)

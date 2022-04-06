@@ -23,6 +23,10 @@ let curMap = new lux.Map({
     position: [76825, 75133],
 });
 
+
+
+
+console.log(curMap);
 function displayMyPosition(x, y) {
     curMap.showMarker(
         {
@@ -31,6 +35,13 @@ function displayMyPosition(x, y) {
             positioning: 'center-center',
             iconURL: './images/myPosition.svg',
             click: false
+        });
+
+        var pin = ol.proj.fromLonLat([x, y]);
+        curMap.getView().animate({
+            center: pin,
+            duration: 1000,
+            zoom: 15
         });
 }
 
