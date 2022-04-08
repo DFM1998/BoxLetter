@@ -1,5 +1,10 @@
 {
-    "distance": "Distance",
-    "pickUpTime": "Entlehrung Uhr",
-    "address": "Addresse"
+    "distance": "Distanz",
+    "pickUpTime": "Abholzeit",
+    "address": "Addresse",
+    "emptiedYet": "Nicht geleert",
+    "time": "Zeit",
+    "from": "von",
+    "to": "bis",
+    "search": "Suchen"    
 }

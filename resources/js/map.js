@@ -24,8 +24,6 @@ let curMap = new lux.Map({
 });
 
 
-
-
 console.log(curMap);
 function displayMyPosition(x, y) {
     curMap.showMarker(
@@ -37,12 +35,25 @@ function displayMyPosition(x, y) {
             click: false
         });
 
+        console.log(x, y);
         var pin = ol.proj.fromLonLat([x, y]);
         curMap.getView().animate({
             center: pin,
             duration: 1000,
             zoom: 15
         });
+}
+
+
+//function to move the view
+function moveView(coordinates) {
+    console.log(coordinates.split(","));
+    var pin = ol.proj.fromLonLat([parseFloat(coordinates.split(",")[0]), parseFloat(coordinates.split(",")[1])]);
+    curMap.getView().animate({
+        center: pin,
+        duration: 2000,
+        zoom: 18
+    });
 }
 
 function clearMap() {
@@ -125,9 +136,9 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
 }
 
 //var position1 = [75977, 75099];
-var position2 = [6.11149, 49.61062];
+//var position2 = [6.11149, 49.61062];
 //var position1 = [98259.62760000027,77052.32989954633];
-var position1 = [92739.74789999983, 90096.97799955128]
+//var position1 = [92739.74789999983, 90096.97799955128]
 
 /*curMap.showMarker(
 {

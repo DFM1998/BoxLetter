@@ -65,7 +65,7 @@
     color: #A9A9A9;
     font-size: 23px;
     background: #FDFDFD;
-    height: 250px;
+    height: 325px;
     width: 93%;
     border-radius: 13px;
     box-shadow: 0px 4px 10px 0px #C0C0C040;
@@ -350,4 +350,20 @@
 
   button, select, input[type='checkbox'],input[type='range'], option, .searchIcon, .pinSearchIconBar{
     cursor: pointer;
+  }
+
+
+  /*sort buttons*/
+
+  .sortButton{
+    width: 120px;
+    padding: 9px 20px 9px 20px;
+  }
+
+  .firstSortButton{
+    border-radius: 10px 0px 0px 10px;
+  }
+
+  .lastSortButton{
+    border-radius: 0px 10px 10px 0px;
   }

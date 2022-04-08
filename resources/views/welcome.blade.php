@@ -56,6 +56,7 @@
                     <div style="display: inline-block; float: right;"><button class="resetDefault"><i class="fa-solid fa-arrow-rotate-left"></i></button><button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></div>
                     <p style="color: #474747;"><span style="min-width: 24%;display:inline-block">Time: </span><span class="smallText">from</span> <select class="selectTime" id="startTime"></select> <span class="smallText">to</span> <select class="selectTime" id="endTime"><option>??:??</option></select></p>
                     <p style="color: #474747;"><span style="width: 24%;display:inline-block">Distance:</span><input style="width: 50%" type="range" class="sliderDistance" min="1" max="25" value="5"><span style="width: 20%;display: inline-block;"><span id="distanceValueDisplay">5</span>km</span></p>
+                    <p style="color: #474747;"><span style='width: 24%;display:inline-block'>Sort by:</span><button class='sortButton firstSortButton' id='sortByPickUp'>Pickup Time</button><button class='sortButton lastSortButton' id='sortByDistance'>Distance</button></p>
                 </div>
                 <p style="text-align: center;font-size: 25px;vertical-align: text-top;"><img style="height: 25px;margin-bottom:-5px;" src="./images/pin.svg" alt=""> <span class="descriptionText"><span id="totalBoxLettersFound">10</span> box letters found</p></span>
                 

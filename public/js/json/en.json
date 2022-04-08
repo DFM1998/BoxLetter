@@ -1,5 +1,10 @@
 {
     "distance": "Distance",
     "pickUpTime": "Pickup Time",
-    "address": "Address"
+    "address": "Address",
+    "emptiedYet": "Emptied yet",
+    "time": "Time",
+    "from": "from",
+    "to": "to",
+    "search": "Search"
 }
