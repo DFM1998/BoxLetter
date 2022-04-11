@@ -6,5 +6,7 @@
     "time": "Zeit",
     "from": "von",
     "to": "bis",
-    "search": "Suchen"    
+    "search": "Suchen",
+    "sortBy": "Sortieren nach",
+    "boxLettersFound": "Briefkästen gefunden"
 }

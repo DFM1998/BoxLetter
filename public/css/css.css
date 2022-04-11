@@ -356,8 +356,8 @@
   /*sort buttons*/
 
   .sortButton{
-    width: 120px;
-    padding: 9px 20px 9px 20px;
+    width: 100px;
+    padding: 9px 5px 9px 5px;
   }
 
   .firstSortButton{

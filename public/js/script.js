@@ -181,7 +181,6 @@ $(document).ready(function(){
 
     $('.directionButton').each(function() {
         var text = $(this).text();
-        text = text.replace('Direction', 'HELLO');
         $(this).text(text); 
     });
     
@@ -190,7 +189,11 @@ $(document).ready(function(){
 let lang = "";
 
 if (localStorage.getItem("language") != null) {
-    switchLanguage(localStorage.getItem("language")) 
+    const l = localStorage.getItem("language")
+    $("#"+l).html("EN");
+    $("#en").html(l.toUpperCase());
+    $("#"+l).attr("id", "en");
+    switchLanguage(l) 
 }else{
     switchLanguage("en") 
 }
@@ -203,6 +206,15 @@ function switchLanguage(l) {
     }).done(function (data) {
         lang = data;
         localStorage.setItem("language", l);
+
+        //fixe elemets in the html that have to change the language
+        $("#emptiedYet").html(lang.emptiedYet);
+        $("#time").html(lang.time);
+        $("#distance").html(lang.distance);
+        $("#from").html(lang.from);
+        $("#to").html(lang.to);
+        $("#sortBy").html(lang.sortBy);
+        $("#boxLettersFound").html(lang.boxLettersFound);
     })
 }
 

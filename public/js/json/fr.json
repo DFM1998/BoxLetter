@@ -6,5 +6,7 @@
     "time": "Temps",
     "from": "de",
     "to": "à",
-    "search": "Chercher"
+    "search": "Chercher",
+    "sortBy": "Trier par",
+    "boxLettersFound": "boîtes aux lettres retrouvées"
 }
