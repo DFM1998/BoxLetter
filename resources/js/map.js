@@ -1,4 +1,4 @@
-
+// if clicking on the direction button, move the map view to the pin
 function buttonDirectionClicked(id) {
 
     $(".list_location_open").hide();
@@ -24,7 +24,7 @@ let curMap = new lux.Map({
 });
 
 
-console.log(curMap);
+//console.log(curMap);
 function displayMyPosition(x, y) {
     curMap.showMarker(
         {
@@ -56,6 +56,7 @@ function moveView(coordinates) {
     });
 }
 
+// remove all the exising pins on the map
 function clearMap() {
     curMap.getOverlays().clear();
     //console.log(curMap);
@@ -134,34 +135,3 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
     });
     //console.log(curMap);
 }
-
-//var position1 = [75977, 75099];
-//var position2 = [6.11149, 49.61062];
-//var position1 = [98259.62760000027,77052.32989954633];
-//var position1 = [92739.74789999983, 90096.97799955128]
-
-/*curMap.showMarker(
-{
-position: position1,
-positioning: 'center-center',
-iconURL: './images/pin.svg',
-click: true,
-html: output
-});
-curMap.showMarker(
-{
-position: position2,
-positionSrs: 4326,
-positioning: 'center-center',
-iconURL: './images/pin.svg',
-click: true,
-html: output
-});*/
-
-//EPSG:2169
-/*lux.geocode({
-//queryString: '22, RUE DU VILLAGE ((PARKING, ENTRE 22 ET 28)), ABWEILER'
-queryString: '19, Porte des Ardennes, Erpeldange'
-}, function(position) {
-console.log (position);
-});*/

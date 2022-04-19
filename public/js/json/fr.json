@@ -8,5 +8,6 @@
     "to": "à",
     "search": "Chercher",
     "sortBy": "Trier par",
-    "boxLettersFound": "boîtes aux lettres retrouvées"
+    "boxLettersFound": "boîtes aux lettres retrouvées",
+    "filterbyTown" : "Filtrer par ville"
 }

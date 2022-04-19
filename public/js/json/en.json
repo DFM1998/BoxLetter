@@ -8,6 +8,7 @@
     "to": "to",
     "search": "Search",
     "sortBy": "Sort by",
-    "boxLettersFound": "letter boxes found"
+    "boxLettersFound": "letter boxes found",
+    "filterbyTown" : "Filter by Town"
 
 }

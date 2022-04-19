@@ -81,7 +81,7 @@
                             <tr><td>Postal</td><td><input type="text" id="postalInput"></td></tr>
                             <tr><td>Pickup time</td><td><div id="pickUpTimeOutput"></div></td></tr>
                             <tr><td>Coordinates (EPSG:2169)</td><td><input type="text" id="coordinatesInput"></td></tr>
-                            <tr><td>Coordinates</td><td><input type="text" id="normalCoordinatesInput"> <span id='linkCoordinates'></span></td></tr>
+                            <tr><td>Coordinates</td><td><input type="text" id="normalCoordinatesInput"> <div id="showMapT" style="width: 300px;height:300px;"></div><span id='linkCoordinates'></span></td></tr>
                             <tr><td>City</td><td><div id="cityOutput"></div></td></tr>
                             <tr><td><button id='cancelPopup'>Cancel</button></td><td><button id="submitButton">Submit</button></td></tr>
                         </table>
@@ -93,6 +93,43 @@
                     <table id="dtBasicExample" class="table table-striped table-bordered table-sm"></table>
 
                     <script>
+                        let marker;
+                        let map;
+
+                        function initMap() {
+                            map = new google.maps.Map(document.getElementById("showMapT"), {
+                                zoom: 16,
+                                streetViewControl: true,
+                                center: { lat: 49.611919, lng: 6.131373 },
+                            });
+
+                            marker = new google.maps.Marker({
+                                map,
+                                draggable: true,
+                                animation: google.maps.Animation.DROP,
+                                position: { lat: 49.611919, lng: 6.131373 },
+                            });
+
+                            //console.log(marker);
+                            google.maps.event.addListener(marker, 'dragend', function (evt) {
+                                $("#normalCoordinatesInput").val(evt.latLng.lng()+","+evt.latLng.lat())
+                                $.getJSON("https://apiv3.geoportail.lu/geocode/reverse?lon=" + evt.latLng.lng() + "&lat=" + evt.latLng.lat(), function(data){
+                                    console.log(data["results"][0]["geom"]["coordinates"][1]);
+
+                                    $("#coordinatesInput").val(data["results"][0]["geom"]["coordinates"][0]+","+data["results"][0]["geom"]["coordinates"][1]);
+                                })
+                                map.panTo(evt.latLng);
+                            });
+                        }
+
+
+                        function changeMapPinAndView(lat, lng){
+                            map.panTo({ lat: lat, lng: lng });
+                            marker.setPosition({ lat: lat, lng: lng });
+                        }
+
+                        window.initMap = initMap;
+
                         $("#buttonInsert").click(function(){
                             $(".popup").show();
                             $("#cover").show();
@@ -170,6 +207,10 @@
                                         getCities(data[0]["city"]);
                                         pickUpTimeSelect();
                                         $("#pickUpTimeInput").val(data[0]["pickUpTime"]).change();
+
+                                        const coordinatesArray = data[0]["normalCoordinates"].split(",");
+                                        changeMapPinAndView(parseFloat(coordinatesArray[1]), parseFloat(coordinatesArray[0]));
+
                                         $("#submitButton").click(function(){
                                             const boxLetterId = $("#idInput").val();
                                             const typeOfBoxLetter = $("#typeInput").val();
@@ -221,7 +262,10 @@
 
                             sessionStorage.clear();
                         }
+
                     </script>
+                                        <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBifIMpQ58cSNbj0f-qwY7qCHt_TCBFips&callback=initMap"></script>
+
                 </div>
             </div>
         </div>

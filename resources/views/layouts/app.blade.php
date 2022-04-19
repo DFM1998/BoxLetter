@@ -9,6 +9,7 @@
 
     <title>{{ config('app.name', 'Post Box Letter') }}</title>
 
+    <script src="//apiv3.geoportail.lu/apiv3loader.js"  type="text/javascript"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

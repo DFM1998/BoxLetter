@@ -44,7 +44,7 @@
                     <br>
                     <br>
                     <div class="popup">
-                        Edit the BoxLetter ID:
+                        Edit the BoxLetter:
                         <div id='alertWarning' class="alert alert-danger" style='display: none; padding: 0; margin-left: 15px;margin-right: 15px;'>All input field needs to be filled out</div>
 
                         <hr>

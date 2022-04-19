@@ -8,5 +8,6 @@
     "to": "bis",
     "search": "Suchen",
     "sortBy": "Sortieren nach",
-    "boxLettersFound": "Briefkästen gefunden"
+    "boxLettersFound": "Briefkästen gefunden",
+    "filterbyTown" : "Nach Stadt filtern"
 }

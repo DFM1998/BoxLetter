@@ -447,7 +447,7 @@ $(".showListTowns").click(function () {
         checkListLocation = false;
         firstRun = false;
         $(".list_location_all").hide();
-        $(".descriptionText").html(" Filter by Town");
+        $(".descriptionText").html(lang.filterbyTown);
         $.getJSON("http://127.0.0.1:8000/api/cities", function (data) {
             //console.log(data);
             let output = "<div class='filterTownDiv'><table style='width: 100%'>";
@@ -508,13 +508,13 @@ $(".showListTowns").click(function () {
         checkListLocation = false;
         $(".list_location_all").hide();
         $(".filterByTownContent").show();
-        $(".descriptionText").html(" Filter by Town");
+        $(".descriptionText").html(lang.filterbyTown);
     } else {
         $(this).css({ "background-color": "", "color": "#002641" });
         checkListLocation = true;
         $(".list_location_all").show();
         $(".filterByTownContent").hide();
-        $(".descriptionText").html('<span id="totalBoxLettersFound">' + count + '</span> box letters found</p>');
+        $(".descriptionText").html('<span id="totalBoxLettersFound">' + count + '</span> '+lang.boxLettersFound+'</p>');
     }
 });
 
