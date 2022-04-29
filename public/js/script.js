@@ -1,4 +1,4 @@
-
+// if clicking on the direction button, move the map view to the pin
 function buttonDirectionClicked(id) {
 
     $(".list_location_open").hide();
@@ -9,12 +9,14 @@ function buttonDirectionClicked(id) {
     document.getElementById("location_" + id).scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
 }
 
+// array containg the horraires that should be avaible in the selects
 const horraire = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
 
 // display the map
 // the design of the map which can be find in the public/map_design.json
 let mydata = JSON.parse(data);
 
+// creating the map
 let curMap = new lux.Map({
     target: 'map1',
     bgLayer: 'basemap_2015_global',
@@ -24,7 +26,8 @@ let curMap = new lux.Map({
 });
 
 
-console.log(curMap);
+//console.log(curMap);
+// display the pin of the current pisiton and move the view to it
 function displayMyPosition(x, y) {
     curMap.showMarker(
         {
@@ -35,7 +38,7 @@ function displayMyPosition(x, y) {
             click: false
         });
 
-        console.log(x, y);
+        //console.log(x, y);
         var pin = ol.proj.fromLonLat([x, y]);
         curMap.getView().animate({
             center: pin,
@@ -47,7 +50,7 @@ function displayMyPosition(x, y) {
 
 //function to move the view
 function moveView(coordinates) {
-    console.log(coordinates.split(","));
+    //console.log(coordinates.split(","));
     var pin = ol.proj.fromLonLat([parseFloat(coordinates.split(",")[0]), parseFloat(coordinates.split(",")[1])]);
     curMap.getView().animate({
         center: pin,
@@ -56,6 +59,7 @@ function moveView(coordinates) {
     });
 }
 
+// remove all the exising pins on the map
 function clearMap() {
     curMap.getOverlays().clear();
     //console.log(curMap);
@@ -129,43 +133,13 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
             }
         };
         $(".ol-overlay-container").click(function(){
-            console.log(this);
+            console.log(this.id);
         })
     });
     //console.log(curMap);
 }
 
-//var position1 = [75977, 75099];
-//var position2 = [6.11149, 49.61062];
-//var position1 = [98259.62760000027,77052.32989954633];
-//var position1 = [92739.74789999983, 90096.97799955128]
-
-/*curMap.showMarker(
-{
-position: position1,
-positioning: 'center-center',
-iconURL: './images/pin.svg',
-click: true,
-html: output
-});
-curMap.showMarker(
-{
-position: position2,
-positionSrs: 4326,
-positioning: 'center-center',
-iconURL: './images/pin.svg',
-click: true,
-html: output
-});*/
-
-//EPSG:2169
-/*lux.geocode({
-//queryString: '22, RUE DU VILLAGE ((PARKING, ENTRE 22 ET 28)), ABWEILER'
-queryString: '19, Porte des Ardennes, Erpeldange'
-}, function(position) {
-console.log (position);
-});*/
-
+// defining the default positionment
 let longitude = 6.130578;
 let latitude = 49.611205;
 
@@ -187,7 +161,7 @@ $(document).ready(function(){
 });
 
 let lang = "";
-
+// check which language has been select -> checking in the browser session
 if (localStorage.getItem("language") != null) {
     const l = localStorage.getItem("language")
     $("#"+l).html("EN");
@@ -198,7 +172,7 @@ if (localStorage.getItem("language") != null) {
     switchLanguage("en") 
 }
 
-
+// reading from the json file to get the content of the different elementss
 function switchLanguage(l) {
     $.ajax({
         url: 'js/json/' + l + '.json',
@@ -218,7 +192,8 @@ function switchLanguage(l) {
     })
 }
 
-//sort by pickup time or distance
+// button to sort the list of the letter boxes by pickup time
+// this method is calling the showLocationList method which is going to know how and which element to sort
 let sorting = "asc";
 $("#sortByPickUp").click(function() {
     $(this).css('background-color', "#E1E1E1");
@@ -231,7 +206,7 @@ $("#sortByPickUp").click(function() {
 
     let inputSearchField = $("#inputFieldSearch").val();
 
-    console.log(startTime + ":" + endTime + ":" + distance + ":" + inputSearchField);
+    //console.log(startTime + ":" + endTime + ":" + distance + ":" + inputSearchField);
 
     if (startTime !== null) {
         startTime = "07:30";
@@ -257,6 +232,8 @@ $("#sortByPickUp").click(function() {
     }
 });
 
+// button to sort the list of the letter boxes by distance
+// this method is calling the showLocationList method which is going to know how and which element to sort
 $("#sortByDistance").click(function() {
     $(this).css('background-color', "#E1E1E1");
     $("#sortByPickUp").css('background-color', "");
@@ -268,7 +245,7 @@ $("#sortByDistance").click(function() {
 
     let inputSearchField = $("#inputFieldSearch").val();
 
-    console.log(startTime + ":" + endTime + ":" + distance + ":" + inputSearchField);
+    //console.log(startTime + ":" + endTime + ":" + distance + ":" + inputSearchField);
 
     if (startTime !== null) {
         startTime = "07:30";
@@ -327,6 +304,7 @@ $(document).ready(function(){
     $("#startTime").html(output);
 });
 
+// display time in the select time element
 $("#startTime").change(function () {
     //console.log(this.value);
     let value = this.value;
@@ -340,8 +318,8 @@ $("#startTime").change(function () {
     $("#endTime").html(output);
     checkInputSearch(value, "19:00");
 });
-// end of display time in the filter select
 
+// end time, display time in the filter select
 $("#endTime").change(function () {
     //console.log(this.value);
     let valueSelect1 = $("#startTime").val();
@@ -518,6 +496,7 @@ $(".showListTowns").click(function () {
     }
 });
 
+// display the list of the locations in the right column
 function showLocationList(city, startTime, endTime, distance, sort, sorting) {
     // display location from the database
     $.getJSON("http://127.0.0.1:8000/api/boxletter/" + city + "", function (data) {
@@ -669,8 +648,6 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
         $(".list_lo").html(output);
         $("#totalBoxLettersFound").html(count);
         $(".directButtonDisplayOnMap").click(function(){
-            console.log("TEST");
-            console.log(this.value);
             moveView(this.value);
         })
         // when clicking on a location display
@@ -686,7 +663,7 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
 }
 
 
-
+// this function is only called if the browser supports geolocation
 function success(position) {
     $.getJSON("https://apiv3.geoportail.lu/geocode/reverse?lon=" + position.coords.longitude + "&lat=" + position.coords.latitude, function (data) {
         //console.log(data["results"][0]);
@@ -701,6 +678,7 @@ function success(position) {
     })
 }
 
+// check if browser has geolocation compatibility
 $(".pinSearchIconBar").click(function () {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success);
@@ -709,11 +687,12 @@ $(".pinSearchIconBar").click(function () {
     }
 });
 
-
+// in case the user click on the button to get located
 $(".searchIcon").click(function () {
     checkInputSearch();
 });
 
+// check what the input field contains
 function checkInputSearch(startTime, endTime, distance) {
     let inputValue = $("#inputFieldSearch").val();
     if (distance !== "") {

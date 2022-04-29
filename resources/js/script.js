@@ -1,3 +1,4 @@
+// defining the default positionment
 let longitude = 6.130578;
 let latitude = 49.611205;
 
@@ -50,7 +51,8 @@ function switchLanguage(l) {
     })
 }
 
-//sort by pickup time or distance
+// button to sort the list of the letter boxes by pickup time
+// this method is calling the showLocationList method which is going to know how and which element to sort
 let sorting = "asc";
 $("#sortByPickUp").click(function() {
     $(this).css('background-color', "#E1E1E1");
@@ -63,7 +65,7 @@ $("#sortByPickUp").click(function() {
 
     let inputSearchField = $("#inputFieldSearch").val();
 
-    console.log(startTime + ":" + endTime + ":" + distance + ":" + inputSearchField);
+    //console.log(startTime + ":" + endTime + ":" + distance + ":" + inputSearchField);
 
     if (startTime !== null) {
         startTime = "07:30";
@@ -89,6 +91,8 @@ $("#sortByPickUp").click(function() {
     }
 });
 
+// button to sort the list of the letter boxes by distance
+// this method is calling the showLocationList method which is going to know how and which element to sort
 $("#sortByDistance").click(function() {
     $(this).css('background-color', "#E1E1E1");
     $("#sortByPickUp").css('background-color', "");
@@ -100,7 +104,7 @@ $("#sortByDistance").click(function() {
 
     let inputSearchField = $("#inputFieldSearch").val();
 
-    console.log(startTime + ":" + endTime + ":" + distance + ":" + inputSearchField);
+    //console.log(startTime + ":" + endTime + ":" + distance + ":" + inputSearchField);
 
     if (startTime !== null) {
         startTime = "07:30";
@@ -159,6 +163,7 @@ $(document).ready(function(){
     $("#startTime").html(output);
 });
 
+// display time in the select time element
 $("#startTime").change(function () {
     //console.log(this.value);
     let value = this.value;
@@ -172,8 +177,8 @@ $("#startTime").change(function () {
     $("#endTime").html(output);
     checkInputSearch(value, "19:00");
 });
-// end of display time in the filter select
 
+// end time, display time in the filter select
 $("#endTime").change(function () {
     //console.log(this.value);
     let valueSelect1 = $("#startTime").val();
@@ -350,6 +355,7 @@ $(".showListTowns").click(function () {
     }
 });
 
+// display the list of the locations in the right column
 function showLocationList(city, startTime, endTime, distance, sort, sorting) {
     // display location from the database
     $.getJSON("http://127.0.0.1:8000/api/boxletter/" + city + "", function (data) {
@@ -501,8 +507,6 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
         $(".list_lo").html(output);
         $("#totalBoxLettersFound").html(count);
         $(".directButtonDisplayOnMap").click(function(){
-            console.log("TEST");
-            console.log(this.value);
             moveView(this.value);
         })
         // when clicking on a location display
@@ -518,7 +522,7 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
 }
 
 
-
+// this function is only called if the browser supports geolocation
 function success(position) {
     $.getJSON("https://apiv3.geoportail.lu/geocode/reverse?lon=" + position.coords.longitude + "&lat=" + position.coords.latitude, function (data) {
         //console.log(data["results"][0]);
@@ -533,6 +537,7 @@ function success(position) {
     })
 }
 
+// check if browser has geolocation compatibility
 $(".pinSearchIconBar").click(function () {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success);
@@ -541,11 +546,12 @@ $(".pinSearchIconBar").click(function () {
     }
 });
 
-
+// in case the user click on the button to get located
 $(".searchIcon").click(function () {
     checkInputSearch();
 });
 
+// check what the input field contains
 function checkInputSearch(startTime, endTime, distance) {
     let inputValue = $("#inputFieldSearch").val();
     if (distance !== "") {

@@ -12,7 +12,8 @@
         margin: auto;
         position: fixed;
         left: 50%;
-        transform: translate(-50%, 0);
+        top: 50%;
+        transform: translate(-50%, -50%);
         z-index: 10;
         display:none;
     }

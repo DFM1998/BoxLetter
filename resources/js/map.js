@@ -9,12 +9,14 @@ function buttonDirectionClicked(id) {
     document.getElementById("location_" + id).scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
 }
 
+// array containg the horraires that should be avaible in the selects
 const horraire = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
 
 // display the map
 // the design of the map which can be find in the public/map_design.json
 let mydata = JSON.parse(data);
 
+// creating the map
 let curMap = new lux.Map({
     target: 'map1',
     bgLayer: 'basemap_2015_global',
@@ -25,6 +27,7 @@ let curMap = new lux.Map({
 
 
 //console.log(curMap);
+// display the pin of the current pisiton and move the view to it
 function displayMyPosition(x, y) {
     curMap.showMarker(
         {
@@ -35,7 +38,7 @@ function displayMyPosition(x, y) {
             click: false
         });
 
-        console.log(x, y);
+        //console.log(x, y);
         var pin = ol.proj.fromLonLat([x, y]);
         curMap.getView().animate({
             center: pin,
@@ -47,7 +50,7 @@ function displayMyPosition(x, y) {
 
 //function to move the view
 function moveView(coordinates) {
-    console.log(coordinates.split(","));
+    //console.log(coordinates.split(","));
     var pin = ol.proj.fromLonLat([parseFloat(coordinates.split(",")[0]), parseFloat(coordinates.split(",")[1])]);
     curMap.getView().animate({
         center: pin,
@@ -130,7 +133,7 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
             }
         };
         $(".ol-overlay-container").click(function(){
-            console.log(this);
+            console.log(this.id);
         })
     });
     //console.log(curMap);
