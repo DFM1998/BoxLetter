@@ -2,9 +2,25 @@
 let longitude = 6.130578;
 let latitude = 49.611205;
 
+let check = true;
+
+const handleShowMap = () => {
+    $("aside").toggleClass("mobileViewShow");
+    $("aside").toggleClass("mobileViewHide");
+    if (check) {
+        $(".showMapButton").html('<i class="fa-solid fa-list"></i>');
+        check = false;
+    }else{
+        $(".showMapButton").html('<i class="fa-solid fa-map-location-dot"></i>');
+        check = true;
+    }
+};
+
+$(document).on("click", ".directionButton", handleShowMap);
+
 //different language support
-$(document).ready(function(){
-    $(".languageButton").click(function(){
+$(document).ready(function () {
+    $(".languageButton").click(function () {
         switchLanguage(this.id);
         if (this.id == "en") {
             localStorage.clear();
@@ -12,30 +28,30 @@ $(document).ready(function(){
         location.reload(true);
     });
 
-    $('.directionButton').each(function() {
+    $(".directionButton").each(function () {
         var text = $(this).text();
-        $(this).text(text); 
+        $(this).text(text);
     });
-    
 });
 
 let lang = "";
 // check which language has been select -> checking in the browser session
 if (localStorage.getItem("language") != null) {
-    const l = localStorage.getItem("language")
-    $("#"+l).html("EN");
+    const l = localStorage.getItem("language");
+    $("#" + l).html("EN");
     $("#en").html(l.toUpperCase());
-    $("#"+l).attr("id", "en");
-    switchLanguage(l) 
-}else{
-    switchLanguage("en") 
+    $("#" + l).attr("id", "en");
+    switchLanguage(l);
+} else {
+    switchLanguage("en");
 }
 
 // reading from the json file to get the content of the different elementss
 function switchLanguage(l) {
     $.ajax({
-        url: 'js/json/' + l + '.json',
-        dataType: 'json', async: false
+        url: "js/json/" + l + ".json",
+        dataType: "json",
+        async: false,
     }).done(function (data) {
         lang = data;
         localStorage.setItem("language", l);
@@ -48,15 +64,15 @@ function switchLanguage(l) {
         $("#to").html(lang.to);
         $("#sortBy").html(lang.sortBy);
         $("#boxLettersFound").html(lang.boxLettersFound);
-    })
+    });
 }
 
 // button to sort the list of the letter boxes by pickup time
 // this method is calling the showLocationList method which is going to know how and which element to sort
 let sorting = "asc";
-$("#sortByPickUp").click(function() {
-    $(this).css('background-color', "#E1E1E1");
-    $("#sortByDistance").css('background-color', "");
+$("#sortByPickUp").click(function () {
+    $(this).css("background-color", "#E1E1E1");
+    $("#sortByDistance").css("background-color", "");
 
     let startTime = $("#startTime").val();
     let endTime = $("#endTime").val();
@@ -77,25 +93,43 @@ $("#sortByPickUp").click(function() {
     }
 
     if (inputSearchField !== "") {
-        $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString=" + inputSearchField, function (data) {
-            showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime, distance, sort, sorting)
-        }) 
-    }else{
-        showLocationList("Luxembourg", startTime, endTime, distance, sort, sorting)
+        $.getJSON(
+            "https://apiv3.geoportail.lu/geocode/search?queryString=" +
+                inputSearchField,
+            function (data) {
+                showLocationList(
+                    data["results"][0]["AddressDetails"]["locality"],
+                    startTime,
+                    endTime,
+                    distance,
+                    sort,
+                    sorting
+                );
+            }
+        );
+    } else {
+        showLocationList(
+            "Luxembourg",
+            startTime,
+            endTime,
+            distance,
+            sort,
+            sorting
+        );
     }
 
     if (sorting == "asc") {
         sorting = "desc";
-    }else{
+    } else {
         sorting = "asc";
     }
 });
 
 // button to sort the list of the letter boxes by distance
 // this method is calling the showLocationList method which is going to know how and which element to sort
-$("#sortByDistance").click(function() {
-    $(this).css('background-color', "#E1E1E1");
-    $("#sortByPickUp").css('background-color', "");
+$("#sortByDistance").click(function () {
+    $(this).css("background-color", "#E1E1E1");
+    $("#sortByPickUp").css("background-color", "");
 
     let startTime = $("#startTime").val();
     let endTime = $("#endTime").val();
@@ -116,21 +150,37 @@ $("#sortByDistance").click(function() {
     }
 
     if (inputSearchField !== "") {
-        $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString=" + inputSearchField, function (data) {
-            showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime, distance, sort, sorting)
-        }) 
-    }else{
-        showLocationList("Luxembourg", startTime, endTime, distance, sort, sorting)
+        $.getJSON(
+            "https://apiv3.geoportail.lu/geocode/search?queryString=" +
+                inputSearchField,
+            function (data) {
+                showLocationList(
+                    data["results"][0]["AddressDetails"]["locality"],
+                    startTime,
+                    endTime,
+                    distance,
+                    sort,
+                    sorting
+                );
+            }
+        );
+    } else {
+        showLocationList(
+            "Luxembourg",
+            startTime,
+            endTime,
+            distance,
+            sort,
+            sorting
+        );
     }
 
     if (sorting == "asc") {
         sorting = "desc";
-    }else{
+    } else {
         sorting = "asc";
     }
 });
-
-
 
 checkInputSearch();
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
@@ -142,8 +192,12 @@ function calcCrow(lat1, lon1, lat2, lon2) {
     var lat1 = toRad(lat1);
     var lat2 = toRad(lat2);
 
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) *
+            Math.sin(dLon / 2) *
+            Math.cos(lat1) *
+            Math.cos(lat2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     return d;
@@ -151,13 +205,13 @@ function calcCrow(lat1, lon1, lat2, lon2) {
 
 // Converts numeric degrees to radians
 function toRad(Value) {
-    return Value * Math.PI / 180;
+    return (Value * Math.PI) / 180;
 }
 
 // display the time in the filter select
-$(document).ready(function(){
+$(document).ready(function () {
     let output = "<option selected disabled>??:??</option>";
-    horraire.forEach(value => {
+    horraire.forEach((value) => {
         output += "<option>" + value + "</option>";
     });
     $("#startTime").html(output);
@@ -187,21 +241,70 @@ $("#endTime").change(function () {
 });
 
 // if clicking enter in the input field search field, to trigger the button to-do the research
-$('#inputFieldSearch').keyup(function (e) {
+$("#inputFieldSearch").keyup(function (e) {
+    let inputValue = $(this).val();
+    if (inputValue !== "") {
+        $.getJSON(
+            "https://apiv3.geoportail.lu/fulltextsearch?limit=2&layer=Commune&query=" +
+                inputValue,
+            function (data) {
+                //console.log(data["features"]);
+                let outputAddresses = "";
+                for (let index = 0; index < data["features"].length; index++) {
+                    const element = data["features"][index].properties.label;
+                    console.log(element);
+                    outputAddresses += "<li>" + element + "</li>";
+                }
+                $.getJSON(
+                    "https://apiv3.geoportail.lu/fulltextsearch?limit=5&layer=Adresse&query=" +
+                        inputValue,
+                    function (data) {
+                        console.log(data["features"]);
+                        for (
+                            let index = 0;
+                            index < data["features"].length;
+                            index++
+                        ) {
+                            const element =
+                                data["features"][index].properties.label;
+                            console.log(element);
+                            outputAddresses += "<li>" + element + "</li>";
+                        }
+                        $("#autoCompleteDivList").html(outputAddresses);
+                        $("#autoCompleteDivList li").click(function () {
+                            const checkedOutAddress = $(this).html();
+                            console.log(checkedOutAddress);
+                            $("#inputFieldSearch").val(checkedOutAddress);
+                            $(".searchIcon").click();
+                            $("#autoCompleteDiv").hide();
+                        });
+                        $("#autoCompleteDiv").show();
+                    }
+                );
+            }
+        );
+    } else {
+        $("#autoCompleteDiv").hide();
+    }
+
     if (e.keyCode == 13) {
         $(".searchIcon").click();
     }
 });
 
-// slider that should display the distance 
+/*$("#searchFunctionWrapper").focusout(function(){
+    $("#autoCompleteDiv").hide();
+});*/
+
+// slider that should display the distance
 $(".sliderDistance").on("change mousemove", function () {
     $("#distanceValueDisplay").html(this.value);
 });
 
 //reset button
-$(".resetDefault").click(function(){
-    $("#inputFieldSearch").val('');
-    $("#checkBoxEmptied").prop( "checked", false );
+$(".resetDefault").click(function () {
+    $("#inputFieldSearch").val("");
+    $("#checkBoxEmptied").prop("checked", false);
     $(".sliderDistance").val("5");
     $("#distanceValueDisplay").html("5");
     $("#startTime").val("??:??").change();
@@ -209,7 +312,7 @@ $(".resetDefault").click(function(){
 });
 
 // check box for emptied yet
-$("#checkBoxEmptied").click(function(){
+$("#checkBoxEmptied").click(function () {
     let isChecked = $(this)[0].checked;
     if (isChecked) {
         let currentTime = new Date();
@@ -230,14 +333,14 @@ $("#checkBoxEmptied").click(function(){
         let endTime = "";
         if (hour < 10) {
             endTime = "0" + hour;
-        }else{
+        } else {
             endTime += hour;
         }
 
         endTime += ":" + minute;
         checkInputSearch(endTime, "19:00");
         $("#startTime").val(endTime).change();
-    }else{
+    } else {
         checkInputSearch("07:30", "19:00");
         $("#startTime").val("??:??").change();
     }
@@ -246,7 +349,7 @@ $("#checkBoxEmptied").click(function(){
 // distance slider
 let kmDistance = "5";
 $(".sliderDistance").on("change", function () {
-    if(kmDistance != this.value) {
+    if (kmDistance != this.value) {
         let startingTime = "07:30";
         let endingTime = "19:00";
         let valueSelect1 = $("#startTime").val();
@@ -263,16 +366,7 @@ $(".sliderDistance").on("change", function () {
 });
 
 // for the mobile version, map only or list only view
-let check = true;
-$(".showMapButton").click(function () {
-    if (check) {
-        $("main").css("grid-template-columns", "minmax(376px,100%) 0%");
-        check = false;
-    } else {
-        $("main").css("grid-template-columns", "0% minmax(376px,100%)");
-        check = true;
-    }
-});
+$(".showMapButton").click(handleShowMap);
 
 // if clicking on a location on the list, open it and display more information
 let checkListLocation = true;
@@ -280,22 +374,28 @@ let firstRun = true;
 let count = 0;
 $(".showListTowns").click(function () {
     if (checkListLocation && firstRun) {
-        $(this).css({ "background-color": "#002641", "color": "white" });
+        $(this).css({ "background-color": "#002641", color: "white" });
         checkListLocation = false;
         firstRun = false;
         $(".list_location_all").hide();
         $(".descriptionText").html(lang.filterbyTown);
-        $.getJSON("http://127.0.0.1:8000/api/cities", function (data) {
+        $.getJSON("/api/cities", function (data) {
             //console.log(data);
-            let output = "<div class='filterTownDiv'><table style='width: 100%'>";
-            output += "<tr><td style='width: 25%'></td><td style='width: 50%'>Select all:</td><td style='width: 25%'><input type='checkbox' id='checkBoxSelectAll'></td></tr>";
+            let output =
+                "<div class='filterTownDiv'><table style='width: 100%'>";
+            output +=
+                "<tr><td style='width: 25%'></td><td style='width: 50%'>Select all:</td><td style='width: 25%'><input type='checkbox' id='checkBoxSelectAll'></td></tr>";
             for (let i = 0; i < data.length; i++) {
                 const element = data[i];
-                if (element["city"] == "LUXEMBOURG") {
-                    output += "<tr><td></td><td>" + element["city"] + "</td><td><input type='checkbox' class='townCheckBox' id='checkBoxIdCity_" + element["idCity"] + "' value='" + element["city"] + "' checked></td></tr>";
-                } else {
-                    output += "<tr><td></td><td>" + element["city"] + "</td><td><input type='checkbox' class='townCheckBox' id='checkBoxIdCity_" + element["idCity"] + "' value='" + element["city"] + "'></td></tr>";
-                }
+
+                output +=
+                    "<tr><td></td><td>" +
+                    element["city"] +
+                    "</td><td><input type='checkbox' class='townCheckBox' id='checkBoxIdCity_" +
+                    element["idCity"] +
+                    "' value='" +
+                    element["city"] +
+                    "'></td></tr>";
             }
             output += "</table></div>";
             $(".filterByTownContent").html(output);
@@ -312,6 +412,9 @@ $(".showListTowns").click(function () {
                     towns += this.value + ",";
                 });
                 if (towns != "") {
+                    if ($("#checkBoxSelectAll")[0].checked) {
+                        towns = "";
+                    }
                     displayPins(towns);
                     showLocationList(towns);
                 } else {
@@ -332,46 +435,122 @@ $(".showListTowns").click(function () {
                 });
 
                 if (towns != "") {
+                    if ($("#checkBoxSelectAll")[0].checked) {
+                        towns = "";
+                    }
                     displayPins(towns);
                     showLocationList(towns);
                 } else {
                     clearMap();
                 }
             });
-
-        })
+        });
     } else if (checkListLocation) {
-        $(this).css({ "background-color": "#002641", "color": "white" });
+        $(this).css({ "background-color": "#002641", color: "white" });
         checkListLocation = false;
         $(".list_location_all").hide();
         $(".filterByTownContent").show();
         $(".descriptionText").html(lang.filterbyTown);
     } else {
-        $(this).css({ "background-color": "", "color": "#002641" });
+        $(this).css({ "background-color": "", color: "#002641" });
         checkListLocation = true;
         $(".list_location_all").show();
         $(".filterByTownContent").hide();
-        $(".descriptionText").html('<span id="totalBoxLettersFound">' + count + '</span> '+lang.boxLettersFound+'</p>');
+        $(".descriptionText").html(
+            '<span id="totalBoxLettersFound">' +
+                count +
+                "</span> " +
+                lang.boxLettersFound +
+                "</p>"
+        );
     }
 });
 
 // display the list of the locations in the right column
 function showLocationList(city, startTime, endTime, distance, sort, sorting) {
     // display location from the database
-    $.getJSON("http://127.0.0.1:8000/api/boxletter/" + city + "", function (data) {
+    $.getJSON("/api/boxletter/" + city + "", function (data) {
         //console.log(data);
         if (sort == "pickUpTime") {
             if (sorting == "asc") {
-                data.sort((a,b) => (a.pickUpTime > b.pickUpTime) ? 1 : ((b.pickUpTime > a.pickUpTime) ? -1 : 0))
-            }else{
-                data.sort((a,b) => (a.pickUpTime < b.pickUpTime) ? 1 : ((b.pickUpTime < a.pickUpTime) ? -1 : 0))
+                data.sort((a, b) =>
+                    a.pickUpTime > b.pickUpTime
+                        ? 1
+                        : b.pickUpTime > a.pickUpTime
+                        ? -1
+                        : 0
+                );
+            } else {
+                data.sort((a, b) =>
+                    a.pickUpTime < b.pickUpTime
+                        ? 1
+                        : b.pickUpTime < a.pickUpTime
+                        ? -1
+                        : 0
+                );
             }
         }
         if (sort == "distance") {
             if (sorting == "asc") {
-                data.sort((a,b) => (calcCrow(a.normalCoordinates.split(",")[1], a.normalCoordinates.split(",")[0], latitude, longitude).toFixed(2) > calcCrow(b.normalCoordinates.split(",")[1], b.normalCoordinates.split(",")[0], latitude, longitude).toFixed(2)) ? 1 : ((calcCrow(b.normalCoordinates.split(",")[1], b.normalCoordinates.split(",")[0], latitude, longitude).toFixed(2) > calcCrow(a.normalCoordinates.split(",")[1], a.normalCoordinates.split(",")[0], latitude, longitude).toFixed(2)) ? -1 : 0))
-            }else{
-                data.sort((a,b) => (calcCrow(a.normalCoordinates.split(",")[1], a.normalCoordinates.split(",")[0], latitude, longitude).toFixed(2) < calcCrow(b.normalCoordinates.split(",")[1], b.normalCoordinates.split(",")[0], latitude, longitude).toFixed(2)) ? 1 : ((calcCrow(b.normalCoordinates.split(",")[1], b.normalCoordinates.split(",")[0], latitude, longitude).toFixed(2) < calcCrow(a.normalCoordinates.split(",")[1], a.normalCoordinates.split(",")[0], latitude, longitude).toFixed(2)) ? -1 : 0))
+                data.sort((a, b) =>
+                    calcCrow(
+                        a.normalCoordinates.split(",")[1],
+                        a.normalCoordinates.split(",")[0],
+                        latitude,
+                        longitude
+                    ).toFixed(2) >
+                    calcCrow(
+                        b.normalCoordinates.split(",")[1],
+                        b.normalCoordinates.split(",")[0],
+                        latitude,
+                        longitude
+                    ).toFixed(2)
+                        ? 1
+                        : calcCrow(
+                              b.normalCoordinates.split(",")[1],
+                              b.normalCoordinates.split(",")[0],
+                              latitude,
+                              longitude
+                          ).toFixed(2) >
+                          calcCrow(
+                              a.normalCoordinates.split(",")[1],
+                              a.normalCoordinates.split(",")[0],
+                              latitude,
+                              longitude
+                          ).toFixed(2)
+                        ? -1
+                        : 0
+                );
+            } else {
+                data.sort((a, b) =>
+                    calcCrow(
+                        a.normalCoordinates.split(",")[1],
+                        a.normalCoordinates.split(",")[0],
+                        latitude,
+                        longitude
+                    ).toFixed(2) <
+                    calcCrow(
+                        b.normalCoordinates.split(",")[1],
+                        b.normalCoordinates.split(",")[0],
+                        latitude,
+                        longitude
+                    ).toFixed(2)
+                        ? 1
+                        : calcCrow(
+                              b.normalCoordinates.split(",")[1],
+                              b.normalCoordinates.split(",")[0],
+                              latitude,
+                              longitude
+                          ).toFixed(2) <
+                          calcCrow(
+                              a.normalCoordinates.split(",")[1],
+                              a.normalCoordinates.split(",")[0],
+                              latitude,
+                              longitude
+                          ).toFixed(2)
+                        ? -1
+                        : 0
+                );
             }
         }
 
@@ -387,20 +566,44 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                 }
                 const element = data[i];
                 for (let i = indexStartTime; i < indexEndTime; i++) {
-                    let html = `
-                    <span class="list_location_all" id="location_`+ element["idBoxLetter"] + `">
+                    let html =
+                        `
+                    <span class="list_location_all" id="location_` +
+                        element["idBoxLetter"] +
+                        `">
                     <div class="list_location_close">
                         <span class="pickupTime">
-                        `+lang.pickUpTime+`<br>
-                        <span class="time">`+ element["pickUpTime"] + `</span>
+                        ` +
+                        lang.pickUpTime +
+                        `<br>
+                        <span class="time">` +
+                        element["pickUpTime"] +
+                        `</span>
                         </span>
                         <span class="pickupAddress">
-                        `+lang.address+`<br>
-                        <span class="address">`+ element["street"] + ` <br>L-` + element["postal"] + ` ` + element["city"] + `</span>
+                        ` +
+                        lang.address +
+                        `<br>
+                        <span class="address">` +
+                        element["street"] +
+                        ` <br>L-` +
+                        element["postal"] +
+                        ` ` +
+                        element["city"] +
+                        `</span>
                         </span>
                         <span class="pickupDistance">
-                        `+lang.distance+`<br>
-                        <span class="distance">`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + ` km</span>
+                        ` +
+                        lang.distance +
+                        `<br>
+                        <span class="distance">` +
+                        calcCrow(
+                            element["normalCoordinates"].split(",")[1],
+                            element["normalCoordinates"].split(",")[0],
+                            latitude,
+                            longitude
+                        ).toFixed(2) +
+                        ` km</span>
                         </span>
                     </div>
                     <div class="list_location_open" hidden>
@@ -410,7 +613,9 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                                 <i class="fa-regular fa-clock" style="font-size: 30px"></i>
                             </td>
                             <td>
-                                <span style="font-size: 35px;">`+ element["pickUpTime"] + `</span>
+                                <span style="font-size: 35px;">` +
+                        element["pickUpTime"] +
+                        `</span>
                             </td>
                         </tr>
                         <tr style="border-bottom: 0.2px solid #9B9B9B">
@@ -418,7 +623,13 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                                 <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
                             </td>
                             <td>
-                                <span style="font-size: 18px;line-height: 18px;font-family: RajdhaniRegular;"><p>`+ element["street"] + `</p><p>L-` + element["postal"] + ` ` + element["city"] + `</p></span>
+                                <span style="font-size: 18px;line-height: 18px;font-family: RajdhaniRegular;"><p>` +
+                        element["street"] +
+                        `</p><p>L-` +
+                        element["postal"] +
+                        ` ` +
+                        element["city"] +
+                        `</p></span>
                             </td>
                         </tr>
                         <tr style="border-bottom: 0.2px solid #9B9B9B">
@@ -426,48 +637,93 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                                 <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
                             </td>
                             <td>
-                                <span>`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + ` km</span>
+                                <span>` +
+                        calcCrow(
+                            element["normalCoordinates"].split(",")[1],
+                            element["normalCoordinates"].split(",")[0],
+                            latitude,
+                            longitude
+                        ).toFixed(2) +
+                        ` km</span>
                             </td>
                         </tr>
                         <tr>
                             <td colspan='2' style="text-align:center;">
-                                <button class="directionButton directButtonDisplayOnMap" value="`+element["normalCoordinates"]+`" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
+                                <button class="directionButton directButtonDisplayOnMap" value="` +
+                        element["normalCoordinates"] +
+                        `" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
                             </td>
                         </tr>
                         </table></div></span>`;
                     //console.log(horraire[i]);
-                    if (distance == undefined){
+                    if (distance == undefined) {
                         if (element["pickUpTime"] == horraire[i]) {
                             count++;
                             output += html;
                         }
-                    }else{
+                    } else {
                         if (element["pickUpTime"] == horraire[i]) {
-                            if (parseFloat(calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2))<=parseInt(distance)) {
+                            if (
+                                parseFloat(
+                                    calcCrow(
+                                        element["normalCoordinates"].split(
+                                            ","
+                                        )[1],
+                                        element["normalCoordinates"].split(
+                                            ","
+                                        )[0],
+                                        latitude,
+                                        longitude
+                                    ).toFixed(2)
+                                ) <= parseInt(distance)
+                            ) {
                                 count++;
                                 output += html;
                             }
                         }
                     }
                 }
-
             } else {
                 count++;
                 const element = data[i];
-                output += `
-                        <span class="list_location_all" id="location_`+ element["idBoxLetter"] + `">
+                output +=
+                    `
+                        <span class="list_location_all" id="location_` +
+                    element["idBoxLetter"] +
+                    `">
                         <div class="list_location_close">
                             <span class="pickupTime">
-                            `+lang.pickUpTime+`<br>
-                            <span class="time">`+ element["pickUpTime"] + `</span>
+                            ` +
+                    lang.pickUpTime +
+                    `<br>
+                            <span class="time">` +
+                    element["pickUpTime"] +
+                    `</span>
                             </span>
                             <span class="pickupAddress">
-                            `+lang.address+`<br>
-                            <span class="address">`+ element["street"] + ` <br>L-` + element["postal"] + ` ` + element["city"] + `</span>
+                            ` +
+                    lang.address +
+                    `<br>
+                            <span class="address">` +
+                    element["street"] +
+                    ` <br>L-` +
+                    element["postal"] +
+                    ` ` +
+                    element["city"] +
+                    `</span>
                             </span>
                             <span class="pickupDistance">
-                            `+lang.distance+`<br>
-                            <span class="distance">`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + ` km</span>
+                            ` +
+                    lang.distance +
+                    `<br>
+                            <span class="distance">` +
+                    calcCrow(
+                        element["normalCoordinates"].split(",")[1],
+                        element["normalCoordinates"].split(",")[0],
+                        latitude,
+                        longitude
+                    ).toFixed(2) +
+                    ` km</span>
                             </span>
                         </div>
                         <div class="list_location_open" hidden>
@@ -477,7 +733,9 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                                     <i class="fa-regular fa-clock" style="font-size: 30px"></i>
                                 </td>
                                 <td>
-                                    <span style="font-size: 35px;">`+ element["pickUpTime"] + `</span>
+                                    <span style="font-size: 35px;">` +
+                    element["pickUpTime"] +
+                    `</span>
                                 </td>
                             </tr>
                             <tr style="border-bottom: 0.2px solid #9B9B9B">
@@ -485,7 +743,13 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                                     <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
                                 </td>
                                 <td>
-                                    <span style="font-size: 18px;line-height: 18px;font-family: RajdhaniRegular;"><p>`+ element["street"] + `</p><p>L-` + element["postal"] + ` ` + element["city"] + `</p></span>
+                                    <span style="font-size: 18px;line-height: 18px;font-family: RajdhaniRegular;"><p>` +
+                    element["street"] +
+                    `</p><p>L-` +
+                    element["postal"] +
+                    ` ` +
+                    element["city"] +
+                    `</p></span>
                                 </td>
                             </tr>
                             <tr style="border-bottom: 0.2px solid #9B9B9B">
@@ -493,12 +757,21 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                                     <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
                                 </td>
                                 <td>
-                                    <span>`+ calcCrow(element["normalCoordinates"].split(",")[1], element["normalCoordinates"].split(",")[0], latitude, longitude).toFixed(2) + ` km</span>
+                                    <span>` +
+                    calcCrow(
+                        element["normalCoordinates"].split(",")[1],
+                        element["normalCoordinates"].split(",")[0],
+                        latitude,
+                        longitude
+                    ).toFixed(2) +
+                    ` km</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style="text-align:center;">
-                                    <button class="directionButton directButtonDisplayOnMap" value="`+element["normalCoordinates"]+`" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
+                                    <button class="directionButton directButtonDisplayOnMap" value="` +
+                    element["normalCoordinates"] +
+                    `" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
                                 </td>
                             </tr>
                             </table></div></span>`;
@@ -506,12 +779,15 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
         }
         $(".list_lo").html(output);
         $("#totalBoxLettersFound").html(count);
-        $(".directButtonDisplayOnMap").click(function(){
+        $(".directButtonDisplayOnMap").click(function () {
             moveView(this.value);
-        })
+        });
         // when clicking on a location display
         $(".list_location_all").click(function () {
-            if ($("#" + this.id + " .list_location_close").css('display') != 'none') {
+            if (
+                $("#" + this.id + " .list_location_close").css("display") !=
+                "none"
+            ) {
                 $(".list_location_open").hide();
                 $(".list_location_close").show();
                 $("#" + this.id + " .list_location_close").hide();
@@ -521,20 +797,35 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
     });
 }
 
-
 // this function is only called if the browser supports geolocation
 function success(position) {
-    $.getJSON("https://apiv3.geoportail.lu/geocode/reverse?lon=" + position.coords.longitude + "&lat=" + position.coords.latitude, function (data) {
-        //console.log(data["results"][0]);
-        const arrayAddress = data["results"][0];
-        let output = arrayAddress["number"] + ", " + arrayAddress["street"] + " L-" + arrayAddress["postal_code"] + " " + arrayAddress["locality"];
-        $("#inputFieldSearch").val(output);
-        displayPins(arrayAddress["locality"]);
-        showLocationList(arrayAddress["locality"]);
-        longitude = position.coords.longitude;
-        latitude = position.coords.latitude;
-        displayMyPosition(position.coords.longitude, position.coords.latitude);
-    })
+    $.getJSON(
+        "https://apiv3.geoportail.lu/geocode/reverse?lon=" +
+            position.coords.longitude +
+            "&lat=" +
+            position.coords.latitude,
+        function (data) {
+            //console.log(data["results"][0]);
+            const arrayAddress = data["results"][0];
+            let output =
+                arrayAddress["number"] +
+                ", " +
+                arrayAddress["street"] +
+                " L-" +
+                arrayAddress["postal_code"] +
+                " " +
+                arrayAddress["locality"];
+            $("#inputFieldSearch").val(output);
+            displayPins(arrayAddress["locality"]);
+            showLocationList(arrayAddress["locality"]);
+            longitude = position.coords.longitude;
+            latitude = position.coords.latitude;
+            displayMyPosition(
+                position.coords.longitude,
+                position.coords.latitude
+            );
+        }
+    );
 }
 
 // check if browser has geolocation compatibility
@@ -556,42 +847,69 @@ function checkInputSearch(startTime, endTime, distance) {
     let inputValue = $("#inputFieldSearch").val();
     if (distance !== "") {
         if (inputValue !== "") {
-            $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString=" + inputValue, function (data) {
+            $.getJSON(
+                "https://apiv3.geoportail.lu/geocode/search?queryString=" +
+                    inputValue,
+                function (data) {
+                    //console.log(data["results"][0]["AddressDetails"]["locality"]);
+                    const address = data["results"][0]["name"];
+                    $("#inputFieldSearch").val(address);
+                    longitude =
+                        data["results"][0]["geomlonlat"]["coordinates"][0];
+                    latitude =
+                        data["results"][0]["geomlonlat"]["coordinates"][1];
+
+                    //console.log(latitude);
+
+                    showLocationList(
+                        data["results"][0]["AddressDetails"]["locality"],
+                        startTime,
+                        endTime,
+                        distance
+                    );
+                    displayPins(
+                        data["results"][0]["AddressDetails"]["locality"],
+                        startTime,
+                        endTime,
+                        distance
+                    );
+                    displayMyPosition(longitude, latitude);
+                }
+            );
+        } else {
+            showLocationList("Luxembourg", startTime, endTime, distance);
+            displayPins("Luxembourg", startTime, endTime, distance);
+            displayMyPosition(longitude, latitude);
+        }
+    } else if (inputValue !== "") {
+        $.getJSON(
+            "https://apiv3.geoportail.lu/geocode/search?queryString=" +
+                inputValue,
+            function (data) {
                 //console.log(data["results"][0]["AddressDetails"]["locality"]);
                 const address = data["results"][0]["name"];
                 $("#inputFieldSearch").val(address);
                 longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
                 latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
-    
+
                 //console.log(latitude);
-    
-                showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime, distance)
-                displayPins(data["results"][0]["AddressDetails"]["locality"], startTime, endTime, distance)
+
+                showLocationList(
+                    data["results"][0]["AddressDetails"]["locality"],
+                    startTime,
+                    endTime
+                );
+                displayPins(
+                    data["results"][0]["AddressDetails"]["locality"],
+                    startTime,
+                    endTime
+                );
                 displayMyPosition(longitude, latitude);
-            })
-        }else{
-            showLocationList("Luxembourg", startTime, endTime, distance)
-            displayPins("Luxembourg", startTime, endTime, distance);
-            displayMyPosition(longitude, latitude);
-        }
-    }else if (inputValue !== "") {
-        $.getJSON("https://apiv3.geoportail.lu/geocode/search?queryString=" + inputValue, function (data) {
-            //console.log(data["results"][0]["AddressDetails"]["locality"]);
-            const address = data["results"][0]["name"];
-            $("#inputFieldSearch").val(address);
-            longitude = data["results"][0]["geomlonlat"]["coordinates"][0];
-            latitude = data["results"][0]["geomlonlat"]["coordinates"][1];
-
-            //console.log(latitude);
-
-            showLocationList(data["results"][0]["AddressDetails"]["locality"], startTime, endTime)
-            displayPins(data["results"][0]["AddressDetails"]["locality"], startTime, endTime)
-            displayMyPosition(longitude, latitude);
-        })
+            }
+        );
     } else {
-        showLocationList("Luxembourg", startTime, endTime)
+        showLocationList("Luxembourg", startTime, endTime);
         displayPins("Luxembourg", startTime, endTime);
         displayMyPosition(longitude, latitude);
     }
 }
-

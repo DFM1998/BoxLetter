@@ -1,23 +1,77 @@
 @media only screen and (max-width: 600px) {
-    main{
-         grid-template-columns: 0% minmax(376px,100%);
-    } 
-    .list_location_close{
+    body {
+        height: 100vh;
+    }
+
+    main {
+        /*grid-template-columns: 0% minmax(376px,100%);*/
+        position: relative;
+    }
+
+    #map1,
+    aside {
+        position: absolute;
+        width: 100%;
+    }
+    .list_location_close {
         width: 96%;
     }
-    .filtersContent{
+    .filtersContent {
         padding: 12px;
         font-size: 18px;
         height: 255px;
         width: 96%;
     }
-    hr{
+    hr {
         margin-left: -12px;
         margin-right: -12px;
     }
- 
-    .showMapButton{
-         display: inline-block;
+
+    .showMapButton {
+        display: inline-block;
+        margin-top: 5px;
+        margin-left: 19px;
+        padding: 4px 6px;
+        border-radius: 3px;
+        background-color: white;
     }
- 
- }
+
+    .showMapButton i {
+        font-size: 20px;
+        color: #002641;
+    }
+
+    .mobileViewHide {
+        animation-name: fadeAway;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+    }
+
+    .mobileViewShow {
+        animation-name: fadeAwayReverse;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+    }
+
+    footer{
+        display: none;
+    }
+
+    @keyframes fadeAway {
+        from {
+            left: 0;
+        }
+        to {
+            left: 100vw;
+        }
+    }
+
+    @keyframes fadeAwayReverse {
+        from {
+            left: 100vw;
+        }
+        to {
+            left: 0;
+        }
+    }
+}

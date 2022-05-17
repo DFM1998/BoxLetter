@@ -25,18 +25,18 @@
         @if (Route::has('login'))
             <div class="hidden fixed sm:block" style="margin-left: 10px;margin-top: 9px;">
                 @auth
-                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                    <!--<a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>-->
                 @else
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                    <!--<a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>-->
 
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                        <!--<a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>-->
                     @endif
                 @endauth
             </div>
         @endif
         <header>
-            <button class="showMapButton" hidden>map</button>
+            <button class="showMapButton"><i class="fa-solid fa-map-location-dot"></i></button>
             <div class="dropdown">
                 <a class="dropbtn selectedLanguage" id='en'>EN</a>
                 <div class="dropdown-content" style="left:0;">
@@ -48,9 +48,21 @@
         </header>
         <main>
             <div id="map1"></div>
-            <aside>
+            <aside class="mobileViewShow">
                 <div class="filtersContent">
-                    <div class="searchField"><div class="pinSearchIconBar"><img src="./images/pin.svg" class="pinSearchIcon"></div><input type="text" id="inputFieldSearch" class="searchInputField" placeholder=" Search"><label for="inputFieldSearch"><div class="searchIcon"><i class="fa-solid fa-magnifying-glass fa-sm"></i></div></label></div>
+                    <div id="searchFunctionWrapper" style="position: relative;">
+                        <div class="searchField">
+                            <div class="pinSearchIconBar"><img src="./images/pin.svg" class="pinSearchIcon"></div><input type="text" id="inputFieldSearch" class="searchInputField" placeholder=" Search"><label for="inputFieldSearch"><div class="searchIcon"><i class="fa-solid fa-magnifying-glass fa-sm"></i></div></label>
+                        </div>
+                        <div id="autoCompleteDiv" style="position:absolute; z-index: 10;background-color: #FDFDFD;width: 100%;">
+                            <ol id="autoCompleteDivList" style="list-style: none;">
+                                <li>route de babbaba</li>
+                                <li>route de babbaba</li>
+                                <li>route de babbaba</li>
+                                <li>route de babbaba</li>
+                            </ol>
+                        </div>
+                    </div>
                     <hr>
                     <p style="display: inline; margin: 20px 0 20px 0;color: #474747;"><span style="min-width: 24%;display:inline-block"><span id="emptiedYet">Emptied yet</span>:</span><input type="checkbox" id="checkBoxEmptied" style="transform: scale(1.5);margin-left: 10px;"></p>
                     <div style="display: inline-block; float: right;"><button class="resetDefault"><i class="fa-solid fa-arrow-rotate-left"></i></button><button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></div>

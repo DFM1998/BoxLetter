@@ -12,7 +12,6 @@ class InsertData extends Model
 {
 
     use HasFactory;
-
     protected $fillable = [
 
         'idBoxLetter', 'typeOfBoxLetter', 'street', 'pickUpTime', 'city', 'coordinatesx', 'coordinatesy'

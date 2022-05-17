@@ -1,369 +1,407 @@
 @font-face {
-    font-family: RajdhaniBold;
-    src: url(../font/Rajdhani/Rajdhani-Bold.ttf);
-    font-weight: bold;
-  }
-  @font-face {
-    font-family: RajdhaniLight;
-    src: url(../font/Rajdhani/Rajdhani-Light.ttf);
-  }
-  @font-face {
-    font-family: RajdhaniMedium;
-    src: url(../font/Rajdhani/Rajdhani-Medium.ttf);
-  }
-  @font-face {
-    font-family: RajdhaniRegular;
-    src: url(../font/Rajdhani/Rajdhani-Regular.ttf);
-  }
-  @font-face {
-    font-family: RajdhaniSemiBold;
-    src: url(../font/Rajdhani/Rajdhani-SemiBold.ttf);
-  }
-  body{
-    margin: 0px;
-    font-family: RajdhaniBold;
-  }
+  font-family: RajdhaniBold;
+  src: url(../font/Rajdhani/Rajdhani-Bold.ttf);
+  font-weight: bold;
+}
+@font-face {
+  font-family: RajdhaniLight;
+  src: url(../font/Rajdhani/Rajdhani-Light.ttf);
+}
+@font-face {
+  font-family: RajdhaniMedium;
+  src: url(../font/Rajdhani/Rajdhani-Medium.ttf);
+}
+@font-face {
+  font-family: RajdhaniRegular;
+  src: url(../font/Rajdhani/Rajdhani-Regular.ttf);
+}
+@font-face {
+  font-family: RajdhaniSemiBold;
+  src: url(../font/Rajdhani/Rajdhani-SemiBold.ttf);
+}
+body{
+  margin: 0px;
+  font-family: RajdhaniBold;
+}
 
-  header, footer{
+header, footer{
+  background-color: #002641;
+  color: #FABB00;
+}
+
+header{
+  height: 40px;
+}
+footer{
+  font-size: 9px;
+  text-align: center;
+  height: 20px;
+}
+.footer_content {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#map1{
+  height: 96vh;
+  float: left;
+}
+main{
+  display: grid;
+  grid-template-columns: minmax(auto, 62%) minmax(440px, 38%);
+}
+aside{
+  background-color: #F6F6F6;
+  box-shadow: -4px 0px 4px 0px #A9A9A940;
+  z-index: 1;
+  height: 96vh;
+  overflow: scroll;
+}
+
+.lux-map{
+  border: 0;
+}
+
+.filtersContent{
+  padding: 25px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #A9A9A9;
+  font-size: 23px;
+  background: #FDFDFD;
+  height: 325px;
+  width: 93%;
+  border-radius: 13px;
+  box-shadow: 0px 4px 10px 0px #C0C0C040;
+}
+
+.lux-map .ol-control button:hover{
     background-color: #002641;
-    color: #FABB00;
-  }
-  
-  header{
-    height: 43px;
-  }
-  footer{
-    font-size: 9px;
-    text-align: center;
-    padding: 2px;
-  }
-  #map1{
-    height: 94vh;
-    float: left;
-  }
-  main{
-    display: grid;
-    grid-template-columns: minmax(auto, 62%) minmax(440px, 38%);
-  }
-  aside{
-    background-color: #F6F6F6;
-    box-shadow: -4px 0px 4px 0px #A9A9A940;
-    z-index: 1;
-    height: 94vh;
-    overflow: scroll;
-  }
-  
-  .lux-map{
-    border: 0;
-  }
+}
 
-  .filtersContent{
-    padding: 25px;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: #A9A9A9;
+.searchIcon{
+  width: 9%;
+  height: 35px;
+  display: inline-block;
+  text-align: center;
+  border-right: 0;
+}
+
+.searchInputField{
+  width: 80%;
+  height: 42px;
+  font-size: 20px;
+  font-family: RajdhaniRegular;
+  display: inline;
+  border: 0;
+  border-left: 0.2px solid #0000004F;
+  border-right: 0.2px solid #0000004F;
+}
+
+.searchInputField:focus{
+  outline: 0;
+}
+
+.searchField{
+  border: 0.2px solid #0000004F;
+  border-radius: 8px;
+}
+
+hr{
+  margin-left: -25px;
+  margin-right: -25px;
+  border: none;
+  background-color: #9B9B9B;
+  height: 0.5px;
+}
+
+.showMapButton{
+  display: none;
+}
+
+.list_location_close{
+  margin: auto;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #A9A9A9;
+  font-size: 11px;
+  background: #FDFDFD;
+  min-height: 120px;
+  width: 90%;
+  border-radius: 13px;
+  display: grid;
+  grid-template-columns: 25% 50% auto;
+  box-shadow: 0px 4px 10px 0px #C0C0C040;
+}
+
+.filterTownDiv{
+  margin: auto;
+  margin-bottom: 20px;
+  background: #FDFDFD;
+  width: 90%;
+  font-size: 20px;
+  border-radius: 13px;
+  box-shadow: 0px 4px 10px 0px #C0C0C040;
+}
+
+.filterTownDiv table{
+    border-collapse: collapse;
+}
+
+.filterTownDiv table td{
+    padding: 4px;
+}
+
+.filterTownDiv table tr:first-child td:nth-child(2){
     font-size: 23px;
-    background: #FDFDFD;
-    height: 325px;
-    width: 93%;
-    border-radius: 13px;
-    box-shadow: 0px 4px 10px 0px #C0C0C040;
-  }
-
-  .lux-map .ol-control button:hover{
-      background-color: #002641;
-  }
-
-  .searchIcon{
-    width: 9%;
-    height: 35px;
-    display: inline-block;
+}
+.filterTownDiv table td:nth-child(3){
     text-align: center;
-    border-right: 0;
-  }
+}
 
-  .searchInputField{
-    width: 80%;
-    height: 42px;
-    font-size: 20px;
-    font-family: RajdhaniRegular;
-    display: inline;
-    border: 0;
-    border-left: 0.2px solid #0000004F;
-    border-right: 0.2px solid #0000004F;
-  }
+.filterTownDiv table tr:not(:last-child){
+    border-bottom: 0.5px solid #9B9B9B;
+}
+.filterTownDiv table tr td:first-child, .filterTownDiv table tr td:nth-child(2){
+    border-right: 0.5px solid grey;
+}
 
-  .searchInputField:focus{
-    outline: 0;
-  }
+.list_location_open{
+  margin: auto;
+  margin-bottom: 20px;
+  color: #002641;
+  font-size: 20px;
+  background: #FDFDFD;
+  min-height: 230px;
+  width: 90%;
+  border-radius: 13px;
+  box-shadow: 0px 4px 10px 0px #C0C0C040;
+}
 
-  .searchField{
-    border: 0.2px solid #0000004F;
-    border-radius: 8px;
-  }
+.list_location_open table tr td{
+    padding: 5px;
+}
 
-  hr{
-    margin-left: -25px;
-    margin-right: -25px;
-    border: none;
-    background-color: #9B9B9B;
-    height: 0.5px;
-  }
+.pinSearchIcon{
+  height: 20px;
+  margin-bottom: -5px;
+}
 
-  .list_location_close{
-    margin: auto;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #A9A9A9;
-    font-size: 11px;
-    background: #FDFDFD;
-    min-height: 120px;
-    width: 90%;
-    border-radius: 13px;
-    display: grid;
-    grid-template-columns: 25% 50% auto;
-    box-shadow: 0px 4px 10px 0px #C0C0C040;
-  }
+.pickupTime, .pickupAddress{
+  border-right: 0.2px solid #9B9B9B;
+}
 
-  .filterTownDiv{
-    margin: auto;
-    margin-bottom: 20px;
-    background: #FDFDFD;
-    width: 90%;
-    font-size: 20px;
-    border-radius: 13px;
-    box-shadow: 0px 4px 10px 0px #C0C0C040;
-  }
+.pickupTime, .pickupAddress, .pickupDistance{
+  padding-top: 30px;
+}
 
-  .filterTownDiv table{
-      border-collapse: collapse;
-  }
+.pinSearchIconBar{
+  display: inline-block;
+  text-align: center;
+  width: 10%;
+  padding-top: 2px;
+}
 
-  .filterTownDiv table td{
-      padding: 4px;
-  }
+.list_location_close .time, .list_location_close .address,.list_location_close .distance{
+  color:#002641;
+  font-size: 15px;
+}
 
-  .filterTownDiv table tr:first-child td:nth-child(2){
-      font-size: 23px;
-  }
-  .filterTownDiv table td:nth-child(3){
-      text-align: center;
-  }
+.list_location_close .time{
+  font-size: 30px;
+}
 
-  .filterTownDiv table tr:not(:last-child){
-      border-bottom: 0.5px solid #9B9B9B;
-  }
-  .filterTownDiv table tr td:first-child, .filterTownDiv table tr td:nth-child(2){
-      border-right: 0.5px solid grey;
-  }
+.list_location_close .address{
+  font-size: 17px;
+  font-family: RajdhaniRegular;
+}
+.list_location_close .distance{
+  font-size: 20px;
+}
 
-  .list_location_open{
-    margin: auto;
-    margin-bottom: 20px;
-    color: #002641;
-    font-size: 20px;
-    background: #FDFDFD;
-    min-height: 230px;
-    width: 90%;
-    border-radius: 13px;
-    box-shadow: 0px 4px 10px 0px #C0C0C040;
-  }
-  
-  .list_location_open table tr td{
-      padding: 5px;
-  }
+.resetDefault{
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
 
-  .pinSearchIcon{
-    height: 20px;
+.showListTowns{
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+/*language nav*/
+.dropbtn {
+  padding: 16px;
+}
+
+.dropdown {
+  float:right;
+  position: relative;
+  display: inline-block;
+  z-index: 3;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.dropdown-content {
+  background-color: #002641;
+  display: none;
+  position: absolute;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-top: 10px;
+}
+
+.dropdown-content a {
+  color: #F6F6F6;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #002641;
+  color: #FABB00;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.selectTime{
+  height: 22px;
+  width: 60px;
+  border-radius: 4px;
+}
+
+
+.dropdown:hover .dropbtn {
+  background-color: #002641;
+}
+/*language nav end*/
+
+.lux-popup-content{
+  background-color: white;
+  display: grid;
+  border-radius: 23px;
+  grid-template-columns: 100%;
+  font-family: RajdhaniBold;
+}
+.lux-popup{
+  border-radius: 23px;
+  width: 100%;
+  max-width: 500px;
+  height: 200px;
+}
+
+.lux-popup-arrow{
+  display: none;
+}
+
+.smallTitle{
+  color: #7E7E7E;
+  font-size: 10px;
+  margin: 0;
+}
+
+.streetPopup, .timePopup{
+  margin: 0;
+}
+
+.streetPopup{
+  font-size: 14px;
+  user-select: all;
+}
+
+.timePopup{
+  font-size: 24px;
+}
+
+.directionButton{
+  font-size: 15px;
+  font-family: RajdhaniBold;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: #FCFCFC;
+  color: #474747;
+  border: none;
+  border: 0.5px solid #5A5A5A;
+  border-radius: 6px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  transition: background-color 0.3s;
+}
+
+.directionButton:hover{
+  background-color: #002641;
+  color: #FCFCFC;
+}
+
+.sliderDistance{
+    width: 60%; 
     margin-bottom: -5px;
-  }
+}
 
-  .pickupTime, .pickupAddress{
-    border-right: 0.2px solid #9B9B9B;
-  }
-
-  .pickupTime, .pickupAddress, .pickupDistance{
-    padding-top: 30px;
-  }
-
-  .pinSearchIconBar{
-    display: inline-block;
-    text-align: center;
-    width: 10%;
-    padding-top: 2px;
-  }
-  
-  .list_location_close .time, .list_location_close .address,.list_location_close .distance{
-    color:#002641;
-    font-size: 15px;
-  }
-
-  .list_location_close .time{
-    font-size: 30px;
-  }
-
-  .list_location_close .address{
-    font-size: 17px;
-    font-family: RajdhaniRegular;
-  }
-  .list_location_close .distance{
-    font-size: 20px;
-  }
-
-  .resetDefault{
-    width: 30px;
-    height: 30px;
-    margin-right: 5px;
-    border-radius: 5px;
-  }
-
-  .showListTowns{
-    width: 30px;
-    height: 30px;
-    margin-right: 5px;
-    border-radius: 5px;
-  }
-
-  /*language nav*/
-  .dropbtn {
-    padding: 16px;
-  }
-
-  .dropdown {
-    float:right;
-    position: relative;
-    display: inline-block;
-    z-index: 3;
-    margin-right: 10px;
-    margin-top: 10px;
-  }
-
-  .dropdown-content {
-    background-color: #002641;
-    display: none;
-    position: absolute;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    margin-top: 10px;
-  }
-
-  .dropdown-content a {
-    color: #F6F6F6;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  .dropdown-content a:hover {
-    background-color: #002641;
-    color: #FABB00;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-  .selectTime{
-    height: 22px;
-    width: 60px;
-    border-radius: 4px;
-  }
-
-
-  .dropdown:hover .dropbtn {
-    background-color: #002641;
-  }
-  /*language nav end*/
-
-  .lux-popup-content{
-    background-color: white;
-    display: grid;
-    border-radius: 23px;
-    grid-template-columns: 100%;
-    font-family: RajdhaniBold;
-  }
-  .lux-popup{
-    border-radius: 23px;
-    width: 100%;
-    max-width: 500px;
-    height: 200px;
-  }
-
-
-  .smallTitle{
-    color: #7E7E7E;
-    font-size: 10px;
-    margin: 0;
-  }
-
-  .streetPopup, .timePopup{
-    margin: 0;
-  }
-
-  .streetPopup{
+.smallText{
     font-size: 14px;
-    user-select: all;
-  }
+    color: #A9A9A9;
+}
 
-  .timePopup{
-    font-size: 24px;
-  }
+.searchIcon:hover{
+  color: #002641;
+}
 
-  .directionButton{
-    font-size: 15px;
-    font-family: RajdhaniBold;
-    padding-left: 30px;
-    padding-right: 30px;
-    background-color: #FCFCFC;
-    color: #474747;
-    border: none;
-    border: 0.5px solid #5A5A5A;
-    border-radius: 6px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    transition: background-color 0.3s;
-  }
+.searchIcon:active{
+  color:#00528d;
+}
 
-  .directionButton:hover{
-    background-color: #002641;
-    color: #FCFCFC;
-  }
-
-  .sliderDistance{
-     width: 60%; 
-     margin-bottom: -5px;
-  }
-
-  .smallText{
-      font-size: 14px;
-      color: #A9A9A9;
-  }
-
-  .searchIcon:hover{
-    color: #002641;
-  }
-
-  .searchIcon:active{
-    color:#00528d;
-  }
-
-  button, select, input[type='checkbox'],input[type='range'], option, .searchIcon, .pinSearchIconBar{
-    cursor: pointer;
-  }
+button, select, input[type='checkbox'],input[type='range'], option, .searchIcon, .pinSearchIconBar{
+  cursor: pointer;
+}
 
 
-  /*sort buttons*/
+/*sort buttons*/
 
-  .sortButton{
-    width: 100px;
-    padding: 9px 5px 9px 5px;
-  }
+.sortButton{
+  width: 100px;
+  padding: 9px 5px 9px 5px;
+}
 
-  .firstSortButton{
-    border-radius: 10px 0px 0px 10px;
-  }
+.firstSortButton{
+  border-radius: 10px 0px 0px 10px;
+}
 
-  .lastSortButton{
-    border-radius: 0px 10px 10px 0px;
-  }
+.lastSortButton{
+  border-radius: 0px 10px 10px 0px;
+} 
+
+#autoCompleteDiv{
+  display: none;
+  position:absolute;
+  z-index: 10;
+  background-color: #FDFDFD;
+  width: 100%;
+  top: 37px;
+  border: 0.2px solid #0000004F;
+  border-radius: 0px 0px 8px 8px;
+}
+
+#autoCompleteDivList{
+  font-size: 19px;
+  padding-left: 0;
+  max-height: 115px;
+  overflow: scroll;
+  margin: 0;
+}
+
+#autoCompleteDivList li{
+  padding-left: 12px;
+}
+
+#autoCompleteDivList li:hover{
+  background-color: rgb(246, 246, 246);
+}
