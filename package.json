@@ -26,6 +26,7 @@
         "webpack-livereload-plugin": "^1.2.0"
     },
     "dependencies": {
-        "install": "^0.13.0"
+        "install": "^0.13.0",
+        "mix": "^0.0.1"
     }
 }

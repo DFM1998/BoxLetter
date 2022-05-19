@@ -124,15 +124,15 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
                     if (distance == undefined) {
                         if (element["pickUpTime"] == horraire[i]) {
                             var output =
-                                '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' +
+                                '<div><div><i class="fa-regular fa-clock fa-2xl"></i></div><div><p class="timePopup">' +
                                 pickUpTime +
-                                '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' +
+                                '</p><p class="smallTitle">Pickup time</p></div><hr ></div><div ><div><i class="fa-solid fa-map-location-dot fa-2xl"></i></div><div><p class="streetPopup">' +
                                 street +
                                 "<br>L-" +
                                 postal +
                                 " " +
                                 city +
-                                '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' +
+                                '</p><p class="smallTitle">Street</p></div><hr ></div><div><button class="directionButton" id="boxLetter_' +
                                 boxLetterId +
                                 '" onclick="buttonDirectionClicked(' +
                                 boxLetterId +
@@ -174,15 +174,15 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
                                     ) <= parseInt(distance)
                                 ) {
                                     var output =
-                                        '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' +
+                                        '<div><div><i class="fa-regular fa-clock fa-2xl"></i></div><div><p class="timePopup">' +
                                         pickUpTime +
-                                        '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' +
+                                        '</p><p class="smallTitle">Pickup time</p></div><hr></div><div><div><i class="fa-solid fa-map-location-dot fa-2xl"></i></div><div><p class="streetPopup">' +
                                         street +
                                         "<br>L-" +
                                         postal +
                                         " " +
                                         city +
-                                        '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' +
+                                        '</p><p class="smallTitle">Street</p></div><hr></div><div><button class="directionButton" id="boxLetter_' +
                                         boxLetterId +
                                         '" onclick="buttonDirectionClicked(' +
                                         boxLetterId +
@@ -216,15 +216,15 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
                 }
             } else {
                 var output =
-                    '<div><div style="display: ruby-text;"><i class="fa-regular fa-clock fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left: 10px;"><p class="timePopup">' +
+                    '<div><div><i class="fa-regular fa-clock fa-2xl"></i></div><div><p class="timePopup">' +
                     pickUpTime +
-                    '</p><p class="smallTitle">Pickup time</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin-top:10px;"><div style="display: ruby-text;"><i class="fa-solid fa-map-location-dot fa-2xl" style="color: #002641"></i></div><div style="display: inline-block;margin-left:10px;"><p class="streetPopup" style="line-height: 12px;">' +
+                    '</p><p class="smallTitle">Pickup time</p></div><hr></div><div><div><i class="fa-solid fa-map-location-dot fa-2xl"></i></div><div><p class="streetPopup">' +
                     street +
                     "<br>L-" +
                     postal +
                     " " +
                     city +
-                    '</p><p class="smallTitle">Street</p></div><hr style="margin-left: -14px; margin-right:-14px;"></div><div style="margin: auto;border: 0;"><button class="directionButton" id="boxLetter_' +
+                    '</p><p class="smallTitle">Street</p></div><hr></div><div><button class="directionButton" id="boxLetter_' +
                     boxLetterId +
                     '" onclick="buttonDirectionClicked(' +
                     boxLetterId +

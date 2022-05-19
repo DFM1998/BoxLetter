@@ -10,8 +10,10 @@ const handleShowMap = () => {
     if (check) {
         $(".showMapButton").html('<i class="fa-solid fa-list"></i>');
         check = false;
-    }else{
-        $(".showMapButton").html('<i class="fa-solid fa-map-location-dot"></i>');
+    } else {
+        $(".showMapButton").html(
+            '<i class="fa-solid fa-map-location-dot"></i>'
+        );
         check = true;
     }
 };
@@ -381,10 +383,9 @@ $(".showListTowns").click(function () {
         $(".descriptionText").html(lang.filterbyTown);
         $.getJSON("/api/cities", function (data) {
             //console.log(data);
-            let output =
-                "<div class='filterTownDiv'><table style='width: 100%'>";
+            let output = "<div class='filterTownDiv'><table>";
             output +=
-                "<tr><td style='width: 25%'></td><td style='width: 50%'>Select all:</td><td style='width: 25%'><input type='checkbox' id='checkBoxSelectAll'></td></tr>";
+                "<tr><td></td><td>Select all:</td><td><input type='checkbox' id='checkBoxSelectAll'></td></tr>";
             for (let i = 0; i < data.length; i++) {
                 const element = data[i];
 
@@ -567,94 +568,41 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                 const element = data[i];
                 for (let i = indexStartTime; i < indexEndTime; i++) {
                     let html =
-                        `
-                    <span class="list_location_all" id="location_` +
+                        `<span class="list_location_all" id="location_` +
                         element["idBoxLetter"] +
                         `">
-                    <div class="list_location_close">
-                        <span class="pickupTime">
-                        ` +
-                        lang.pickUpTime +
-                        `<br>
-                        <span class="time">` +
-                        element["pickUpTime"] +
-                        `</span>
-                        </span>
-                        <span class="pickupAddress">
-                        ` +
-                        lang.address +
-                        `<br>
-                        <span class="address">` +
-                        element["street"] +
-                        ` <br>L-` +
-                        element["postal"] +
-                        ` ` +
-                        element["city"] +
-                        `</span>
-                        </span>
-                        <span class="pickupDistance">
-                        ` +
-                        lang.distance +
-                        `<br>
-                        <span class="distance">` +
-                        calcCrow(
-                            element["normalCoordinates"].split(",")[1],
-                            element["normalCoordinates"].split(",")[0],
-                            latitude,
-                            longitude
-                        ).toFixed(2) +
-                        ` km</span>
-                        </span>
-                    </div>
-                    <div class="list_location_open" hidden>
-                        <table style="width: 100%;border-collapse: collapse;">
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align:center;width: 25%;">
-                                <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 35px;">` +
-                        element["pickUpTime"] +
-                        `</span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span style="font-size: 18px;line-height: 18px;font-family: RajdhaniRegular;"><p>` +
-                        element["street"] +
-                        `</p><p>L-` +
-                        element["postal"] +
-                        ` ` +
-                        element["city"] +
-                        `</p></span>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0.2px solid #9B9B9B">
-                            <td style="text-align: center;">
-                                <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                            </td>
-                            <td>
-                                <span>` +
-                        calcCrow(
-                            element["normalCoordinates"].split(",")[1],
-                            element["normalCoordinates"].split(",")[0],
-                            latitude,
-                            longitude
-                        ).toFixed(2) +
-                        ` km</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan='2' style="text-align:center;">
-                                <button class="directionButton directButtonDisplayOnMap" value="` +
+                        <div class="list_location_close directButtonDisplayOnMap" value="` +
                         element["normalCoordinates"] +
-                        `" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                            </td>
-                        </tr>
-                        </table></div></span>`;
+                        `">
+                        <table>
+                            <tr>
+                                <td colspan='2'>${lang.address}</td>
+                            </tr>
+                            <tr>
+                                <td colspan='2'>${element["street"]}</td>
+                            </tr>
+                            <tr>
+                                <td colspan='2'>L-${element["postal"]} ${
+                            element["city"]
+                        }</td>
+                            </tr>
+                            <tr>
+                                <td>${lang.pickUpTime}</td>
+                                <td>${lang.distance}</td>
+                            </tr>
+                            <tr>
+                                <td>${element["pickUpTime"]}</td>
+                                <td>${calcCrow(
+                                    element["normalCoordinates"].split(",")[1],
+                                    element["normalCoordinates"].split(",")[0],
+                                    latitude,
+                                    longitude
+                                ).toFixed(2)} km</td>
+                            </tr>
+                        </table>
+                
+                        </div>
+                    </span>`;
                     //console.log(horraire[i]);
                     if (distance == undefined) {
                         if (element["pickUpTime"] == horraire[i]) {
@@ -687,112 +635,54 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
                 count++;
                 const element = data[i];
                 output +=
-                    `
-                        <span class="list_location_all" id="location_` +
+                    `<span class="list_location_all" id="location_` +
                     element["idBoxLetter"] +
                     `">
-                        <div class="list_location_close">
-                            <span class="pickupTime">
-                            ` +
-                    lang.pickUpTime +
-                    `<br>
-                            <span class="time">` +
-                    element["pickUpTime"] +
-                    `</span>
-                            </span>
-                            <span class="pickupAddress">
-                            ` +
-                    lang.address +
-                    `<br>
-                            <span class="address">` +
-                    element["street"] +
-                    ` <br>L-` +
-                    element["postal"] +
-                    ` ` +
-                    element["city"] +
-                    `</span>
-                            </span>
-                            <span class="pickupDistance">
-                            ` +
-                    lang.distance +
-                    `<br>
-                            <span class="distance">` +
-                    calcCrow(
-                        element["normalCoordinates"].split(",")[1],
-                        element["normalCoordinates"].split(",")[0],
-                        latitude,
-                        longitude
-                    ).toFixed(2) +
-                    ` km</span>
-                            </span>
-                        </div>
-                        <div class="list_location_open" hidden>
-                            <table style="width: 100%;border-collapse: collapse;">
-                            <tr style="border-bottom: 0.2px solid #9B9B9B">
-                                <td style="text-align:center;width: 25%;">
-                                    <i class="fa-regular fa-clock" style="font-size: 30px"></i>
-                                </td>
-                                <td>
-                                    <span style="font-size: 35px;">` +
-                    element["pickUpTime"] +
-                    `</span>
-                                </td>
-                            </tr>
-                            <tr style="border-bottom: 0.2px solid #9B9B9B">
-                                <td style="text-align: center;">
-                                    <i class="fa-solid fa-map-location-dot" style="font-size: 30px"></i>
-                                </td>
-                                <td>
-                                    <span style="font-size: 18px;line-height: 18px;font-family: RajdhaniRegular;"><p>` +
-                    element["street"] +
-                    `</p><p>L-` +
-                    element["postal"] +
-                    ` ` +
-                    element["city"] +
-                    `</p></span>
-                                </td>
-                            </tr>
-                            <tr style="border-bottom: 0.2px solid #9B9B9B">
-                                <td style="text-align: center;">
-                                    <i class="fa-solid fa-location-arrow" style="font-size: 30px"></i>
-                                </td>
-                                <td>
-                                    <span>` +
-                    calcCrow(
-                        element["normalCoordinates"].split(",")[1],
-                        element["normalCoordinates"].split(",")[0],
-                        latitude,
-                        longitude
-                    ).toFixed(2) +
-                    ` km</span>
-                                </td>
+                        <div class="list_location_close directButtonDisplayOnMap" value="` +
+                    element["normalCoordinates"] +
+                    `">
+                        <table>
+                            <tr>
+                                <td colspan='2'>${lang.address}</td>
                             </tr>
                             <tr>
-                                <td colspan='2' style="text-align:center;">
-                                    <button class="directionButton directButtonDisplayOnMap" value="` +
-                    element["normalCoordinates"] +
-                    `" style="width: 60%; font-size: 20px;margin-top:5px;" >Direction</button>
-                                </td>
+                                <td colspan='2'>${element["street"]}</td>
                             </tr>
-                            </table></div></span>`;
+                            <tr>
+                                <td colspan='2'>L-${element["postal"]} ${
+                        element["city"]
+                    }</td>
+                            </tr>
+                            <tr>
+                                <td>${lang.pickUpTime}</td>
+                                <td>${lang.distance}</td>
+                            </tr>
+                            <tr>
+                                <td>${element["pickUpTime"]}</td>
+                                <td>${calcCrow(
+                                    element["normalCoordinates"].split(",")[1],
+                                    element["normalCoordinates"].split(",")[0],
+                                    latitude,
+                                    longitude
+                                ).toFixed(2)} km</td>
+                            </tr>
+                        </table>
+                
+                        </div>
+                    </span>`;
             }
         }
         $(".list_lo").html(output);
         $("#totalBoxLettersFound").html(count);
         $(".directButtonDisplayOnMap").click(function () {
-            moveView(this.value);
+            moveView(this.attributes.value.nodeValue);
         });
         // when clicking on a location display
         $(".list_location_all").click(function () {
-            if (
-                $("#" + this.id + " .list_location_close").css("display") !=
-                "none"
-            ) {
-                $(".list_location_open").hide();
-                $(".list_location_close").show();
-                $("#" + this.id + " .list_location_close").hide();
-                $("#" + this.id + " .list_location_open").show("slow");
-            }
+            $(".list_location_close").removeClass("activeAddress");
+            $("#" + this.id + " .list_location_close").addClass(
+                "activeAddress"
+            );
         });
     });
 }

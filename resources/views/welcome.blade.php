@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Letter Box Post</title>
-        <link rel="icon" type="image/x-icon" href="/images/pin.svg">
+        <link rel="icon" type="image/x-icon" href="/images/pin_.svg">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://apiv3.geoportail.lu/apiv3loader.js"  type="text/javascript"></script>
@@ -22,64 +22,85 @@
         </style>
     </head>
     <body class="antialiased">
-        @if (Route::has('login'))
-            <div class="hidden fixed sm:block" style="margin-left: 10px;margin-top: 9px;">
-                @auth
-                    <!--<a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>-->
-                @else
-                    <!--<a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>-->
+        <div id="wrapper">
+            @if (Route::has('login'))
+                <div class="hidden fixed sm:block" style="margin-left: 10px;margin-top: 9px;">
+                    @auth
+                        <!--<a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>-->
+                    @else
+                        <!--<a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>-->
 
-                    @if (Route::has('register'))
-                        <!--<a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>-->
-                    @endif
-                @endauth
-            </div>
-        @endif
-        <header>
-            <button class="showMapButton"><i class="fa-solid fa-map-location-dot"></i></button>
-            <div class="dropdown">
-                <a class="dropbtn selectedLanguage" id='en'>EN</a>
-                <div class="dropdown-content" style="left:0;">
-                    <a class="languageButton" id='lu'>LU</a>
-                    <a class="languageButton" id='de'>DE</a>
-                    <a class="languageButton" id='fr'>FR</a>
+                        @if (Route::has('register'))
+                            <!--<a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>-->
+                        @endif
+                    @endauth
                 </div>
-            </div>
-        </header>
-        <main>
-            <div id="map1"></div>
-            <aside class="mobileViewShow">
-                <div class="filtersContent">
-                    <div id="searchFunctionWrapper" style="position: relative;">
-                        <div class="searchField">
-                            <div class="pinSearchIconBar"><img src="./images/pin.svg" class="pinSearchIcon"></div><input type="text" id="inputFieldSearch" class="searchInputField" placeholder=" Search"><label for="inputFieldSearch"><div class="searchIcon"><i class="fa-solid fa-magnifying-glass fa-sm"></i></div></label>
+            @endif
+            <header>
+                <div id="logoDiv">
+                    LOGO
+                </div>
+                <div class="dropdown">
+                    <a class="dropbtn selectedLanguage" id='en'>EN</a>
+                    <div class="dropdown-content">
+                        <a class="languageButton" id='lu'>LU</a>
+                        <a class="languageButton" id='de'>DE</a>
+                        <a class="languageButton" id='fr'>FR</a>
+                    </div>
+                </div>
+            </header>
+            <main>
+                <div class="switch-button" hidden>
+                    <input class="switch-button-checkbox" type="checkbox"></input>
+                    <label class="switch-button-label" for=""><span class="switch-button-label-span">List</span></label>
+                </div>
+                <aside class="mobileViewShow">
+                    <div class="filtersContent">
+                        <div id="searchFunctionWrapper">
+                            <div class="searchField">
+                                <i class="fa-solid fa-location-dot"></i><input type="text" id="inputFieldSearch" class="searchInputField" placeholder="Search"><label for="inputFieldSearch"><button class="searchIcon"><i class="fa-solid fa-magnifying-glass fa-sm"></i></button></label>
+                            </div>
+                            <div id="autoCompleteDiv">
+                                <ol id="autoCompleteDivList" style="list-style: none;">
+                                </ol>
+                            </div>
                         </div>
-                        <div id="autoCompleteDiv" style="position:absolute; z-index: 10;background-color: #FDFDFD;width: 100%;">
-                            <ol id="autoCompleteDivList" style="list-style: none;">
-                                <li>route de babbaba</li>
-                                <li>route de babbaba</li>
-                                <li>route de babbaba</li>
-                                <li>route de babbaba</li>
-                            </ol>
+
+                        <div class="filterFunctions">
+                            <div>
+                                <span id="time">Time</span>:<br>
+                                <select class="selectTime" id="startTime"></select> <span class="smallText"><span id="to">to</span></span> <select class="selectTime" id="endTime"><option>??:??</option></select>
+                            </div>
+                            <div>
+                                <span id="distance">Distance</span>:</span><br>
+                                <input type="range" class="sliderDistance" min="1" max="25" value="5"><span><span id="distanceValueDisplay">5</span>km
+                            </div>
+                            <div class='checkboxToogle'>
+                                <span id="emptiedYet">Emptied yet</span>:<br>
+                                Yes <input type="checkbox" id="checkBoxEmptied" class="toggle"> No
+                            </div>
+                            <div>
+                                <span id="sortBy">Sort by</span>:<br>
+                                <button class='sortButton firstSortButton' id='sortByPickUp'><span id="pickUpTime">Pickup Time</span></button><button class='sortButton lastSortButton' id='sortByDistance'><span id="distance">Distance</span></button>
+
+                            </div>
+                        </div>
+
+                        <div class="resetDefaultButton">
+                            <button class="resetDefault">RESET</button>
                         </div>
                     </div>
-                    <hr>
-                    <p style="display: inline; margin: 20px 0 20px 0;color: #474747;"><span style="min-width: 24%;display:inline-block"><span id="emptiedYet">Emptied yet</span>:</span><input type="checkbox" id="checkBoxEmptied" style="transform: scale(1.5);margin-left: 10px;"></p>
-                    <div style="display: inline-block; float: right;"><button class="resetDefault"><i class="fa-solid fa-arrow-rotate-left"></i></button><button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></div>
-                    <p style="color: #474747;"><span style="min-width: 24%;display:inline-block"><span id="time">Time</span>: </span><span class="smallText"><span id="from">from</span></span> <select class="selectTime" id="startTime"></select> <span class="smallText"><span id="to">to</span></span> <select class="selectTime" id="endTime"><option>??:??</option></select></p>
-                    <p style="color: #474747;"><span style="width: 24%;display:inline-block"><span id="distance">Distance</span>:</span><input style="width: 50%" type="range" class="sliderDistance" min="1" max="25" value="5"><span style="width: 20%;display: inline-block;"><span id="distanceValueDisplay">5</span>km</span></p>
-                    <p style="color: #474747;"><span style='margin-right:5px;display:inline-block'><span id="sortBy">Sort by</span>:</span><button class='sortButton firstSortButton' id='sortByPickUp'><span id="pickUpTime">Pickup Time</span></button><button class='sortButton lastSortButton' id='sortByDistance'><span id="distance">Distance</span></button></p>
+                    <p id="textTotalBoxes"><i class="fa-solid fa-location-dot" id="pinIconLitleTitle"></i> <span class="descriptionText"><span id="totalBoxLettersFound">10</span> <span id="boxLettersFound">box letters found</span></span> <button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></p>
+                    
+                    <div class="filterByTownContent"></div>
+                    <div class="list_lo">
+                    </div>
+                </aside>
+                <div id="map1">
+                    <button class="locateButton pinSearchIconBar"><i class="fa-solid fa-location-crosshairs"></i></button>
                 </div>
-                <p style="text-align: center;font-size: 25px;vertical-align: text-top;"><img style="height: 25px;margin-bottom:-5px;" src="./images/pin.svg" alt=""> <span class="descriptionText"><span id="totalBoxLettersFound">10</span> <span id="boxLettersFound">box letters found</span></span></p>
-                
-                <span class="filterByTownContent"></span>
-                <span class="list_lo">
-                </span>
-            </aside>
-        </main>
-        <footer>
-            <p class="footer_content">@copyright 2022</p>
-        </footer>
+            </main>
+        </div>
         <script src="js/script.js"></script>
     </body>
 </html>
