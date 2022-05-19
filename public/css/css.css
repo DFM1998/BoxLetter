@@ -22,7 +22,6 @@
 body {
     margin: 0px;
     font-family: RajdhaniBold;
-    background-color: yellow;
 }
 
 header {
@@ -266,7 +265,7 @@ aside {
 }
 
 .searchField > i {
-    width: 50px;
+    min-width: 50px;
     font-size: 20px;
     text-align: center;
     color: #fabb00;
@@ -390,6 +389,7 @@ li {
 
 /*  switch button map - list*/
 .switch-button {
+    display: none;
     background: #edf0f3;
     border-radius: 30px;
     overflow: hidden;
@@ -402,7 +402,7 @@ li {
     position: relative;
 }
 .switch-button:before {
-    content: "Map";
+    content: "List";
     position: absolute;
     top: 0;
     bottom: 0;

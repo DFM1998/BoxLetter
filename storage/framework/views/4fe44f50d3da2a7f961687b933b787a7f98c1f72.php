@@ -49,11 +49,14 @@
                     </div>
                 </div>
             </header>
-            <main>
-                <div class="switch-button" hidden>
+            <div>
+                <div class="switch-button">
                     <input class="switch-button-checkbox" type="checkbox"></input>
-                    <label class="switch-button-label" for=""><span class="switch-button-label-span">List</span></label>
+                    <label class="switch-button-label" for=""><span class="switch-button-label-span">Map</span></label>
                 </div>
+            </div>
+
+            <main>
                 <aside class="mobileViewShow">
                     <div class="filtersContent">
                         <div id="searchFunctionWrapper">

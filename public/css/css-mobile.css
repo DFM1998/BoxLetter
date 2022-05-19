@@ -1,20 +1,26 @@
 /*tablet and smaller screens*/
 @media only screen and (max-width: 1000px) {
-    body {
-        background-color: red;
-    }
-
     .filterFunctions div {
         flex: 100%;
+    }
+
+    .list_lo {
+        width: 90%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr;
     }
 }
 
 /*mobile*/
 @media only screen and (max-width: 600px) {
-    body {
-        background-color: green;
-    }
     aside {
-        flex: unset;
+        display: none;
+    }
+
+    .switch-button {
+        display: block;
+        margin: auto;
+        z-index: 30;
     }
 }
