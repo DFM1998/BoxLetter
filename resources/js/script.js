@@ -2,20 +2,9 @@
 let longitude = 6.130578;
 let latitude = 49.611205;
 
-let check = true;
-
 const handleShowMap = () => {
-    $("aside").toggleClass("mobileViewShow");
-    $("aside").toggleClass("mobileViewHide");
-    if (check) {
-        $(".showMapButton").html('<i class="fa-solid fa-list"></i>');
-        check = false;
-    } else {
-        $(".showMapButton").html(
-            '<i class="fa-solid fa-map-location-dot"></i>'
-        );
-        check = true;
-    }
+    $("main").toggleClass("mobileViewShow");
+    $("main").toggleClass("mobileViewHide");
 };
 
 $(document).on("click", ".directionButton", handleShowMap);

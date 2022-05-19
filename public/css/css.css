@@ -258,6 +258,7 @@ aside {
     flex: 1;
     height: 50px;
     font-size: 18px;
+    width: 100%;
 }
 
 #inputFieldSearch:read-write {
@@ -390,7 +391,7 @@ li {
 /*  switch button map - list*/
 .switch-button {
     display: none;
-    background: #edf0f3;
+    background: #ffffff;
     border-radius: 30px;
     overflow: hidden;
     width: 240px;
@@ -402,7 +403,7 @@ li {
     position: relative;
 }
 .switch-button:before {
-    content: "List";
+    content: "Map";
     position: absolute;
     top: 0;
     bottom: 0;
@@ -438,7 +439,7 @@ li {
 }
 .switch-button-checkbox + .switch-button-label:before {
     content: "";
-    background: #fff;
+    background: #002641;
     height: 100%;
     width: 100%;
     position: absolute;

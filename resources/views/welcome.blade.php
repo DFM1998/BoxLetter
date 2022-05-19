@@ -38,7 +38,7 @@
             @endif
             <header>
                 <div id="logoDiv">
-                    LOGO
+                    Logo
                 </div>
                 <div class="dropdown">
                     <a class="dropbtn selectedLanguage" id='en'>EN</a>
@@ -51,13 +51,13 @@
             </header>
             <div>
                 <div class="switch-button">
-                    <input class="switch-button-checkbox" type="checkbox"></input>
-                    <label class="switch-button-label" for=""><span class="switch-button-label-span">Map</span></label>
+                    <input class="switch-button-checkbox directionButton" type="checkbox" checked></input>
+                    <label class="switch-button-label" for=""><span class="switch-button-label-span">List</span></label>
                 </div>
             </div>
 
-            <main>
-                <aside class="mobileViewShow">
+            <main class="mobileViewHide">
+                <aside>
                     <div class="filtersContent">
                         <div id="searchFunctionWrapper">
                             <div class="searchField">

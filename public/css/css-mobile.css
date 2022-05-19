@@ -14,13 +14,55 @@
 
 /*mobile*/
 @media only screen and (max-width: 600px) {
-    aside {
-        display: none;
+    .filtersContent {
+        margin-top: 80px;
+    }
+
+    aside,
+    #map1 {
+        flex: unset;
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+    main {
+        width: 100%;
     }
 
     .switch-button {
         display: block;
         margin: auto;
         z-index: 30;
+        margin-top: 10px;
+    }
+
+    .mobileViewHide {
+        animation-name: fadeAway;
+        animation-duration: 0.3s;
+        animation-fill-mode: forwards;
+    }
+
+    .mobileViewShow {
+        animation-name: fadeAwayReverse;
+        animation-duration: 0.3s;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes fadeAway {
+        from {
+            left: 0%;
+        }
+        to {
+            left: -100%;
+        }
+    }
+
+    @keyframes fadeAwayReverse {
+        from {
+            left: -100%;
+        }
+        to {
+            left: 0%;
+        }
     }
 }
