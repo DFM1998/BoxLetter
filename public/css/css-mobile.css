@@ -69,4 +69,12 @@
     .filtersContent {
         background-color: none;
     }
+
+    header {
+        height: 65px;
+    }
+
+    main {
+        top: 65px;
+    }
 }
