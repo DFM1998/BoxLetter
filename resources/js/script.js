@@ -35,6 +35,16 @@ $(document).ready(function () {
     });
 });
 
+// hide .filterFunctions on outside click
+
+$(window).click((e) => {
+    setTimeout(() => {
+        $(".filterFunctions").hide();
+    }, 1000);
+});
+
+$(".filterFunctions").click((e) => e.stopPropagation());
+
 $(".showHideFilter").click(function () {
     $(".filterFunctions").show();
 });
