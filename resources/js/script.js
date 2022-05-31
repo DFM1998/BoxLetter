@@ -37,12 +37,6 @@ $(document).ready(function () {
 
 $(".showHideFilter").click(function () {
     $(".filterFunctions").show();
-    $(".resetDefault").show();
-});
-
-$(".filterFunctions").click(function (e) {
-    console.log("EEEE");
-    e.stopPropagation();
 });
 
 let lang = "";

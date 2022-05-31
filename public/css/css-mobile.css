@@ -72,7 +72,7 @@
 
     .filterFunctions {
         display: none;
-        position: fixed;
+        position: absolute;
         bottom: 0;
         background: rgb(255, 255, 255);
         width: 100%;
@@ -83,7 +83,6 @@
 
     .resetDefault {
         position: fixed;
-        display: none;
     }
 
     .filtersContent {
