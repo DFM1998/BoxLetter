@@ -1,0 +1,566 @@
+@font-face {
+    font-family: RajdhaniBold;
+    src: url(../font/Rajdhani/Rajdhani-Bold.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: RajdhaniLight;
+    src: url(../font/Rajdhani/Rajdhani-Light.ttf);
+}
+@font-face {
+    font-family: RajdhaniMedium;
+    src: url(../font/Rajdhani/Rajdhani-Medium.ttf);
+}
+@font-face {
+    font-family: RajdhaniRegular;
+    src: url(../font/Rajdhani/Rajdhani-Regular.ttf);
+}
+@font-face {
+    font-family: RajdhaniSemiBold;
+    src: url(../font/Rajdhani/Rajdhani-SemiBold.ttf);
+}
+body {
+    margin: 0px;
+    font-family: RajdhaniBold;
+}
+
+header {
+    height: 90px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#wrapper {
+    /*position: fixed;top: 0; left: 0; right: 0; bottom: 0;*/
+}
+main {
+    display: flex;
+    position: fixed;
+    top: 90px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+aside {
+    flex: 0.9;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+#map1 {
+    flex: 1.1;
+}
+
+.filtersContent {
+    width: 90%;
+    margin: auto;
+    background-color: #ffffff;
+    padding: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    margin-top: 20px;
+    position: relative;
+}
+
+#textTotalBoxes {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+.list_location_close {
+    background-color: #ffffff;
+    padding: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.list_location_close:hover {
+    cursor: pointer;
+}
+
+.activeAddress {
+    background-color: #edf0f3;
+}
+
+.list_lo {
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+}
+
+#logoDiv {
+    flex: 1;
+    font-size: 30px;
+    margin-left: 5%;
+}
+
+.dropdown {
+    height: 44px;
+    position: relative;
+    display: inline-block;
+    z-index: 3;
+    border-radius: 5px;
+    background-color: #edf0f3;
+    padding: 10px 15px;
+    margin-right: 20px;
+}
+
+.dropdown-content {
+    background-color: #edf0f3;
+    display: none;
+    position: absolute;
+    z-index: 1;
+    margin-top: 5px;
+    margin-left: -15px;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+}
+
+.dropdown-content a:hover {
+    background-color: #dbdbdb;
+}
+
+.dropdown-content a:hover:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.selectTime {
+    height: 22px;
+    width: 60px;
+    border-radius: 4px;
+}
+
+.lux-map {
+    border: none;
+}
+
+.ol-zoom {
+    top: unset;
+    bottom: 1em;
+    left: 1em;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.lux-map .ol-control .ol-zoom-in {
+    border-radius: 10px 10px 0 0;
+}
+
+.lux-map .ol-control .ol-zoom-out {
+    border-radius: 0 0 10px 10px;
+}
+
+.lux-map .ol-control button {
+    width: 41px;
+    height: 41px;
+    font-size: 1.8em;
+    font-weight: 400;
+    text-align: center;
+    text-indent: 0;
+    margin: -1px;
+    background-color: #fff;
+    color: #002641;
+    border: unset;
+}
+
+.locateButton {
+    padding: 0;
+    width: 41px;
+    height: 41px;
+    font-size: 2em;
+    font-weight: 400;
+    text-align: center;
+    text-indent: 0;
+    margin: -1px;
+    background-color: #fff;
+    color: #002641;
+    border: unset;
+    border-radius: 10px;
+    display: inline-block;
+    bottom: 4.4em;
+    left: 12px;
+    position: absolute;
+    z-index: 10;
+    vertical-align: middle;
+}
+
+.lux-map .ol-control button:hover,
+.locateButton:hover {
+    background-color: #002641;
+    color: #fff;
+    cursor: pointer;
+}
+
+.list_location_close table {
+    width: 100%;
+    height: 100%;
+}
+
+.list_location_close table tr:nth-child(2),
+.list_location_close table tr:nth-child(3),
+.list_location_close table tr:nth-child(5) {
+    color: #004b81;
+    font-family: RajdhaniMedium;
+}
+
+.list_location_close table tr:nth-child(3) {
+    display: table;
+    margin-bottom: 15px;
+}
+
+.list_location_close table tr:nth-child(2) {
+    max-height: 15px;
+}
+
+.descriptionText {
+    flex: 1;
+}
+
+.showListTowns {
+    width: 41px;
+    height: 41px;
+    background-color: #edf0f3;
+    color: #002641;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 0;
+}
+
+.searchField {
+    height: 50px;
+    display: flex;
+    background-color: #edf0f3;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+#inputFieldSearch {
+    background-color: #edf0f3;
+    flex: 1;
+    height: 50px;
+    font-size: 18px;
+    width: 100%;
+}
+
+#inputFieldSearch:read-write {
+    outline: none;
+}
+
+.searchField > i {
+    min-width: 50px;
+    font-size: 20px;
+    text-align: center;
+    color: #fabb00;
+}
+
+.searchIcon {
+    background-color: #002641;
+    width: 50px;
+    color: #ffffff;
+    height: 50px;
+    border-radius: 0 10px 10px 0;
+    font-size: 25px;
+    padding: 0;
+}
+
+#autoCompleteDiv {
+    display: none;
+    background-color: #edf0f3;
+    color: #747474;
+    font-family: RajdhaniMedium;
+    border-radius: 0 0 10px 10px;
+    max-height: 160px;
+    overflow-y: scroll;
+    width: 100%;
+    position: absolute;
+    top: 44px;
+    z-index: 15;
+}
+
+#autoCompleteDivList {
+    padding: 0;
+}
+
+#autoCompleteDivList li {
+    padding: 5px;
+    padding-left: 25px;
+}
+
+#autoCompleteDivList li:hover {
+    background-color: #d5d5d5;
+}
+
+#searchFunctionWrapper {
+    position: relative;
+}
+
+.filterFunctions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 80%;
+}
+
+.filterFunctions div {
+    flex: 40%;
+    padding-top: 25px;
+}
+
+.resetDefaultButton {
+    position: relative;
+}
+
+.resetDefault {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #edf0f3;
+    color: #002641;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+button,
+select,
+li {
+    cursor: pointer;
+}
+
+.checkboxToogle input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+}
+.checkboxToogle input[type="checkbox"]:focus {
+    outline: 0;
+}
+
+.toggle {
+    height: 32px;
+    width: 70px;
+    border-radius: 16px;
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    border: 2px solid #fff;
+    background: #edf0f3;
+    transition: all 0.2s ease;
+}
+.toggle:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    background: #002641;
+    box-shadow: 0 1px 2px rgba(44, 44, 44, 0.2);
+    transition: all 0.2s cubic-bezier(0.5, 0.1, 0.75, 1.35);
+}
+
+.toggle:checked:after {
+    transform: translatex(36px);
+}
+
+#checkBoxEmptied {
+    margin-bottom: -10px;
+}
+
+/*  switch button map - list*/
+.switch-button {
+    display: none;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    position: relative;
+    padding-right: 50%;
+    position: relative;
+}
+.switch-button:before {
+    content: "Map";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
+}
+.switch-button-checkbox {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+}
+.switch-button-checkbox:checked + .switch-button-label:before {
+    transform: translateX(100%);
+    transition: transform 300ms linear;
+}
+.switch-button-checkbox + .switch-button-label {
+    position: relative;
+    padding: 8px 0;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+.switch-button-checkbox + .switch-button-label:before {
+    content: "";
+    background: #002641;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+    transform: translateX(0);
+    transition: transform 300ms;
+}
+.switch-button-checkbox + .switch-button-label .switch-button-label-span {
+    position: relative;
+}
+
+.switch-button-wrapper {
+    margin: 0px 20px;
+}
+/*  end switch button map - list */
+
+.sortButton {
+    width: 100px;
+    padding: 5px 10px;
+}
+
+.firstSortButton {
+    border-radius: 7px 0px 0px 7px;
+}
+
+.lastSortButton {
+    border-radius: 0px 7px 7px 0px;
+}
+
+.sliderDistance {
+    margin-bottom: -5px;
+}
+
+#pinIconLitleTitle {
+    color: #fabb00;
+    margin-right: 10px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.popupContent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 15px;
+}
+
+.popupContent1 {
+    grid-area: 1 / 1 / 2 / 3;
+}
+.popupContent2 {
+    grid-area: 2 / 1 / 3 / 2;
+}
+.popupContent3 {
+    grid-area: 2 / 2 / 3 / 3;
+}
+.popupContent4 {
+    grid-area: 3 / 1 / 4 / 3;
+    text-align: center;
+}
+
+.popupContent p {
+    margin: 0;
+}
+
+.popupContent1 > p:first-child,
+.popupContent2 > p:first-child,
+.popupContent3 > p:first-child,
+.popupContent4 > p:first-child {
+    font-size: 16px;
+    color: #002641;
+    font-family: RajdhaniBold;
+}
+
+.popupContent1 > p,
+.popupContent2 > p,
+.popupContent3 > p,
+.popupContent4 > p {
+    font-size: 14px;
+    color: #004b81;
+    font-family: RajdhaniMedium;
+}
+
+.popupContent4 button {
+    width: 100%;
+    padding: 5px 10px;
+    background-color: rgb(236, 236, 236);
+    border-radius: 5px;
+    font-family: RajdhaniBold;
+}
+
+.popupContent4 button:hover {
+    background-color: #002641;
+    color: #ffffff;
+    transition: 0.2s;
+}
+
+.lux-popup {
+    border: none;
+}
+.lux-popup-content {
+    padding: 0 14px;
+}
+
+.showHideFilter {
+    display: none;
+    width: 50px;
+    height: 50px;
+    background-color: #002641;
+    border-radius: 10px;
+    font-size: 23px;
+    padding: 0;
+    position: absolute;
+    right: 25px;
+    top: 30px;
+    color: white;
+}

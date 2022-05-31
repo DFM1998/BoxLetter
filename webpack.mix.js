@@ -14,4 +14,7 @@ const mix = require("laravel-mix");
 mix.combine(
     ["resources/js/map.js", "resources/js/script.js"],
     "public/js/script.js"
-).sass("resources/sass/app.scss", "public/css");
+)
+    .sass("resources/sass/app.scss", "public/css")
+    .postCss("resources/css/css.css", "public/css")
+    .postCss("resources/css/css-mobile.css", "public/css");
