@@ -65,4 +65,8 @@
             left: 0%;
         }
     }
+
+    .filtersContent {
+        background-color: none;
+    }
 }

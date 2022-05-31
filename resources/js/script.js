@@ -2,26 +2,36 @@
 let longitude = 6.130578;
 let latitude = 49.611205;
 
+let fontColorSwitcher = true;
 const handleShowMap = () => {
     $("main").toggleClass("mobileViewShow");
     $("main").toggleClass("mobileViewHide");
+
+    if (fontColorSwitcher) {
+        $(".switch-button-label-span").css("color", "white");
+        $(".switch-button").before().css("color", "#002641");
+        fontColorSwitcher = false;
+    } else {
+        $(".switch-button-label-span").css("color", "#002641");
+        $(".switch-button").before().css("color", "white");
+        fontColorSwitcher = true;
+    }
+    console.log(fontColorSwitcher);
 };
 
 $(document).on("click", ".directionButton", handleShowMap);
 
 //different language support
 $(document).ready(function () {
+    $(".switch-button-label-span").css("color", "#002641");
+    $(".switch-button").before().css("color", "white");
+    $(".switch-button-checkbox").prop("checked", true);
     $(".languageButton").click(function () {
         switchLanguage(this.id);
         if (this.id == "en") {
             localStorage.clear();
         }
         location.reload(true);
-    });
-
-    $(".directionButton").each(function () {
-        var text = $(this).text();
-        $(this).text(text);
     });
 });
 
@@ -665,6 +675,7 @@ function showLocationList(city, startTime, endTime, distance, sort, sorting) {
         $("#totalBoxLettersFound").html(count);
         $(".directButtonDisplayOnMap").click(function () {
             moveView(this.attributes.value.nodeValue);
+            $(".switch-button-checkbox").click();
         });
         // when clicking on a location display
         $(".list_location_all").click(function () {

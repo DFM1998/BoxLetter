@@ -1,17 +1,14 @@
 // if clicking on the direction button, move the map view to the pin
 function buttonDirectionClicked(id) {
-    handleShowMap();
-
-    $(".list_location_open").hide();
-    $(".list_location_close").show();
-    $("#location_" + id + " .list_location_close").hide();
-    $("#location_" + id + " .list_location_open").show();
+    $(".switch-button-checkbox").click();
 
     document.getElementById("location_" + id).scrollIntoView({
         behavior: "smooth",
         block: "center",
         inline: "center",
     });
+    $(".list_location_close").removeClass("activeAddress");
+    $("#location_" + id + " .list_location_close").addClass("activeAddress");
 }
 
 // array containg the horraires that should be avaible in the selects
@@ -123,20 +120,20 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
                     //console.log(horraire[i]);
                     if (distance == undefined) {
                         if (element["pickUpTime"] == horraire[i]) {
-                            var output =
-                                '<div><div><i class="fa-regular fa-clock fa-2xl"></i></div><div><p class="timePopup">' +
-                                pickUpTime +
-                                '</p><p class="smallTitle">Pickup time</p></div><hr ></div><div ><div><i class="fa-solid fa-map-location-dot fa-2xl"></i></div><div><p class="streetPopup">' +
-                                street +
-                                "<br>L-" +
-                                postal +
-                                " " +
-                                city +
-                                '</p><p class="smallTitle">Street</p></div><hr ></div><div><button class="directionButton" id="boxLetter_' +
-                                boxLetterId +
-                                '" onclick="buttonDirectionClicked(' +
-                                boxLetterId +
-                                ')">Direction</button></div>';
+                            var output = `<div>
+                            <p>Adresse</p>
+                            <p>${street} L-${postal}</p>
+                            <p>Pickup time</p>
+                            <p>${pickUpTime}</p>
+                            <p>Distance</p>
+                            <p>${calcCrow(
+                                element["normalCoordinates"].split(",")[1],
+                                element["normalCoordinates"].split(",")[0],
+                                latitude,
+                                longitude
+                            ).toFixed(2)} km</p>
+                            <button class="directionButton" id="boxLetter_${boxLetterId}" onclick="buttonDirectionClicked(${boxLetterId})">Direction</button></div>
+                        </div>`;
                             const res = curMap.showMarker({
                                 position: [
                                     parseFloat(coordinates[0]),
@@ -173,20 +170,24 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
                                         ).toFixed(2)
                                     ) <= parseInt(distance)
                                 ) {
-                                    var output =
-                                        '<div><div><i class="fa-regular fa-clock fa-2xl"></i></div><div><p class="timePopup">' +
-                                        pickUpTime +
-                                        '</p><p class="smallTitle">Pickup time</p></div><hr></div><div><div><i class="fa-solid fa-map-location-dot fa-2xl"></i></div><div><p class="streetPopup">' +
-                                        street +
-                                        "<br>L-" +
-                                        postal +
-                                        " " +
-                                        city +
-                                        '</p><p class="smallTitle">Street</p></div><hr></div><div><button class="directionButton" id="boxLetter_' +
-                                        boxLetterId +
-                                        '" onclick="buttonDirectionClicked(' +
-                                        boxLetterId +
-                                        ')">Direction</button></div>';
+                                    var output = `<div>
+                                    <p>Adresse</p>
+                                    <p>${street} L-${postal}</p>
+                                    <p>Pickup time</p>
+                                    <p>${pickUpTime}</p>
+                                    <p>Distance</p>
+                                    <p>${calcCrow(
+                                        element["normalCoordinates"].split(
+                                            ","
+                                        )[1],
+                                        element["normalCoordinates"].split(
+                                            ","
+                                        )[0],
+                                        latitude,
+                                        longitude
+                                    ).toFixed(2)} km</p>
+                                    <button class="directionButton" id="boxLetter_${boxLetterId}" onclick="buttonDirectionClicked(${boxLetterId})">Direction</button></div>
+                                </div>`;
                                     const res = curMap.showMarker({
                                         position: [
                                             parseFloat(coordinates[0]),
@@ -215,20 +216,33 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
                     }
                 }
             } else {
-                var output =
-                    '<div><div><i class="fa-regular fa-clock fa-2xl"></i></div><div><p class="timePopup">' +
-                    pickUpTime +
-                    '</p><p class="smallTitle">Pickup time</p></div><hr></div><div><div><i class="fa-solid fa-map-location-dot fa-2xl"></i></div><div><p class="streetPopup">' +
-                    street +
-                    "<br>L-" +
-                    postal +
-                    " " +
-                    city +
-                    '</p><p class="smallTitle">Street</p></div><hr></div><div><button class="directionButton" id="boxLetter_' +
-                    boxLetterId +
-                    '" onclick="buttonDirectionClicked(' +
-                    boxLetterId +
-                    ')">Direction</button></div>';
+                var output = `<div class='popupContent'>
+                                <div class='popupContent1'>
+                                    <p>Adresse</p>
+                                    <p>${street}</p>
+                                    <p>${city} L-${postal}</p>
+                                </div>
+                                <div class='popupContent2'>
+                                    <p>Pickup time</p>
+                                    <p>${pickUpTime}</p>
+                                </div>
+                                <div class='popupContent3'>
+                                    <p>Distance</p>
+                                    <p>${calcCrow(
+                                        element["normalCoordinates"].split(
+                                            ","
+                                        )[1],
+                                        element["normalCoordinates"].split(
+                                            ","
+                                        )[0],
+                                        latitude,
+                                        longitude
+                                    ).toFixed(2)} km</p>
+                                </div>
+                                <div class='popupContent4'>
+                                    <button class="directionButton" id="boxLetter_${boxLetterId}" onclick="buttonDirectionClicked(${boxLetterId})">Direction</button>
+                                </div>
+                            </div>`;
                 const res = curMap.showMarker({
                     position: [
                         parseFloat(coordinates[0]),
@@ -248,7 +262,8 @@ function displayPins(checkOutTowns, startTime, endTime, distance) {
             }
         }
         $(".ol-overlay-container").click(function () {
-            console.log(this.id);
+            console.log(curMap);
+            //brei$(".lux-popup-close").click();
         });
     });
     //console.log(curMap);

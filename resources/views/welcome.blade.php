@@ -49,10 +49,10 @@
                     </div>
                 </div>
             </header>
-            <div>
+            <div class="switch-button-wrapper">
                 <div class="switch-button">
                     <input class="switch-button-checkbox directionButton" type="checkbox" checked></input>
-                    <label class="switch-button-label" for=""><span class="switch-button-label-span">List</span></label>
+                    <label class="switch-button-label" for=""><span class="switch-button-label-span" class="switchButtonCss">List</span></label>
                 </div>
             </div>
 
