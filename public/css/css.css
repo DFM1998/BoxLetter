@@ -28,7 +28,7 @@ header {
     height: 90px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     position: relative;
-    z-index: 10;
+    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,6 +64,7 @@ aside {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     border-radius: 20px;
     margin-top: 20px;
+    position: relative;
 }
 
 #textTotalBoxes {
@@ -243,6 +244,7 @@ aside {
     color: #002641;
     border-radius: 10px;
     font-size: 18px;
+    padding: 0;
 }
 
 .searchField {
@@ -280,6 +282,7 @@ aside {
     height: 50px;
     border-radius: 0 10px 10px 0;
     font-size: 25px;
+    padding: 0;
 }
 
 #autoCompleteDiv {
@@ -546,4 +549,18 @@ li {
 }
 .lux-popup-content {
     padding: 0 14px;
+}
+
+.showHideFilter {
+    display: none;
+    width: 50px;
+    height: 50px;
+    background-color: #002641;
+    border-radius: 10px;
+    font-size: 23px;
+    padding: 0;
+    position: absolute;
+    right: 25px;
+    top: 30px;
+    color: white;
 }

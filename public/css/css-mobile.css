@@ -13,11 +13,7 @@
 }
 
 /*mobile*/
-@media only screen and (max-width: 600px) {
-    .filtersContent {
-        margin-top: 80px;
-    }
-
+@media only screen and (max-width: 620px) {
     aside,
     #map1 {
         flex: unset;
@@ -32,7 +28,7 @@
     .switch-button {
         display: block;
         margin: auto;
-        z-index: 30;
+        z-index: 10;
         margin-top: 10px;
     }
 
@@ -66,15 +62,39 @@
         }
     }
 
-    .filtersContent {
-        background-color: none;
-    }
-
     header {
         height: 65px;
     }
 
     main {
         top: 65px;
+    }
+
+    .filterFunctions {
+        display: none;
+        position: absolute;
+        bottom: 0;
+        background: rgb(255, 255, 255);
+        width: 100%;
+        left: 0;
+        padding: 17px;
+        box-shadow: 0px -100px 0px 500px #00000073;
+    }
+
+    .resetDefault {
+        position: fixed;
+    }
+
+    .filtersContent {
+        background-color: unset;
+        box-shadow: unset;
+        width: 100%;
+        margin-top: 40px;
+        padding-bottom: 5px;
+        padding: 30px 25px 10px 25px;
+    }
+
+    .showHideFilter {
+        display: unset;
     }
 }

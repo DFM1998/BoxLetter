@@ -306,6 +306,10 @@ $(document).ready(function () {
     });
 });
 
+$(".showHideFilter").click(function () {
+    $(".filterFunctions").show();
+});
+
 let lang = "";
 // check which language has been select -> checking in the browser session
 if (localStorage.getItem("language") != null) {
@@ -731,8 +735,7 @@ $(".showListTowns").click(function () {
             '<span id="totalBoxLettersFound">' +
                 count +
                 "</span> " +
-                lang.boxLettersFound +
-                "</p>"
+                lang.boxLettersFound
         );
     }
 });
