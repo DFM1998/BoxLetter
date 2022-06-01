@@ -313,7 +313,9 @@ $("#inputFieldSearch").keyup(function (e) {
 });
 
 $("#searchFunctionWrapper").focusout(function () {
-    $("#autoCompleteDiv").hide();
+    setTimeout(() => {
+        $("#autoCompleteDiv").hide();
+    }, 200);
 });
 
 // slider that should display the distance

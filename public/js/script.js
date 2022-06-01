@@ -584,7 +584,9 @@ $("#inputFieldSearch").keyup(function (e) {
 });
 
 $("#searchFunctionWrapper").focusout(function () {
-    $("#autoCompleteDiv").hide();
+    setTimeout(() => {
+        $("#autoCompleteDiv").hide();
+    }, 500);
 });
 
 // slider that should display the distance
