@@ -36,17 +36,21 @@ $(document).ready(function () {
 });
 
 // hide .filterFunctions on outside click
-
-$(window).click((e) => {
-    setTimeout(() => {
-        $(".filterFunctions").hide();
-    }, 1000);
+$(".showHideFilter").click(function () {
+    $(".filterFunctions").css("display", "flex");
 });
 
-$(".filterFunctions").click((e) => e.stopPropagation());
-
-$(".showHideFilter").click(function () {
-    $(".filterFunctions").show();
+$(document).mouseup(function (e) {
+    var popup = $(".filterFunctions");
+    if ($(window).width() < 620) {
+        if (
+            !$(".showHideFilter").is(e.target) &&
+            !popup.is(e.target) &&
+            popup.has(e.target).length == 0
+        ) {
+            popup.hide();
+        }
+    }
 });
 
 let lang = "";
@@ -304,12 +308,13 @@ $("#inputFieldSearch").keyup(function (e) {
 
     if (e.keyCode == 13) {
         $(".searchIcon").click();
+        $("#autoCompleteDiv").hide();
     }
 });
 
-/*$("#searchFunctionWrapper").focusout(function(){
+$("#searchFunctionWrapper").focusout(function () {
     $("#autoCompleteDiv").hide();
-});*/
+});
 
 // slider that should display the distance
 $(".sliderDistance").on("change mousemove", function () {
@@ -398,12 +403,12 @@ $(".showListTowns").click(function () {
             //console.log(data);
             let output = "<div class='filterTownDiv'><table>";
             output +=
-                "<tr><td></td><td>Select all:</td><td><input type='checkbox' id='checkBoxSelectAll'></td></tr>";
+                "<tr><td>Select all:</td><td><input type='checkbox' id='checkBoxSelectAll'></td></tr>";
             for (let i = 0; i < data.length; i++) {
                 const element = data[i];
 
                 output +=
-                    "<tr><td></td><td>" +
+                    "<tr><td>" +
                     element["city"] +
                     "</td><td><input type='checkbox' class='townCheckBox' id='checkBoxIdCity_" +
                     element["idCity"] +

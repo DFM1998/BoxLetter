@@ -477,11 +477,11 @@
                             <button class='sortButton firstSortButton' id='sortByPickUp'><span id="pickUpTime">Pickup Time</span></button><button class='sortButton lastSortButton' id='sortByDistance'><span id="distance">Distance</span></button>
 
                         </div>
+                        <div class="resetDefaultButton">
+                            <button class="resetDefault">RESET</button>
+                        </div>
                     </div>
 
-                    <div class="resetDefaultButton">
-                        <button class="resetDefault">RESET</button>
-                    </div>
                 </div>
                 <p id="textTotalBoxes"><i class="fa-solid fa-location-dot" id="pinIconLitleTitle"></i> <span class="descriptionText"><span id="totalBoxLettersFound">10</span> <span id="boxLettersFound">box letters found</span></span> <button class="showListTowns"><i class="fa-solid fa-list-check"></i></button></p>
 

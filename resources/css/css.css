@@ -334,9 +334,6 @@ aside {
 }
 
 .resetDefault {
-    position: absolute;
-    bottom: 0;
-    right: 0;
     background-color: #edf0f3;
     color: #002641;
     border-radius: 4px;
@@ -564,4 +561,21 @@ li {
     right: 25px;
     top: 30px;
     color: white;
+}
+
+.filterTownDiv table {
+    margin: auto;
+    background-color: white;
+    width: 90%;
+    border-radius: 10px;
+    font-size: 20px;
+    border-collapse: collapse;
+}
+
+.filterTownDiv table tr {
+    border-bottom: 0.5px solid grey;
+}
+
+.filterTownDiv table tr td {
+    padding: 10px 30px;
 }
