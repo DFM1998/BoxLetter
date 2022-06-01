@@ -83,6 +83,7 @@ aside {
     padding: 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     border-radius: 20px;
+    height: 100%;
 }
 
 .list_location_close:hover {
@@ -321,7 +322,6 @@ aside {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    width: 80%;
 }
 
 .filterFunctions div {
@@ -334,11 +334,15 @@ aside {
 }
 
 .resetDefault {
+    margin-top: 5px;
     background-color: #edf0f3;
     color: #002641;
     border-radius: 4px;
     padding: 5px;
     font-size: 14px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 button,
@@ -578,4 +582,9 @@ li {
 
 .filterTownDiv table tr td {
     padding: 10px 30px;
+}
+
+.disableBackgroundDiv {
+    padding-top: 0;
+    display: none;
 }

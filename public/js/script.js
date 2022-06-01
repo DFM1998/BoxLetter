@@ -309,6 +309,7 @@ $(document).ready(function () {
 // hide .filterFunctions on outside click
 $(".showHideFilter").click(function () {
     $(".filterFunctions").css("display", "flex");
+    $(".disableBackgroundDiv").show();
 });
 
 $(document).mouseup(function (e) {
@@ -320,6 +321,7 @@ $(document).mouseup(function (e) {
             popup.has(e.target).length == 0
         ) {
             popup.hide();
+            $(".disableBackgroundDiv").hide();
         }
     }
 });
@@ -361,7 +363,7 @@ function switchLanguage(l) {
 // this method is calling the showLocationList method which is going to know how and which element to sort
 let sorting = "asc";
 $("#sortByPickUp").click(function () {
-    $(this).css("background-color", "#E1E1E1");
+    $(this).css("background-color", "rgb(200, 200, 200)");
     $("#sortByDistance").css("background-color", "");
 
     let startTime = $("#startTime").val();
@@ -418,7 +420,7 @@ $("#sortByPickUp").click(function () {
 // button to sort the list of the letter boxes by distance
 // this method is calling the showLocationList method which is going to know how and which element to sort
 $("#sortByDistance").click(function () {
-    $(this).css("background-color", "#E1E1E1");
+    $(this).css("background-color", "rgb(200, 200, 200)");
     $("#sortByPickUp").css("background-color", "");
 
     let startTime = $("#startTime").val();
@@ -586,7 +588,7 @@ $("#inputFieldSearch").keyup(function (e) {
 $("#searchFunctionWrapper").focusout(function () {
     setTimeout(() => {
         $("#autoCompleteDiv").hide();
-    }, 500);
+    }, 200);
 });
 
 // slider that should display the distance
