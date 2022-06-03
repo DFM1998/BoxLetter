@@ -456,7 +456,8 @@
                     </div>
 
                     <button class="showHideFilter"><i class="fa-solid fa-filter"></i></button>
-
+                    <div class="disableBackgroundDiv">
+                    </div>
                     <div class="filterFunctions">
                         <div>
                             <span id="time">Time</span>:<br>
